@@ -1,0 +1,65 @@
+@startuml use_cases_v1
+scale 1920 width
+skinparam packageStyle rectange
+skinparam Nodesep 20
+'left to right direction
+
+actor "estudiante" as estudiante
+actor "apoderado" as apoderado
+actor "docente" as docente
+actor "administrador" as admin
+
+
+rectangle "Website CulmingApp" #c0ffc0 {
+	left to right direction
+
+
+	'casos de uso profesor 
+	together {
+		(UC01 \n Registrar calificaciones) as (UC01)
+		(UC02 \n Registrar asistencia) as (UC02)
+		(UC03 \n Registrar Tareas y Actividades) as (UC03)
+		(UC11 \n Postear Comunicaciones del curso) as (UC11)
+        (UC12 \n Realizar encuestas) as (UC12)
+	}
+
+	'casos de uso estudiante y apoderado(de momento tienen los mismos)
+	together {
+		(UC04 \n Desplegar el registro calificaciones) as (UC04)
+		(UC05 \n Desplegar el registro de asistencias) as (UC05)
+		(UC06 \n Desplegar el registro de tareas y actividades) as (UC06)
+	}
+
+	'casos de uso admin
+	together {
+		(UC07 \n Inscribir Asignaturas) as (UC07)
+        (UC08 \n Asignar Profesores y estudiantes) as (UC08)
+		(UC09 \n Registrar matriculas) as (UC09)
+	}
+
+	'Casos de uso comunes para estudiante, profesor y apoderado
+	together {
+	}
+
+	docente --> (UC01)
+	docente --> (UC02)
+	docente --> (UC03)
+
+    (UC04) <--- estudiante
+    (UC05) <--- estudiante
+    (UC06) <--- estudiante
+
+    apoderado --> (UC04)
+    apoderado --> (UC05)
+    apoderado --> (UC06)
+
+    admin --> (UC07)
+    (UC07) ..> (UC08) : include
+    admin -> (UC09)
+
+    (UC11) <.. (UC12) : extends
+    docente -> (UC11)
+
+}
+
+@enduml
