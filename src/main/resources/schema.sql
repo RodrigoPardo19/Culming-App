@@ -16,12 +16,14 @@ CREATE TABLE students (
   middle_name     varchar(50), 
   last_name       varchar(50) NOT NULL, 
   second_surname  varchar(50), 
-  age             int NOT NULL, 
+  age             int CHECK(age >= 3 AND age < 30), 
+  date_of_birth   date NOT NULL CHECK(date_of_birth > '1920-01-01' AND date_of_birth < '2100-12-30'), 
   email           varchar(100) NOT NULL UNIQUE, 
+  password        varchar(100), 
   address         varchar(100) NOT NULL, 
-  graduation_date date, 
-  exit_date       date, 
-  enrollment_date date NOT NULL, 
+  graduation_date date CHECK(graduation_date > '1920-01-01' AND graduation_date < '2100-12-30'), 
+  exit_date       date CHECK(exit_date > '1920-01-01' AND exit_date < '2100-12-30'), 
+  enrollment_date date NOT NULL CHECK(enrollment_date > '1920-01-01' AND enrollment_date < '2100-12-30'), 
   is_active       boolean NOT NULL, 
   tutor_id        bigint NOT NULL, 
   PRIMARY KEY (id));
@@ -33,13 +35,14 @@ CREATE TABLE teachers (
   last_name       varchar(50) NOT NULL, 
   second_surname  varchar(50), 
   email           varchar(100) NOT NULL UNIQUE, 
+  password        varchar(100), 
   address         varchar(100) NOT NULL, 
-  date_of_birth   date NOT NULL, 
-  phone           int NOT NULL UNIQUE, 
+  date_of_birth   date NOT NULL CHECK(date_of_birth > '1920-01-01' AND date_of_birth < '2100-12-30'), 
+  phone           varchar(12) NOT NULL UNIQUE, 
   biography       varchar(700), 
   photo           varchar(100), 
-  enrollment_date date NOT NULL, 
-  exit_date       date, 
+  enrollment_date date NOT NULL CHECK(enrollment_date > '1920-01-01' AND enrollment_date < '2100-12-30'), 
+  exit_date       date CHECK(exit_date > '1920-01-01' AND exit_date < '2100-12-30'), 
   PRIMARY KEY (id));
 
 CREATE TABLE tutors (
@@ -48,9 +51,11 @@ CREATE TABLE tutors (
   middle_name    varchar(50), 
   last_name      varchar(50) NOT NULL, 
   second_surname varchar(50), 
-  age            int NOT NULL, 
+  age            int NOT NULL CHECK(age >= 18 and age < 100), 
   email          varchar(100) NOT NULL UNIQUE, 
+  password       varchar(100), 
   address        varchar(100) NOT NULL, 
+  phone          varchar(12) UNIQUE, 
   PRIMARY KEY (id));
 
 CREATE TABLE administrators (
@@ -60,11 +65,12 @@ CREATE TABLE administrators (
   last_name       varchar(50) NOT NULL, 
   second_surname  varchar(50), 
   email           varchar(100) NOT NULL UNIQUE, 
+  password        varchar(100), 
   address         varchar(100) NOT NULL, 
-  phone           int UNIQUE, 
-  date_of_birth   date NOT NULL, 
-  enrollment_date date NOT NULL, 
-  exit_date       date, 
+  phone           varchar(12) UNIQUE, 
+  date_of_birth   date NOT NULL CHECK(date_of_birth > '1920-01-01' AND date_of_birth < '2100-12-30'), 
+  enrollment_date date NOT NULL CHECK(enrollment_date > '1920-01-01' AND enrollment_date < '2100-12-30'), 
+  exit_date       date CHECK(exit_date > '1920-01-01' AND exit_date < '2100-12-30'), 
   school_id       int NOT NULL, 
   PRIMARY KEY (id));
 
@@ -100,7 +106,7 @@ CREATE TABLE students_courses (
 
 CREATE TABLE grades (
   id         bigint NOT NULL, 
-  value      double NOT NULL, 
+  value      double NOT NULL CHECK(value >= 1.0 AND value <=7.0), 
   "date"     date NOT NULL, 
   student_id bigint NOT NULL, 
   subject_id int NOT NULL, 
@@ -118,8 +124,8 @@ CREATE TABLE homeworks (
   id                bigint NOT NULL, 
   instruction       varchar(255) NOT NULL, 
   "date"            date NOT NULL, 
-  student_id        bigint NOT NULL, 
   homework_state_id int NOT NULL, 
+  student_id        bigint NOT NULL, 
   subject_id        int NOT NULL, 
   PRIMARY KEY (id));
 
@@ -128,7 +134,7 @@ CREATE TABLE schools (
   name    varchar(50) NOT NULL, 
   address varchar(100) NOT NULL, 
   email   varchar(100) NOT NULL UNIQUE, 
-  phone   int UNIQUE, 
+  phone   varchar(12) UNIQUE, 
   PRIMARY KEY (id));
 
 CREATE TABLE homework_states (

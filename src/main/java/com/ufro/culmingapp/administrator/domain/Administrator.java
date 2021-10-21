@@ -36,9 +36,11 @@ public class Administrator {
 
     private String email;
 
+    private String password;
+
     private String address;
 
-    private Integer phone;
+    private String phone;
 
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
@@ -119,6 +121,14 @@ public class Administrator {
         this.email = email;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getAddress() {
         return this.address;
     }
@@ -127,11 +137,11 @@ public class Administrator {
         this.address = address;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return this.phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

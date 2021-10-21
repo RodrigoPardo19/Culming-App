@@ -36,7 +36,11 @@ public class Tutor {
 
     private String email;
 
+    private String password;
+
     private String address;
+
+    private String phone;
 
     @OneToMany(mappedBy = "tutor")
     private List<Student> students = new ArrayList<>();
@@ -109,6 +113,14 @@ public class Tutor {
         this.email = email;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getAddress() {
         return this.address;
     }
@@ -123,6 +135,14 @@ public class Tutor {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public String getPhone() {
+        return this.phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 }

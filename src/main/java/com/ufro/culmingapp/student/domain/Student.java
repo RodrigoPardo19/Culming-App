@@ -46,7 +46,13 @@ public class Student {
 
     private Integer age;
 
+    @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
+    private Date dateOfBirth;
+
     private String email;
+
+    private String password;
 
     private String address;
 
@@ -91,11 +97,11 @@ public class Student {
     }
 
     // Constructor with not null values
-    public Student(String name, String lastName, Integer age, String email, String address, Date enrollmentDate,
+    public Student(String name, String lastName, Date dateOfBirth, String email, String address, Date enrollmentDate,
             Boolean isActive) {
         this.name = name;
         this.lastName = lastName;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.address = address;
         this.enrollmentDate = enrollmentDate;
@@ -150,12 +156,28 @@ public class Student {
         this.age = age;
     }
 
+    public Date getDateOfBirth() {
+        return this.dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public String getEmail() {
         return this.email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAddress() {

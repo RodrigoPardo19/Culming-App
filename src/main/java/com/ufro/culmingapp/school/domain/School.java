@@ -24,7 +24,7 @@ public class School {
     private String name;
     private String address;
     private String email;
-    private Integer phone;
+    private String phone;
 
     @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Administrator> administrators = new ArrayList<>();
@@ -75,11 +75,11 @@ public class School {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return this.phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

@@ -30,13 +30,13 @@ INSERT INTO courses (id, name, year_of_generation, school_id) VALUES (23, 'Terce
 INSERT INTO courses (id, name, year_of_generation, school_id) VALUES (24, 'Cuarto Medio', 2021, 1);
 
 
-INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (1, 'Marieta', 'Vergara', 'marieta@gmail.com', '0001 Temuco', '1957-04-17', 912345678, '2007-05-18');
-INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (2, 'Verónica', 'Parra', 'veronica@gmail.com', '0002Temuco', '1998-11-11', 981244512, '2002-04-03');
-INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (3, 'Guillermo', 'Soto', 'guillermo@gmail.com', '0003 Temuco', '1979-02-23', 912414457, '2001-03-12');
-INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (4, 'Sebastián', 'Navarro', 'sebastian@gmail.com', '0004 Temuco', '1993-07-11', 987654321, '2002-11-30');
-INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (5, 'Sofía', 'Torres', 'sofia@gmail.com', '0005 Temuco', '1990-10-18', 999827643, '1999-02-13');
-INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (6, 'Valeria', 'Saldías', 'valeria@gmail.com', '0006 Temuco', '1983-01-08', 982249239, '1996-01-29');
-INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (7, 'Lorena', 'Schulz', 'lorena@gmail.com', '0007 Temuco', '1974-04-05', 976236272, '2017-05-27');
+INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (1, 'Marieta', 'Vergara', 'marieta@gmail.com', '0001 Temuco', '1957-04-17', '912345678', '2007-05-18');
+INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (2, 'Verónica', 'Parra', 'veronica@gmail.com', '0002Temuco', '1998-11-11', '981244512', '2002-04-03');
+INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (3, 'Guillermo', 'Soto', 'guillermo@gmail.com', '0003 Temuco', '1979-02-23', '912414457', '2001-03-12');
+INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (4, 'Sebastián', 'Navarro', 'sebastian@gmail.com', '0004 Temuco', '1993-07-11', '987654321', '2002-11-30');
+INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (5, 'Sofía', 'Torres', 'sofia@gmail.com', '0005 Temuco', '1990-10-18', '999827643', '1999-02-13');
+INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (6, 'Valeria', 'Saldías', 'valeria@gmail.com', '0006 Temuco', '1983-01-08', '982249239', '1996-01-29');
+INSERT INTO teachers (id, name, last_name, email, address, date_of_birth, phone, enrollment_date) VALUES (7, 'Lorena', 'Schulz', 'lorena@gmail.com', '0007 Temuco', '1974-04-05', '976236272', '2017-05-27');
 
 INSERT INTO subjects (id, name) VALUES (1, 'Historia');
 INSERT INTO subjects (id, name) VALUES (2, 'Matemáticas');
@@ -48,20 +48,20 @@ INSERT INTO subjects (id, name) VALUES (7, 'Química');
 INSERT INTO subjects (id, name) VALUES (8, 'Ed. Física');
 
 INSERT INTO tutors (id, name, last_name, age, email, address) VALUES (1, 'Alan', 'Turing', 56, 'margarita@gmail.com', '0001 Temuco');
-INSERT INTO tutors (id, name, last_name, age, email, address) VALUES (2, 'Leonardo', 'Da Vinci', 108, 'leonardo@gmail.com', '0002 Temuco');
+INSERT INTO tutors (id, name, last_name, age, email, address) VALUES (2, 'Leonardo', 'Da Vinci', 99, 'leonardo@gmail.com', '0002 Temuco');
 INSERT INTO tutors (id, name, last_name, age, email, address) VALUES (3, 'Marie', 'Curie', 27, 'marie@gmail.com', '0003 Temuco');
 INSERT INTO tutors (id, name, last_name, age, email, address) VALUES (4, 'Napoleón', 'Bonaparte', 38, 'napoleon@gmail.com', '0004 Temuco');
 INSERT INTO tutors (id, name, last_name, age, email, address) VALUES (5, 'Ada', 'Lovelace', 80, 'ada@gmail.com', '0005 Temuco');
 
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (1, 'Rodrigo', 'Pardo', 8, 'rodrigo@gmail.com', '0001 Temuco', '2007-03-12', TRUE, 1);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (2, 'Álvaro', 'Quiroz', 12, 'alvaro@gmail.com', '0002 Temuco', '2002-03-11', TRUE, 2);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (3, 'Marcos', 'Navarrete', 6, 'marcos@gmail.com', '0003 Temuco', '2009-03-12', TRUE, 3);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (4, 'Alex', 'Muñoz', 10, 'alex@gmail.com', '0004 Temuco', '2008-03-13', TRUE, 4);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (5, 'Gilio', 'Linfati', 11, 'gilio@gmail.com', '0005 Temuco', '2010-03-15', TRUE, 5);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (6, 'Gonzalo', 'Pardo', 15, 'gonzalo@gmail.com', '0001 Temuco', '2001-03-14', TRUE, 1);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (7, 'Valentina', 'Pardo', 6, 'valentina@gmail.com', '0002 Temuco', '2009-03-11', FALSE, 2);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (8, 'Constanza', 'Linfati', 17, 'constanza@gmail.com', '0005 Temuco', '2000-07-09', TRUE, 5);
-INSERT INTO students (id, name, last_name, age, email, address, enrollment_date, is_active, tutor_id) VALUES (9, 'Eduardo', 'Pardo', 10, 'eduardo@gmail.com', '0001 Temuco', '20008-03-12', FALSE, 1);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (1, 'Rodrigo', 'Pardo', 8, '1999-01-08', 'rodrigo@gmail.com', '0001 Temuco', '2007-03-12', TRUE, 1);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (2, 'Álvaro', 'Quiroz', 12, '1997-06-17', 'alvaro@gmail.com', '0002 Temuco', '2002-03-11', TRUE, 2);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (3, 'Marcos', 'Navarrete', 6, '2001-12-12', 'marcos@gmail.com', '0003 Temuco', '2009-03-12', TRUE, 3);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (4, 'Alex', 'Muñoz', 10, '2005-03-05', 'alex@gmail.com', '0004 Temuco', '2008-03-13', TRUE, 4);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (5, 'Gilio', 'Linfati', 11, '1993-02-20', 'gilio@gmail.com', '0005 Temuco', '2010-03-15', TRUE, 5);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (6, 'Gonzalo', 'Pardo', 15, '1998-10-18', 'gonzalo@gmail.com', '0001 Temuco', '2001-03-14', TRUE, 1);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (7, 'Valentina', 'Pardo', 6, '1998-11-01','valentina@gmail.com', '0002 Temuco', '2009-03-11', FALSE, 2);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (8, 'Constanza', 'Linfati', 17, '2000-02-20', 'constanza@gmail.com', '0005 Temuco', '2000-07-09', TRUE, 5);
+INSERT INTO students (id, name, last_name, age, date_of_birth, email, address, enrollment_date, is_active, tutor_id) VALUES (9, 'Eduardo', 'Pardo', 10, '2009-04-05','eduardo@gmail.com', '0001 Temuco', '2008-03-12', FALSE, 1);
 
 INSERT INTO grades (id, value, "date", student_id, subject_id) VALUES (1, 5.1, '2021-05-08', 8, 1);
 INSERT INTO grades (id, value, "date", student_id, subject_id) VALUES (2, 3.6, '2021-06-17', 1, 2);

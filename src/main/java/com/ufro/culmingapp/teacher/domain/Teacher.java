@@ -39,13 +39,15 @@ public class Teacher {
 
     private String email;
 
+    private String password;
+
     private String address;
 
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    private Integer phone;
+    private String phone;
 
     private String biography;
 
@@ -69,7 +71,7 @@ public class Teacher {
     }
 
     // Constructor with not null values
-    public Teacher(String name, String lastName, String email, String address, Date dateOfBirth, Integer phone,
+    public Teacher(String name, String lastName, String email, String address, Date dateOfBirth, String phone,
             Date enrollmentDate) {
         this.name = name;
         this.lastName = lastName;
@@ -128,6 +130,14 @@ public class Teacher {
         this.email = email;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getAddress() {
         return this.address;
     }
@@ -144,11 +154,11 @@ public class Teacher {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return this.phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
