@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufro.culmingapp.subject.domain.Subject;
 
 @Entity
@@ -64,6 +65,7 @@ public class Teacher {
     @ManyToMany
     @JoinTable(name = "teachers_subjects", joinColumns = { @JoinColumn(name = "teacher_id") }, inverseJoinColumns = {
             @JoinColumn(name = "subject_id") })
+    @JsonIgnore
     private List<Subject> subjects = new ArrayList<>();
 
     public Teacher() {

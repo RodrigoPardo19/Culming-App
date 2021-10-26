@@ -11,6 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufro.culmingapp.assistance.domain.Assistance;
 import com.ufro.culmingapp.grade.domain.Grade;
 import com.ufro.culmingapp.homework.domain.Homework;
@@ -27,18 +28,23 @@ public class Subject {
 
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "subjects")
     private List<Student> students = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "subjects")
     private List<Teacher> teachers = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "subject")
     private List<Grade> grades = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "subject")
     private List<Assistance> assistances = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "subject")
     private List<Homework> homeworks = new ArrayList<>();
 
