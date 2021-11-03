@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ufro.culmingapp.shared.domain.valueobjects.Address;
+import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
+import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
 import com.ufro.culmingapp.subject.domain.Subject;
 
 @Entity
@@ -27,28 +31,21 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String name;
-
-    @Column(name = "middle_name")
-    private String middleName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "second_surname")
-    private String secondSurname;
+    @Embedded
+    private TeacherName fullName;
 
     private String email;
 
     private String password;
 
-    private String address;
+    @Embedded
+    private Address address;
 
-    @Column(name = "date_of_birth")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+    @Embedded
+    private DateOfBirth dateOfBirth;
 
-    private String phone;
+    @Embedded
+    private Phone phone;
 
     private String biography;
 
@@ -69,14 +66,12 @@ public class Teacher {
     private List<Subject> subjects = new ArrayList<>();
 
     public Teacher() {
-        //
+        // Used just for spring
     }
 
-    // Constructor with not null values
-    public Teacher(String name, String lastName, String email, String address, Date dateOfBirth, String phone,
+    public Teacher(TeacherName name, String email, Address address, DateOfBirth dateOfBirth, Phone phone,
             Date enrollmentDate) {
-        this.name = name;
-        this.lastName = lastName;
+        this.fullName = name;
         this.email = email;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
@@ -92,36 +87,12 @@ public class Teacher {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public TeacherName getFullName() {
+        return this.fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMiddleName() {
-        return this.middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSecondSurname() {
-        return this.secondSurname;
-    }
-
-    public void setSecondSurname(String secondSurname) {
-        this.secondSurname = secondSurname;
+    public void updateName(TeacherName newName) {
+        this.fullName = newName;
     }
 
     public String getEmail() {
@@ -140,27 +111,27 @@ public class Teacher {
         this.password = password;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return this.address;
     }
 
-    public void setAddress(String address) {
+    public void updateAddress(Address address) {
         this.address = address;
     }
 
-    public Date getDateOfBirth() {
+    public DateOfBirth getDateOfBirth() {
         return this.dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void updateDateOfBirth(DateOfBirth dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getPhone() {
+    public Phone getPhone() {
         return this.phone;
     }
 
-    public void setPhone(String phone) {
+    public void updatePhone(Phone phone) {
         this.phone = phone;
     }
 
@@ -168,7 +139,7 @@ public class Teacher {
         return this.biography;
     }
 
-    public void setBiography(String biography) {
+    public void updateBiography(String biography) {
         this.biography = biography;
     }
 

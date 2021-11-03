@@ -1,10 +1,13 @@
 package com.ufro.culmingapp.teacher.infrastructure;
 
-import com.ufro.culmingapp.shared.exceptions.NullFieldNotPermitted;
-import com.ufro.culmingapp.shared.exceptions.WrongEmailFormat;
-import com.ufro.culmingapp.teacher.application.TeacherFinderService;
+import com.ufro.culmingapp.shared.domain.valueobjects.Address;
+import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
+import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
+import com.ufro.culmingapp.teacher.application.TeacherMapper;
 import com.ufro.culmingapp.teacher.application.TeacherUpdaterService;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
 import com.ufro.culmingapp.teacher.domain.Teacher;
+import com.ufro.culmingapp.teacher.domain.TeacherName;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.time.format.DateTimeParseException;
+
+import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
+import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
+import com.ufro.culmingapp.shared.domain.exceptions.WrongLength;
+
 @RestController
 public class PatchController {
 
@@ -22,56 +32,32 @@ public class PatchController {
     private TeacherUpdaterService updater;
 
     @Autowired
-    private TeacherFinderService finder;
+    private TeacherMapper mapper;
 
-    // Actualiza solo los campos que el profesor puede modificar
-    @PatchMapping("/teachers/{id}")
-    public ResponseEntity<?> updateTeacherValues(@PathVariable Long id, @RequestBody Teacher teacherUpdated) {
+    @PatchMapping("/teachers/{id}/profile")
+    public ResponseEntity<?> updateTeacherProfile(@PathVariable Long id,
+            @RequestBody TeacherProfileDTO newTeacherProfile) throws ParseException {
         try {
-            Teacher teacher = finder.findById(id);
-            updater.updateTeacherValues(teacher, teacherUpdated);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
 
-    @PatchMapping("/teachers/{id}/address")
-    public ResponseEntity<?> changeAddress(@PathVariable Long id, @RequestBody Teacher address) {
-        try {
-            Teacher teacher = finder.findById(id);
-            Teacher teacherUpdated = updater.changeAddress(teacher, address.getAddress());
-            return ResponseEntity.status(HttpStatus.OK).body(teacherUpdated);
-        } catch (TeacherNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            Teacher teacher = updater.updateProfile(id,
+                    new TeacherName(newTeacherProfile.getFirstName(), newTeacherProfile.getMiddleName(),
+                            newTeacherProfile.getLastName(), newTeacherProfile.getSecondSurname()),
+                    new Address(newTeacherProfile.getAddress()), new Phone(newTeacherProfile.getPhone()),
+                    new DateOfBirth(newTeacherProfile.getDateOfBirth()), newTeacherProfile.getBiography());
+
+            TeacherProfileDTO profile = mapper.mapTeacherToTeacherProfile(teacher);
+
+            return new ResponseEntity<>(profile, HttpStatus.OK);
         } catch (NullFieldNotPermitted e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PatchMapping("/teachers/{id}/phone")
-    public ResponseEntity<?> changePhone(@PathVariable Long id, @RequestBody Teacher phone) {
-        try {
-            Teacher teacher = finder.findById(id);
-            Teacher teacherUpdated = updater.changePhone(teacher, phone.getPhone());
-            return ResponseEntity.status(HttpStatus.OK).body(teacherUpdated);
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (WrongLength e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (DateTimeParseException e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (TeacherNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (NullFieldNotPermitted e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PatchMapping("/teachers/{id}/email")
-    public ResponseEntity<?> changeEmail(@PathVariable Long id, @RequestBody Teacher email) {
-        try {
-            Teacher teacher = finder.findById(id);
-            Teacher teacherUpdated = updater.changeEmail(teacher, email.getEmail());
-            return ResponseEntity.status(HttpStatus.OK).body(teacherUpdated);
-        } catch (TeacherNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (NullFieldNotPermitted | WrongEmailFormat e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 

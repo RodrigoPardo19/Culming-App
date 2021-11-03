@@ -14,16 +14,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class TeacherFinderService {
 
-    @Autowired
     private TeacherRepository repository;
+
+    @Autowired
+    public TeacherFinderService(TeacherRepository repository) {
+        this.repository = repository;
+    }
 
     public Teacher findById(Long id) throws TeacherNotFound {
         Optional<Teacher> teacher = repository.findById(id);
-        if (teacher.isPresent()) {
-            return teacher.get();
-        } else {
+        if (!teacher.isPresent()) {
             throw new TeacherNotFound(id);
         }
+        return teacher.get();
     }
 
     public Teacher findByEmail(String email) throws TeacherNotFound {

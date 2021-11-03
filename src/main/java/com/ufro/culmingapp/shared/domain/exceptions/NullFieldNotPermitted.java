@@ -1,4 +1,4 @@
-package com.ufro.culmingapp.shared.exceptions;
+package com.ufro.culmingapp.shared.domain.exceptions;
 
 import java.util.List;
 
