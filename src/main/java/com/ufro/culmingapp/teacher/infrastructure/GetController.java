@@ -6,6 +6,7 @@ import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
 import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.teacher.application.TeacherFinderService;
 import com.ufro.culmingapp.teacher.application.TeacherMapper;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
 import com.ufro.culmingapp.teacher.domain.Teacher;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
@@ -49,6 +50,18 @@ public class GetController {
         } catch (Exception e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/teachers/{id}/home")
+    public ResponseEntity<?> getTeacherHome(@PathVariable Long id) {
+        try {
+            Teacher teacher = finder.findById(id);
+            TeacherHomeDTO home = mapper.mapTeacherToTeacherHome(teacher);
+            return ResponseEntity.status(HttpStatus.OK).body(home);
+        } catch (TeacherNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
+        }
+
     }
 
 }

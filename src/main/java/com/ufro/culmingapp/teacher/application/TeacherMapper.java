@@ -1,5 +1,6 @@
 package com.ufro.culmingapp.teacher.application;
 
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
 import com.ufro.culmingapp.teacher.domain.Teacher;
 
@@ -19,6 +20,13 @@ public class TeacherMapper {
                 teacher.getAddress().getAddress(), teacher.getPhone().getPhone(), teacher.getEmail().getEmail(),
                 teacher.getBiography(), teacher.getSubjects());
         return profile;
+    }
+
+    public TeacherHomeDTO mapTeacherToTeacherHome(Teacher teacher) {
+        TeacherHomeDTO home = new TeacherHomeDTO(teacher.getId(), teacher.getFullName().getFirstName(),
+                teacher.getFullName().getMiddleName(), teacher.getFullName().getLastName(),
+                teacher.getFullName().getSecondSurname());
+        return home;
     }
 
 }

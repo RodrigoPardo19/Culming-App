@@ -2,13 +2,7 @@ package com.ufro.culmingapp.teacher.application.DTOs;
 
 import java.util.List;
 
-import com.ufro.culmingapp.shared.domain.valueobjects.Address;
-import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
-import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
 import com.ufro.culmingapp.subject.domain.Subject;
-import com.ufro.culmingapp.teacher.domain.TeacherName;
-
-import antlr.ASdebug.ASDebugStream;
 
 public class TeacherProfileDTO {
 
