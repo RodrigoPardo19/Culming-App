@@ -16,7 +16,7 @@ public class TeacherMapper {
         TeacherProfileDTO profile = new TeacherProfileDTO(teacher.getId(), teacher.getFullName().getFirstName(),
                 teacher.getFullName().getMiddleName(), teacher.getFullName().getLastName(),
                 teacher.getFullName().getSecondSurname(), teacher.getDateOfBirth().getStringDateOfBirth(),
-                teacher.getAddress().getAddress(), teacher.getPhone().getPhone(), teacher.getEmail(),
+                teacher.getAddress().getAddress(), teacher.getPhone().getPhone(), teacher.getEmail().getEmail(),
                 teacher.getBiography(), teacher.getSubjects());
         return profile;
     }

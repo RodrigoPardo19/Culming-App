@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufro.culmingapp.shared.domain.valueobjects.Address;
 import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
+import com.ufro.culmingapp.shared.domain.valueobjects.Email;
 import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
 import com.ufro.culmingapp.subject.domain.Subject;
 
@@ -34,7 +35,8 @@ public class Teacher {
     @Embedded
     private TeacherName fullName;
 
-    private String email;
+    @Embedded
+    private Email email;
 
     private String password;
 
@@ -69,7 +71,7 @@ public class Teacher {
         // Used just for spring
     }
 
-    public Teacher(TeacherName name, String email, Address address, DateOfBirth dateOfBirth, Phone phone,
+    public Teacher(TeacherName name, Email email, Address address, DateOfBirth dateOfBirth, Phone phone,
             Date enrollmentDate) {
         this.fullName = name;
         this.email = email;
@@ -95,11 +97,11 @@ public class Teacher {
         this.fullName = newName;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return this.email;
     }
 
-    public void setEmail(String email) {
+    public void updateEmail(Email email) {
         this.email = email;
     }
 

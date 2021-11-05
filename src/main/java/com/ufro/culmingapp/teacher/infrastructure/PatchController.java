@@ -3,6 +3,7 @@ package com.ufro.culmingapp.teacher.infrastructure;
 import com.ufro.culmingapp.shared.domain.valueobjects.Address;
 import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
 import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
+import com.ufro.culmingapp.shared.infrastructure.EmailSenderImpl;
 import com.ufro.culmingapp.teacher.application.TeacherMapper;
 import com.ufro.culmingapp.teacher.application.TeacherUpdaterService;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 import java.time.format.DateTimeParseException;
 
+import com.ufro.culmingapp.shared.application.EmailManagerService;
 import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
 import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
 import com.ufro.culmingapp.shared.domain.exceptions.WrongLength;
@@ -33,6 +35,9 @@ public class PatchController {
 
     @Autowired
     private TeacherMapper mapper;
+
+    @Autowired
+    private EmailManagerService sender;
 
     @PatchMapping("/teachers/{id}/profile")
     public ResponseEntity<?> updateTeacherProfile(@PathVariable Long id,
@@ -59,6 +64,13 @@ public class PatchController {
         } catch (TeacherNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    // Implement with JWT
+    @PatchMapping("/teacher/{id}/email")
+    public void sendTestEmail(@PathVariable Long id) {
+        this.sender.sendEmail("kurutadevelop03@gmail.com", "r.pardo03@ufromail.cl", "Buenas Noches",
+                "Hola, que tal está la tarde ? :D");
     }
 
 }

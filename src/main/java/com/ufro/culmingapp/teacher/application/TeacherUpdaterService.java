@@ -1,7 +1,9 @@
 package com.ufro.culmingapp.teacher.application;
 
+import com.ufro.culmingapp.shared.application.EmailManagerService;
 import com.ufro.culmingapp.shared.domain.valueobjects.Address;
 import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
+import com.ufro.culmingapp.shared.domain.valueobjects.Email;
 import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
 import com.ufro.culmingapp.teacher.domain.Teacher;
 import com.ufro.culmingapp.teacher.domain.TeacherName;
@@ -20,6 +22,9 @@ public class TeacherUpdaterService {
     @Autowired
     private TeacherFinderService finder;
 
+    @Autowired
+    private EmailManagerService emailSender;
+
     public Teacher updateProfile(Long id, TeacherName name, Address address, Phone phone, DateOfBirth dateOfBirth,
             String biography) throws TeacherNotFound {
         Teacher teacher = finder.findById(id);
@@ -32,12 +37,12 @@ public class TeacherUpdaterService {
         return teacher;
     }
 
-    public void changeEmail(Teacher teacher, String email) {
-        //
+    public void changeEmail(Long id, Email email) throws TeacherNotFound {
+        // Implement with JWT
     }
 
     public void changePassword(String password) {
-        // Waiting for implementation
+        // Implement with JWT
     }
 
 }
