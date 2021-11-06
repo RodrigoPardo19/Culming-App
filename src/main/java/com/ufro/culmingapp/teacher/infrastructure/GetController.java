@@ -2,6 +2,7 @@ package com.ufro.culmingapp.teacher.infrastructure;
 
 import java.util.List;
 
+import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
 import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.teacher.application.TeacherFinderService;
@@ -27,6 +28,17 @@ public class GetController {
     @Autowired
     private TeacherMapper mapper;
 
+    @GetMapping("/teachers/{id}/home")
+    public ResponseEntity<?> getTeacherHome(@PathVariable Long id) {
+        try {
+            Teacher teacher = finder.findById(id);
+            TeacherHomeDTO home = mapper.mapTeacherToTeacherHome(teacher);
+            return ResponseEntity.status(HttpStatus.OK).body(home);
+        } catch (TeacherNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
+        }
+    }
+
     @GetMapping("/teachers/{id}/profile")
     public ResponseEntity<?> getTeacherProfile(@PathVariable Long id) {
         try {
@@ -40,6 +52,28 @@ public class GetController {
         }
     }
 
+    @GetMapping("/teachers/{id}/courses/{year}")
+    public ResponseEntity<?> getTeacherCourses(@PathVariable Long id, @PathVariable Integer year) {
+        try {
+            List<Course> courses = finder.findCoursesWhereTeacherTaughtDuringTheYear(id, year);
+            return ResponseEntity.status(HttpStatus.OK).body(courses);
+        } catch (TeacherNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
+        }
+    }
+
+    @GetMapping("/teachers/{teacherId}/courses/{courseId}/subjects")
+    public ResponseEntity<?> getSubjectsTaughtByATeacherInACourse(@PathVariable Long teacherId,
+            @PathVariable Long courseId) {
+        try {
+            List<Subject> subjects = finder.findSubjectsTeaughtByATeacherInACourse(teacherId, courseId);
+            return ResponseEntity.status(HttpStatus.OK).body(subjects);
+        } catch (TeacherNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
+        }
+
+    }
+
     @GetMapping("/teachers/{id}/subjects")
     public ResponseEntity<?> getTeacherSubjects(@PathVariable Long id) {
         try {
@@ -50,18 +84,6 @@ public class GetController {
         } catch (Exception e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @GetMapping("/teachers/{id}/home")
-    public ResponseEntity<?> getTeacherHome(@PathVariable Long id) {
-        try {
-            Teacher teacher = finder.findById(id);
-            TeacherHomeDTO home = mapper.mapTeacherToTeacherHome(teacher);
-            return ResponseEntity.status(HttpStatus.OK).body(home);
-        } catch (TeacherNotFound e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
-        }
-
     }
 
 }

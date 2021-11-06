@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     public Optional<Teacher> findByEmail(String email);
+
 }

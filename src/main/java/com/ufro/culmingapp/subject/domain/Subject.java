@@ -49,10 +49,9 @@ public class Subject {
     private List<Homework> homeworks = new ArrayList<>();
 
     public Subject() {
-        //
+        // Used only for spring
     }
 
-    // Constructor with not null values
     public Subject(String name) {
         this.name = name;
     }

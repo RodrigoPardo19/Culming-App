@@ -3,7 +3,10 @@ package com.ufro.culmingapp.teacher.application;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufro.culmingapp.course.domain.Course;
+import com.ufro.culmingapp.course.domain.CourseRepository;
 import com.ufro.culmingapp.subject.domain.Subject;
+import com.ufro.culmingapp.subject.domain.SubjectRepository;
 import com.ufro.culmingapp.teacher.domain.Teacher;
 import com.ufro.culmingapp.teacher.domain.TeacherRepository;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
@@ -15,6 +18,12 @@ import org.springframework.stereotype.Service;
 public class TeacherFinderService {
 
     private TeacherRepository repository;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     @Autowired
     public TeacherFinderService(TeacherRepository repository) {
@@ -47,4 +56,16 @@ public class TeacherFinderService {
         }
     }
 
+    public List<Course> findCoursesWhereTeacherTaughtDuringTheYear(Long id, Integer year) throws TeacherNotFound {
+        Teacher teacher = this.findById(id);
+        Optional<List<Course>> courses = courseRepository.fetchCoursesWhereTeacherTaughtDuringTheYear(teacher.getId(),
+                year);
+        return courses.get();
+    }
+
+    public List<Subject> findSubjectsTeaughtByATeacherInACourse(Long teacherId, Long courseId) throws TeacherNotFound {
+        Teacher teacher = this.findById(teacherId);
+        Optional<List<Subject>> subjects = subjectRepository.findSubjectsTaughtByATeacherInACourse(teacher.getId(), courseId);
+        return subjects.get();
+    }
 }

@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufro.culmingapp.school.domain.School;
 import com.ufro.culmingapp.student.domain.Student;
 
@@ -30,10 +31,12 @@ public class Course {
     @Column(name = "year_of_generation")
     private Integer yearOfGeneration;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "school_id")
     private School school;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "students_courses", joinColumns = { @JoinColumn(name = "student_id") }, inverseJoinColumns = {
             @JoinColumn(name = "course_id") })

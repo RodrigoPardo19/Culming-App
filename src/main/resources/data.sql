@@ -160,7 +160,7 @@ INSERT INTO homeworks (id, instruction, "date", homework_state_id, student_id, s
 INSERT INTO homeworks (id, instruction, "date", homework_state_id, student_id, subject_id) VALUES (30, '', '2021-11-13', 3, 2, 2);
 
 INSERT INTO students_courses (student_id, course_id) VALUES (1, 2);
-INSERT INTO students_courses (student_id, course_id) VALUES (1, 14);
+INSERT INTO students_courses (student_id, course_id) VALUES (1, 15);
 INSERT INTO students_courses (student_id, course_id) VALUES (2, 5);
 INSERT INTO students_courses (student_id, course_id) VALUES (2, 18);
 INSERT INTO students_courses (student_id, course_id) VALUES (3, 10);
