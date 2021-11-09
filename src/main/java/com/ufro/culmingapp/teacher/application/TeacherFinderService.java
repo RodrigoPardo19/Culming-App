@@ -3,6 +3,7 @@ package com.ufro.culmingapp.teacher.application;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.course.domain.CourseRepository;
 import com.ufro.culmingapp.subject.domain.Subject;
@@ -56,16 +57,28 @@ public class TeacherFinderService {
         }
     }
 
-    public List<Course> findCoursesWhereTeacherTaughtDuringTheYear(Long id, Integer year) throws TeacherNotFound {
+    public List<Course> findCoursesWhereTeacherTaughtDuringTheYear(Long id, Integer year)
+        throws TeacherNotFound {
         Teacher teacher = this.findById(id);
-        Optional<List<Course>> courses = courseRepository.fetchCoursesWhereTeacherTaughtDuringTheYear(teacher.getId(),
-                year);
+        Optional<List<Course>> courses = courseRepository
+                .fetchCoursesWhereTeacherTaughtDuringTheYear(teacher.getId(),
+                        year);
         return courses.get();
     }
 
-    public List<Subject> findSubjectsTeaughtByATeacherInACourse(Long teacherId, Long courseId) throws TeacherNotFound {
+    public List<Subject> findSubjectsTeaughtByATeacherInACourse(Long teacherId, Long courseId)
+        throws TeacherNotFound {
         Teacher teacher = this.findById(teacherId);
-        Optional<List<Subject>> subjects = subjectRepository.findSubjectsTaughtByATeacherInACourse(teacher.getId(), courseId);
+        Optional<List<Subject>> subjects = subjectRepository
+                .findSubjectsTaughtByATeacherInACourse(teacher.getId(), courseId);
         return subjects.get();
+    }
+
+    public List<CourseWithSubjectDTO> findCoursesWithSubjectsTaughtByATeacher(Long id, Integer year)
+        throws TeacherNotFound {
+        Teacher teacher = this.findById(id);
+        Optional<List<CourseWithSubjectDTO>> coursesWithSubjects = courseRepository
+                .fetchCoursesWithSubjectsTaughtByATeacher(teacher.getId(), year);
+        return coursesWithSubjects.get();
     }
 }

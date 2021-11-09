@@ -38,15 +38,15 @@ public class Course {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "students_courses", joinColumns = { @JoinColumn(name = "student_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "course_id") })
+    @JoinTable(name = "students_courses", joinColumns = {
+            @JoinColumn(name = "student_id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "course_id") })
     private List<Student> students = new ArrayList<>();
 
     public Course() {
-        //
+        //Used only for spring
     }
 
-    // Constructor with not null values
     public Course(String name, Integer yearOfGeneration) {
         this.name = name;
         this.yearOfGeneration = yearOfGeneration;

@@ -62,8 +62,9 @@ public class Teacher {
     private Date exitDate;
 
     @ManyToMany
-    @JoinTable(name = "teachers_subjects", joinColumns = { @JoinColumn(name = "teacher_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "subject_id") })
+    @JoinTable(name = "teachers_subjects", joinColumns = {
+            @JoinColumn(name = "teacher_id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "subject_id") })
     @JsonIgnore
     private List<Subject> subjects = new ArrayList<>();
 
@@ -71,7 +72,8 @@ public class Teacher {
         // Used just for spring
     }
 
-    public Teacher(TeacherName name, Email email, Address address, DateOfBirth dateOfBirth, Phone phone,
+    public Teacher(TeacherName name, Email email, Address address, DateOfBirth dateOfBirth,
+            Phone phone,
             Date enrollmentDate) {
         this.fullName = name;
         this.email = email;

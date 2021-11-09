@@ -2,6 +2,7 @@ package com.ufro.culmingapp.teacher.infrastructure;
 
 import java.util.List;
 
+import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
 import com.ufro.culmingapp.subject.domain.Subject;
@@ -66,8 +67,21 @@ public class GetController {
     public ResponseEntity<?> getSubjectsTaughtByATeacherInACourse(@PathVariable Long teacherId,
             @PathVariable Long courseId) {
         try {
-            List<Subject> subjects = finder.findSubjectsTeaughtByATeacherInACourse(teacherId, courseId);
+            List<Subject> subjects = finder.findSubjectsTeaughtByATeacherInACourse(teacherId,
+                    courseId);
             return ResponseEntity.status(HttpStatus.OK).body(subjects);
+        } catch (TeacherNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
+        }
+    }
+
+    @GetMapping("/teachers/{id}/courses-subjects/{year}")
+    public ResponseEntity<?> getCoursesWithSubjects(@PathVariable Long id,
+            @PathVariable Integer year) {
+        try {
+            List<CourseWithSubjectDTO> coursesWithSubjects = finder
+                    .findCoursesWithSubjectsTaughtByATeacher(id, year);
+            return ResponseEntity.status(HttpStatus.OK).body(coursesWithSubjects);
         } catch (TeacherNotFound e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
         }
