@@ -1,26 +1,39 @@
 package com.ufro.culmingapp.teacher.application.DTOs;
 
-import java.util.Date;
+import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
 
-
-public class TeacherWithoutSubjectsDTO {
+public class TeacherWithSubjectDTO {
 
     private Long id;
-    private String name;
+    private String firstName;
     private String middleName;
     private String lastName;
     private String secondSurname;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String address;
     private String phone;
     private String email;
     private String biography;
-    private String photo;
-    private Date enrollmentDate;
-    private Date exitDate;
+    private Integer subjectId;
+    private String subjectName;
 
-    public TeacherWithoutSubjectsDTO() {}
-
+    public TeacherWithSubjectDTO(Long id, String firstName, String middleName, String lastName,
+            String secondSurname,
+            DateOfBirth dateOfBirth, String address, String phone, String email, String biography,
+            Integer subjectId, String subjectName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.secondSurname = secondSurname;
+        this.dateOfBirth = dateOfBirth.getStringDateOfBirth();
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.biography = biography;
+        this.subjectId = subjectId;
+        this.subjectName = subjectName;
+    }
 
     public Long getId() {
         return id;
@@ -30,12 +43,12 @@ public class TeacherWithoutSubjectsDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getMiddleName() {
@@ -62,11 +75,11 @@ public class TeacherWithoutSubjectsDTO {
         this.secondSurname = secondSurname;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -102,28 +115,20 @@ public class TeacherWithoutSubjectsDTO {
         this.biography = biography;
     }
 
-    public String getPhoto() {
-        return photo;
+    public Integer getSubjectId() {
+        return subjectId;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
     }
 
-    public Date getEnrollmentDate() {
-        return enrollmentDate;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public void setEnrollmentDate(Date enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
-
-    public Date getExitDate() {
-        return exitDate;
-    }
-
-    public void setExitDate(Date exitDate) {
-        this.exitDate = exitDate;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
 }

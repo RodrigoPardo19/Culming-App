@@ -3,7 +3,7 @@ package com.ufro.culmingapp.tutor.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.ufro.culmingapp.shared.domain.valueobjects.Address;
+import com.ufro.culmingapp.shared.domain.valueobjects.Email;
+import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
+import com.ufro.culmingapp.shared.domain.valueobjects.Password;
+import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
 import com.ufro.culmingapp.student.domain.Student;
 
 @Entity
@@ -21,128 +26,100 @@ public class Tutor {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String name;
+    @Embedded
+    private FullName fullName;
 
-    @Column(name = "middle_name")
-    private String middleName;
+    @Embedded
+    private TutorAge age;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Embedded
+    private Email email;
 
-    @Column(name = "second_surname")
-    private String secondSurname;
+    @Embedded
+    private Password password;
 
-    private Integer age;
+    @Embedded
+    private Address address;
 
-    private String email;
-
-    private String password;
-
-    private String address;
-
-    private String phone;
+    @Embedded
+    private Phone phone;
 
     @OneToMany(mappedBy = "tutor")
     private List<Student> students = new ArrayList<>();
 
     public Tutor() {
-        //
+        // Used only for spring
     }
 
-    // Constructor with not null values
-    public Tutor(String name, String lastName, Integer age, String address) {
-        this.name = name;
-        this.lastName = lastName;
+    public Tutor(FullName fullName, TutorAge age, Email email, Address address) {
+        this.fullName = fullName;
         this.age = age;
+        this.email = email;
         this.address = address;
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public FullName getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(FullName fullName) {
+        this.fullName = fullName;
     }
 
-    public String getMiddleName() {
-        return this.middleName;
+    public TutorAge getAge() {
+        return age;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSecondSurname() {
-        return this.secondSurname;
-    }
-
-    public void setSecondSurname(String secondSurname) {
-        this.secondSurname = secondSurname;
-    }
-
-    public Integer getAge() {
-        return this.age;
-    }
-
-    public void setAge(Integer age) {
+    public void setAge(TutorAge age) {
         this.age = age;
     }
 
-    public String getEmail() {
-        return this.email;
+    public Email getEmail() {
+        return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public Password getPassword() {
+        return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Password password) {
         this.password = password;
     }
 
-    public String getAddress() {
-        return this.address;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Phone phone) {
+        this.phone = phone;
+    }
+
     public List<Student> getStudents() {
-        return this.students;
+        return students;
     }
 
     public void setStudents(List<Student> students) {
         this.students = students;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
 }

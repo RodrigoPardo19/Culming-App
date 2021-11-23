@@ -1,8 +1,8 @@
 package com.ufro.culmingapp.teacher.application.DTOs;
 
-import java.util.List;
+import java.util.Set;
 
-import com.ufro.culmingapp.subject.domain.Subject;
+import com.ufro.culmingapp.subject.application.DTOs.SubjectDTO;
 
 public class TeacherProfileDTO {
 
@@ -16,10 +16,12 @@ public class TeacherProfileDTO {
     private String phone;
     private String email;
     private String biography;
-    private List<Subject> subjects;
+    private Set<SubjectDTO> subjects;
 
-    public TeacherProfileDTO(Long id, String firstName, String middleName, String lastName, String secondSurname,
-            String dateOfBirth, String address, String phone, String email, String biography, List<Subject> subjects) {
+    public TeacherProfileDTO(Long id, String firstName, String middleName, String lastName,
+            String secondSurname,
+            String dateOfBirth, String address, String phone, String email, String biography,
+            Set<SubjectDTO> subjects) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -105,11 +107,11 @@ public class TeacherProfileDTO {
         this.email = email;
     }
 
-    public List<Subject> getSubjects() {
+    public Set<SubjectDTO> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(List<Subject> subjects) {
+    public void setSubjects(Set<SubjectDTO> subjects) {
         this.subjects = subjects;
     }
 

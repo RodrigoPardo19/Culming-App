@@ -1,19 +1,22 @@
 package com.ufro.culmingapp.assistance.domain;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import com.ufro.culmingapp.student.domain.Student;
+import com.ufro.culmingapp.course.domain.Course;
+import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
+import com.ufro.culmingapp.studentassistance.domain.StudentAssistance;
 import com.ufro.culmingapp.subject.domain.Subject;
 
 @Entity
@@ -24,72 +27,80 @@ public class Assistance {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "is_present")
-    private Boolean isPresent;
+    @Embedded
+    private AssistanceDate date;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @Embedded
+    private GenerationYear year;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @OneToMany(mappedBy = "assistance")
+    private Set<StudentAssistance> students = new HashSet<>();
 
     public Assistance() {
-        //
+        // Used only for spring
     }
 
-    // Constructor with not null values
-    public Assistance(Boolean isPresent, Date date) {
-        this.isPresent = isPresent;
+    public Assistance(AssistanceDate date, GenerationYear year) {
         this.date = date;
+        this.year = year;
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Boolean isIsPresent() {
-        return this.isPresent;
+    public AssistanceDate getDate() {
+        return date;
     }
 
-    public Boolean getIsPresent() {
-        return this.isPresent;
-    }
-
-    public void setIsPresent(Boolean isPresent) {
-        this.isPresent = isPresent;
-    }
-
-    public Date getDate() {
-        return this.date;
-    }
-
-    public void setDate(Date date) {
+    public void setDate(AssistanceDate date) {
         this.date = date;
     }
 
+    public GenerationYear getYear() {
+        return year;
+    }
+
+    public void setYear(GenerationYear year) {
+        this.year = year;
+    }
+
     public Subject getSubject() {
-        return this.subject;
+        return subject;
     }
 
     public void setSubject(Subject subject) {
         this.subject = subject;
+        subject.getAssistances().add(this);
     }
 
-    public Student getStudent() {
-        return this.student;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setCourse(Course course) {
+        this.course = course;
+        course.getAssistances().add(this);
+    }
+
+    public Set<StudentAssistance> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<StudentAssistance> students) {
+        this.students = students;
     }
 
 }

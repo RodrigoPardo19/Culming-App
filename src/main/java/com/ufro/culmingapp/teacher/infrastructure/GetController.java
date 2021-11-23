@@ -1,16 +1,16 @@
 package com.ufro.culmingapp.teacher.infrastructure;
 
 import java.util.List;
+import java.util.Set;
 
-import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
+import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectsDTO;
 import com.ufro.culmingapp.course.domain.Course;
+import com.ufro.culmingapp.coursesubjectteacher.domain.CourseSubjectTeacher;
 import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
 import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.teacher.application.TeacherFinderService;
-import com.ufro.culmingapp.teacher.application.TeacherMapper;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
-import com.ufro.culmingapp.teacher.domain.Teacher;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,12 @@ public class GetController {
     @Autowired
     private TeacherFinderService finder;
 
-    @Autowired
-    private TeacherMapper mapper;
 
     @GetMapping("/teachers/{id}/home")
     public ResponseEntity<?> getTeacherHome(@PathVariable Long id) {
         try {
-            Teacher teacher = finder.findById(id);
-            TeacherHomeDTO home = mapper.mapTeacherToTeacherHome(teacher);
-            return ResponseEntity.status(HttpStatus.OK).body(home);
+            TeacherHomeDTO teacherHome = finder.findTeacherHome(id);
+            return ResponseEntity.status(HttpStatus.OK).body(teacherHome);
         } catch (TeacherNotFound e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
         }
@@ -43,8 +40,7 @@ public class GetController {
     @GetMapping("/teachers/{id}/profile")
     public ResponseEntity<?> getTeacherProfile(@PathVariable Long id) {
         try {
-            Teacher teacher = finder.findById(id);
-            TeacherProfileDTO profile = mapper.mapTeacherToTeacherProfile(teacher);
+            TeacherProfileDTO profile = finder.findTeacherProfile(id);
             return ResponseEntity.status(HttpStatus.OK).body(profile);
         } catch (TeacherNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.NOT_FOUND);
@@ -79,7 +75,7 @@ public class GetController {
     public ResponseEntity<?> getCoursesWithSubjects(@PathVariable Long id,
             @PathVariable Integer year) {
         try {
-            List<CourseWithSubjectDTO> coursesWithSubjects = finder
+            List<CourseWithSubjectsDTO> coursesWithSubjects = finder
                     .findCoursesWithSubjectsTaughtByATeacher(id, year);
             return ResponseEntity.status(HttpStatus.OK).body(coursesWithSubjects);
         } catch (TeacherNotFound e) {
@@ -91,7 +87,7 @@ public class GetController {
     @GetMapping("/teachers/{id}/subjects")
     public ResponseEntity<?> getTeacherSubjects(@PathVariable Long id) {
         try {
-            List<Subject> subjects = finder.getSubjects(id);
+            Set<CourseSubjectTeacher> subjects = finder.getSubjects(id);
             return ResponseEntity.status(HttpStatus.OK).body(subjects);
         } catch (TeacherNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.NOT_FOUND);

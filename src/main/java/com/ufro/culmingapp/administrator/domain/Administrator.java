@@ -1,19 +1,24 @@
 package com.ufro.culmingapp.administrator.domain;
 
-import java.util.Date;
-
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.ufro.culmingapp.school.domain.School;
+import com.ufro.culmingapp.shared.domain.valueobjects.Address;
+import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
+import com.ufro.culmingapp.shared.domain.valueobjects.Email;
+import com.ufro.culmingapp.shared.domain.valueobjects.EnrollmentDate;
+import com.ufro.culmingapp.shared.domain.valueobjects.ExitDate;
+import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
+import com.ufro.culmingapp.shared.domain.valueobjects.Password;
+import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
 
 @Entity
 @Table(name = "administrators")
@@ -23,50 +28,42 @@ public class Administrator {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String name;
+    @Embedded
+    private FullName fullName;
 
-    @Column(name = "middle_name")
-    private String middleName;
+    @Embedded
+    private Email email;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Embedded
+    private Password password;
 
-    @Column(name = "second_surname")
-    private String secondSurname;
+    @Embedded
+    private Address address;
 
-    private String email;
+    @Embedded
+    private Phone phone;
 
-    private String password;
+    @Embedded
+    private DateOfBirth dateOfBirth;
 
-    private String address;
+    @Embedded
+    private EnrollmentDate enrollmentDate;
 
-    private String phone;
+    @Embedded
+    private ExitDate exitDate;
 
-    @Column(name = "date_of_birth")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
-
-    @Column(name = "enrollment_date")
-    @Temporal(TemporalType.DATE)
-    private Date enrollmentDate;
-
-    @Column(name = "exit_date")
-    @Temporal(TemporalType.DATE)
-    private Date exitDate;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
 
     public Administrator() {
-        //
+        // Used only for spring
     }
 
-    // Constructor with not null values
-    public Administrator(String name, String lastName, String email, String address, Date dateOfBirth,
-            Date enrollmentDate) {
-        this.name = name;
-        this.lastName = lastName;
+    public Administrator(FullName fullName, Email email, Address address,
+            DateOfBirth dateOfBirth,
+            EnrollmentDate enrollmentDate) {
+        this.fullName = fullName;
         this.email = email;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
@@ -74,107 +71,84 @@ public class Administrator {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public FullName getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(FullName fullName) {
+        this.fullName = fullName;
     }
 
-    public String getMiddleName() {
-        return this.middleName;
+    public Email getEmail() {
+        return email;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSecondSurname() {
-        return this.secondSurname;
-    }
-
-    public void setSecondSurname(String secondSurname) {
-        this.secondSurname = secondSurname;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public Password getPassword() {
+        return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Password password) {
         this.password = password;
     }
 
-    public String getAddress() {
-        return this.address;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public String getPhone() {
-        return this.phone;
+    public Phone getPhone() {
+        return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(Phone phone) {
         this.phone = phone;
     }
 
-    public Date getDateOfBirth() {
-        return this.dateOfBirth;
+    public DateOfBirth getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(DateOfBirth dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Date getEnrollmentDate() {
-        return this.enrollmentDate;
+    public EnrollmentDate getEnrollmentDate() {
+        return enrollmentDate;
     }
 
-    public void setEnrollmentDate(Date enrollmentDate) {
+    public void setEnrollmentDate(EnrollmentDate enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
     }
 
-    public Date getExitDate() {
-        return this.exitDate;
+    public ExitDate getExitDate() {
+        return exitDate;
     }
 
-    public void setExitDate(Date exitDate) {
+    public void setExitDate(ExitDate exitDate) {
         this.exitDate = exitDate;
     }
 
     public School getSchool() {
-        return this.school;
+        return school;
     }
 
     public void setSchool(School school) {
         this.school = school;
+        school.getAdministrators().add(this);
     }
 
 }

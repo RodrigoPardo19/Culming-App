@@ -1,18 +1,48 @@
 package com.ufro.culmingapp.course.application.DTOs;
 
-import java.util.List;
+public class CourseWithSubjectDTO {
 
-import com.ufro.culmingapp.subject.application.DTOs.SubjectDTO;
+    private Integer id;
+    private String level;
+    private Integer subjectId;
+    private String subjectName;
 
-import org.springframework.beans.factory.annotation.Value;
+    public CourseWithSubjectDTO(Integer id, String level, Integer subjectId, String subjectName) {
+        this.id = id;
+        this.level = level;
+        this.subjectId = subjectId;
+        this.subjectName = subjectName;
+    }
 
-public interface CourseWithSubjectDTO {
+    public Integer getId() {
+        return id;
+    }
 
-    Long getId();
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    String getName();
+    public String getLevel() {
+        return level;
+    }
 
-    @Value("#{@subjectMapper.buildSubjectDTO(target.subjectIds, target.subjects)}")
-    List<SubjectDTO> getSubjects();
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
 }

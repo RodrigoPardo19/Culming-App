@@ -17,7 +17,7 @@ public class SubjectMapper {
 
     List<SubjectDTO> subjects = new ArrayList<>();
     IntStream.range(0, idsList.size())
-        .forEach(i -> subjects.add(new SubjectDTO(Long.parseLong(idsList.get(i)), namesL.get(i))));
+        .forEach(i -> subjects.add(new SubjectDTO(Integer.parseInt(idsList.get(i)), namesL.get(i))));
     return subjects;
   }
 

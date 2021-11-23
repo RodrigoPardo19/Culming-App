@@ -1,22 +1,24 @@
 package com.ufro.culmingapp.course.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ufro.culmingapp.assistance.domain.Assistance;
+import com.ufro.culmingapp.coursesubjectteacher.domain.CourseSubjectTeacher;
+import com.ufro.culmingapp.evaluation.domain.Evaluation;
+import com.ufro.culmingapp.homework.domain.Homework;
+import com.ufro.culmingapp.studentcourse.domain.StudentCourse;
 import com.ufro.culmingapp.school.domain.School;
-import com.ufro.culmingapp.student.domain.Student;
 
 @Entity
 @Table(name = "courses")
@@ -24,72 +26,98 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Integer id;
 
-    private String name;
+    private String level;
 
-    @Column(name = "year_of_generation")
-    private Integer yearOfGeneration;
+    @ManyToMany(mappedBy = "courses")
+    private Set<School> schools = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "school_id")
-    private School school;
+    @OneToMany(mappedBy = "course")
+    private Set<StudentCourse> students = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "students_courses", joinColumns = {
-            @JoinColumn(name = "student_id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "course_id") })
-    private List<Student> students = new ArrayList<>();
+    @OneToMany(mappedBy = "course")
+    private Set<CourseSubjectTeacher> subjects = new HashSet<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<Evaluation> evaluations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<Homework> homeworks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<Assistance> assistances = new ArrayList<>();
 
     public Course() {
-        //Used only for spring
+        // Used only for spring
     }
 
-    public Course(String name, Integer yearOfGeneration) {
-        this.name = name;
-        this.yearOfGeneration = yearOfGeneration;
+    public Course(String level) {
+        this.level = level;
     }
 
-    public Long getId() {
-        return this.id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getLevel() {
+        return level;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
-    public Integer getYearOfGeneration() {
-        return this.yearOfGeneration;
+    public Set<School> getSchools() {
+        return schools;
     }
 
-    public void setYearOfGeneration(Integer yearOfGeneration) {
-        this.yearOfGeneration = yearOfGeneration;
+    public void setSchools(Set<School> schools) {
+        this.schools = schools;
     }
 
-    public School getSchool() {
-        return this.school;
+    public Set<StudentCourse> getStudents() {
+        return students;
     }
 
-    public void setSchool(School school) {
-        this.school = school;
-    }
-
-    public List<Student> getStudents() {
-        return this.students;
-    }
-
-    public void setStudents(List<Student> students) {
+    public void setStudents(Set<StudentCourse> students) {
         this.students = students;
+    }
+
+    public Set<CourseSubjectTeacher> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<CourseSubjectTeacher> subjects) {
+        this.subjects = subjects;
+    }
+
+    public List<Evaluation> getEvaluations() {
+        return evaluations;
+    }
+
+    public void setEvaluations(List<Evaluation> evaluations) {
+        this.evaluations = evaluations;
+    }
+
+    public List<Homework> getHomeworks() {
+        return homeworks;
+    }
+
+    public void setHomeworks(List<Homework> homeworks) {
+        this.homeworks = homeworks;
+    }
+
+    public List<Assistance> getAssistances() {
+        return assistances;
+    }
+
+    public void setAssistances(List<Assistance> assistances) {
+        this.assistances = assistances;
     }
 
 }

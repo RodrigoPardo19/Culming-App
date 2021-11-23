@@ -1,4 +1,4 @@
-package com.ufro.culmingapp.teacher.domain;
+package com.ufro.culmingapp.shared.domain.valueobjects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
 
 @Embeddable
-public class TeacherName {
+public class FullName {
 
     @Column(name = "name")
     private String firstName;
@@ -17,11 +17,11 @@ public class TeacherName {
     @Column(name = "second_surname")
     private String secondSurname;
 
-    public TeacherName() {
+    public FullName() {
         // Used only for spring
     }
 
-    public TeacherName(String firstName, String middleName, String lastName, String secondSurname)
+    public FullName(String firstName, String middleName, String lastName, String secondSurname)
             throws NullFieldNotPermitted {
         if (!isValid(firstName)) {
             throw new NullFieldNotPermitted("firstname");
