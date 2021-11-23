@@ -56,4 +56,8 @@ public class HomeworkDeadline {
         return this.deadline;
     }
 
+    public String getStringDeadLine() {
+        return this.formatter.format(deadline);
+    }
+
 }
