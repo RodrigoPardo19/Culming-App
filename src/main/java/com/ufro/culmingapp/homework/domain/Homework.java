@@ -1,18 +1,22 @@
 package com.ufro.culmingapp.homework.domain;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import com.ufro.culmingapp.student.domain.Student;
+import com.ufro.culmingapp.course.domain.Course;
+import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
+import com.ufro.culmingapp.studenthomework.domain.StudentHomework;
 import com.ufro.culmingapp.subject.domain.Subject;
 
 @Entity
@@ -23,79 +27,93 @@ public class Homework {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String instruction;
+    @Embedded
+    private HomeworkInstruction instruction;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @Embedded
+    private HomeworkDeadline deadline;
 
-    @ManyToOne
-    @JoinColumn(name = "homework_state_id")
-    private HomeworkState state;
+    @Embedded
+    private GenerationYear year;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @OneToMany(mappedBy = "homework")
+    private Set<StudentHomework> students = new HashSet<>();
 
     public Homework() {
-        //
+        // Used only for spring
     }
 
-    // Constructor with not null values
-    public Homework(Date date, String instruction) {
-        this.date = date;
+    public Homework(HomeworkInstruction instruction, HomeworkDeadline deadline,
+            GenerationYear year) {
         this.instruction = instruction;
+        this.deadline = deadline;
+        this.year = year;
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Date getDate() {
-        return this.date;
+    public HomeworkInstruction getInstruction() {
+        return instruction;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getInstruction() {
-        return this.instruction;
-    }
-
-    public void setInstruction(String instruction) {
+    public void setInstruction(HomeworkInstruction instruction) {
         this.instruction = instruction;
     }
 
-    public HomeworkState getState() {
-        return this.state;
+    public HomeworkDeadline getDeadline() {
+        return deadline;
     }
 
-    public void setState(HomeworkState state) {
-        this.state = state;
+    public void setDeadline(HomeworkDeadline deadline) {
+        this.deadline = deadline;
+    }
+
+    public GenerationYear getYear() {
+        return year;
+    }
+
+    public void setYear(GenerationYear year) {
+        this.year = year;
     }
 
     public Subject getSubject() {
-        return this.subject;
+        return subject;
     }
 
     public void setSubject(Subject subject) {
         this.subject = subject;
+        subject.getHomeworks().add(this);
     }
 
-    public Student getStudent() {
-        return this.student;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setCourse(Course course) {
+        this.course = course;
+        course.getHomeworks().add(this);
+    }
+
+    public Set<StudentHomework> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<StudentHomework> students) {
+        this.students = students;
     }
 
 }

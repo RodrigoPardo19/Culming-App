@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.ufro.culmingapp.studenthomework.domain.StudentHomework;
+
 @Entity
 @Table(name = "homework_states")
 public class HomeworkState {
@@ -21,13 +23,12 @@ public class HomeworkState {
     private String name;
 
     @OneToMany(mappedBy = "state")
-    private List<Homework> homeworks = new ArrayList<>();
+    private List<StudentHomework> homeworks = new ArrayList<>();
 
     public HomeworkState() {
-        //
+        // Used only for spring
     }
 
-    // Constructor with not null values
     public HomeworkState(String name) {
         this.name = name;
     }
@@ -48,11 +49,11 @@ public class HomeworkState {
         this.name = name;
     }
 
-    public List<Homework> getHomeworks() {
+    public List<StudentHomework> getHomeworks() {
         return this.homeworks;
     }
 
-    public void setHomeworks(List<Homework> homeworks) {
+    public void setHomeworks(List<StudentHomework> homeworks) {
         this.homeworks = homeworks;
     }
 

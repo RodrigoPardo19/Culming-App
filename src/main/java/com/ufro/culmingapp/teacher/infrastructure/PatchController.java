@@ -2,13 +2,13 @@ package com.ufro.culmingapp.teacher.infrastructure;
 
 import com.ufro.culmingapp.shared.domain.valueobjects.Address;
 import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
+import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
 import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
-import com.ufro.culmingapp.shared.infrastructure.EmailSenderImpl;
+import com.ufro.culmingapp.teacher.application.TeacherFinderService;
 import com.ufro.culmingapp.teacher.application.TeacherMapper;
 import com.ufro.culmingapp.teacher.application.TeacherUpdaterService;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
 import com.ufro.culmingapp.teacher.domain.Teacher;
-import com.ufro.culmingapp.teacher.domain.TeacherName;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,18 +39,21 @@ public class PatchController {
     @Autowired
     private EmailManagerService sender;
 
+    @Autowired
+    private TeacherFinderService finder;
+
     @PatchMapping("/teachers/{id}/profile")
     public ResponseEntity<?> updateTeacherProfile(@PathVariable Long id,
             @RequestBody TeacherProfileDTO newTeacherProfile) throws ParseException {
         try {
 
             Teacher teacher = updater.updateProfile(id,
-                    new TeacherName(newTeacherProfile.getFirstName(), newTeacherProfile.getMiddleName(),
+                    new FullName(newTeacherProfile.getFirstName(), newTeacherProfile.getMiddleName(),
                             newTeacherProfile.getLastName(), newTeacherProfile.getSecondSurname()),
                     new Address(newTeacherProfile.getAddress()), new Phone(newTeacherProfile.getPhone()),
                     new DateOfBirth(newTeacherProfile.getDateOfBirth()), newTeacherProfile.getBiography());
 
-            TeacherProfileDTO profile = mapper.mapTeacherToTeacherProfile(teacher);
+            TeacherProfileDTO profile = finder.findTeacherProfile(id);
 
             return new ResponseEntity<>(profile, HttpStatus.OK);
         } catch (NullFieldNotPermitted e) {

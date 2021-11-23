@@ -2,12 +2,18 @@ package com.ufro.culmingapp.teacher.application;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
+import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectsDTO;
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.course.domain.CourseRepository;
+import com.ufro.culmingapp.coursesubjectteacher.domain.CourseSubjectTeacher;
 import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.subject.domain.SubjectRepository;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherWithSubjectDTO;
 import com.ufro.culmingapp.teacher.domain.Teacher;
 import com.ufro.culmingapp.teacher.domain.TeacherRepository;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
@@ -19,6 +25,9 @@ import org.springframework.stereotype.Service;
 public class TeacherFinderService {
 
     private TeacherRepository repository;
+
+    @Autowired
+    private TeacherMapper mapper;
 
     @Autowired
     private CourseRepository courseRepository;
@@ -48,7 +57,24 @@ public class TeacherFinderService {
         }
     }
 
-    public List<Subject> getSubjects(Long id) throws TeacherNotFound {
+    public TeacherHomeDTO findTeacherHome(Long id) throws TeacherNotFound {
+        Optional<TeacherHomeDTO> teacherHome = repository.fetchTeacherHomeById(id);
+        if (!teacherHome.isPresent()) {
+            throw new TeacherNotFound(id);
+        }
+        return teacherHome.get();
+    }
+
+    public TeacherProfileDTO findTeacherProfile(Long id) throws TeacherNotFound {
+        Optional<List<TeacherWithSubjectDTO>> teacherWithSubjects = repository
+                .fetchTeacherProfileById(id);
+        if (!teacherWithSubjects.isPresent()) {
+            throw new TeacherNotFound(id);
+        }
+        return mapper.transformTeacherWithSubjectInTeacherProfile(teacherWithSubjects.get());
+    }
+
+    public Set<CourseSubjectTeacher> getSubjects(Long id) throws TeacherNotFound {
         Optional<Teacher> teacher = repository.findById(id);
         if (teacher.isPresent()) {
             return teacher.get().getSubjects();
@@ -74,11 +100,11 @@ public class TeacherFinderService {
         return subjects.get();
     }
 
-    public List<CourseWithSubjectDTO> findCoursesWithSubjectsTaughtByATeacher(Long id, Integer year)
+    public List<CourseWithSubjectsDTO> findCoursesWithSubjectsTaughtByATeacher(Long id, Integer year)
         throws TeacherNotFound {
         Teacher teacher = this.findById(id);
-        Optional<List<CourseWithSubjectDTO>> coursesWithSubjects = courseRepository
-                .fetchCoursesWithSubjectsTaughtByATeacher(teacher.getId(), year);
-        return coursesWithSubjects.get();
+        Optional<List<CourseWithSubjectDTO>> coursesWithSubjects = repository
+                .fetchCoursesWithSubjectsWhereATeacherTeach(id);
+        return mapper.transformInNestedObject(coursesWithSubjects.get());
     }
 }

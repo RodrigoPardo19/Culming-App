@@ -4,9 +4,9 @@ import com.ufro.culmingapp.shared.application.EmailManagerService;
 import com.ufro.culmingapp.shared.domain.valueobjects.Address;
 import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
 import com.ufro.culmingapp.shared.domain.valueobjects.Email;
+import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
 import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
 import com.ufro.culmingapp.teacher.domain.Teacher;
-import com.ufro.culmingapp.teacher.domain.TeacherName;
 import com.ufro.culmingapp.teacher.domain.TeacherRepository;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 
@@ -25,14 +25,14 @@ public class TeacherUpdaterService {
     @Autowired
     private EmailManagerService emailSender;
 
-    public Teacher updateProfile(Long id, TeacherName name, Address address, Phone phone, DateOfBirth dateOfBirth,
+    public Teacher updateProfile(Long id, FullName name, Address address, Phone phone, DateOfBirth dateOfBirth,
             String biography) throws TeacherNotFound {
         Teacher teacher = finder.findById(id);
-        teacher.updateName(name);
-        teacher.updateAddress(address);
-        teacher.updatePhone(phone);
-        teacher.updateDateOfBirth(dateOfBirth);
-        teacher.updateBiography(biography);
+        teacher.setFullName(name);
+        teacher.setAddress(address);
+        teacher.setPhone(phone);
+        teacher.setDateOfBirth(dateOfBirth);
+        teacher.setBiography(biography);
         repository.save(teacher);
         return teacher;
     }

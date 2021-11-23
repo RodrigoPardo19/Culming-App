@@ -62,5 +62,4 @@ public class DateOfBirth {
     }
 
     // Validation for date between start and end pending
-    // Validation for right date format "yyyy-MM-dd" pending
 }

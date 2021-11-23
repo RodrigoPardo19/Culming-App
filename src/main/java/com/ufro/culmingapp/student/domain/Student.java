@@ -1,28 +1,33 @@
 package com.ufro.culmingapp.student.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import com.ufro.culmingapp.assistance.domain.Assistance;
-import com.ufro.culmingapp.course.domain.Course;
-import com.ufro.culmingapp.grade.domain.Grade;
-import com.ufro.culmingapp.homework.domain.Homework;
-import com.ufro.culmingapp.subject.domain.Subject;
+import com.ufro.culmingapp.studentassistance.domain.StudentAssistance;
+import com.ufro.culmingapp.studentcourse.domain.StudentCourse;
+import com.ufro.culmingapp.studentevaluation.domain.StudentEvaluation;
+import com.ufro.culmingapp.studenthomework.domain.StudentHomework;
+import com.ufro.culmingapp.studentsubject.domain.StudentSubject;
+import com.ufro.culmingapp.school.domain.School;
+import com.ufro.culmingapp.shared.domain.valueobjects.Address;
+import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
+import com.ufro.culmingapp.shared.domain.valueobjects.Email;
+import com.ufro.culmingapp.shared.domain.valueobjects.EnrollmentDate;
+import com.ufro.culmingapp.shared.domain.valueobjects.ExitDate;
+import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
+import com.ufro.culmingapp.shared.domain.valueobjects.Password;
 import com.ufro.culmingapp.tutor.domain.Tutor;
 
 @Entity
@@ -33,74 +38,67 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String name;
+    @Embedded
+    private FullName fullName;
 
-    @Column(name = "middle_name")
-    private String middleName;
+    @Embedded
+    private StudentAge age;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Embedded
+    private DateOfBirth dateOfBirth;
 
-    @Column(name = "second_surname")
-    private String secondSurname;
+    @Embedded
+    private Email email;
 
-    private Integer age;
+    @Embedded
+    private Password password;
 
-    @Column(name = "date_of_birth")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+    @Embedded
+    private Address address;
 
-    private String email;
+    @Embedded
+    private StudentGraduationDate graduationDate;
 
-    private String password;
+    @Embedded
+    private ExitDate exitDate;
 
-    private String address;
-
-    @Column(name = "graduation_date")
-    @Temporal(TemporalType.DATE)
-    private Date graduationDate;
-
-    @Column(name = "exit_date")
-    @Temporal(TemporalType.DATE)
-    private Date exitDate;
-
-    @Column(name = "enrollment_date")
-    @Temporal(TemporalType.DATE)
-    private Date enrollmentDate;
+    @Embedded
+    private EnrollmentDate enrollmentDate;
 
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToMany(mappedBy = "students")
-    private List<Course> courses = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id")
+    private School school;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
     private Tutor tutor;
 
-    @ManyToMany
-    @JoinTable(name = "students_subjects", joinColumns = { @JoinColumn(name = "student_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "subject_id") })
-    private List<Subject> subjects = new ArrayList<>();
+    @OneToMany(mappedBy = "student")
+    private Set<StudentCourse> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "student")
-    private List<Homework> homeworks = new ArrayList<>();
+    private Set<StudentSubject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "student")
-    private List<Assistance> assistances = new ArrayList<>();
+    private Set<StudentEvaluation> evaluations = new HashSet<>();
 
     @OneToMany(mappedBy = "student")
-    private List<Grade> grades = new ArrayList<>();
+    private Set<StudentHomework> homeworks = new HashSet<>();
+
+    @OneToMany(mappedBy = "student")
+    private Set<StudentAssistance> assistances = new HashSet<>();
 
     public Student() {
-        //
+        // Used only for spring
     }
 
-    // Constructor with not null values
-    public Student(String name, String lastName, Date dateOfBirth, String email, String address, Date enrollmentDate,
+    public Student(FullName fullName, DateOfBirth dateOfBirth, Email email, Address address,
+            EnrollmentDate enrollmentDate,
             Boolean isActive) {
-        this.name = name;
-        this.lastName = lastName;
+        this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.address = address;
@@ -109,167 +107,149 @@ public class Student {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public FullName getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(FullName fullName) {
+        this.fullName = fullName;
     }
 
-    public String getMiddleName() {
-        return this.middleName;
+    public StudentAge getAge() {
+        return age;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSecondSurname() {
-        return this.secondSurname;
-    }
-
-    public void setSecondSurname(String secondSurname) {
-        this.secondSurname = secondSurname;
-    }
-
-    public Integer getAge() {
-        return this.age;
-    }
-
-    public void setAge(Integer age) {
+    public void setAge(StudentAge age) {
         this.age = age;
     }
 
-    public Date getDateOfBirth() {
-        return this.dateOfBirth;
+    public DateOfBirth getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(DateOfBirth dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getEmail() {
-        return this.email;
+    public Email getEmail() {
+        return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public Password getPassword() {
+        return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Password password) {
         this.password = password;
     }
 
-    public String getAddress() {
-        return this.address;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public Date getGraduationDate() {
-        return this.graduationDate;
+    public StudentGraduationDate getGraduationDate() {
+        return graduationDate;
     }
 
-    public void setGraduationDate(Date graduationDate) {
+    public void setGraduationDate(StudentGraduationDate graduationDate) {
         this.graduationDate = graduationDate;
     }
 
-    public Date getExitDate() {
-        return this.exitDate;
+    public ExitDate getExitDate() {
+        return exitDate;
     }
 
-    public void setExitDate(Date exitDate) {
+    public void setExitDate(ExitDate exitDate) {
         this.exitDate = exitDate;
     }
 
-    public Date getEnrollmentDate() {
-        return this.enrollmentDate;
+    public EnrollmentDate getEnrollmentDate() {
+        return enrollmentDate;
     }
 
-    public void setEnrollmentDate(Date enrollmentDate) {
+    public void setEnrollmentDate(EnrollmentDate enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
     }
 
-    public Boolean isIsActive() {
-        return this.isActive;
-    }
-
     public Boolean getIsActive() {
-        return this.isActive;
+        return isActive;
     }
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
-    public List<Course> getCourses() {
-        return this.courses;
+    public School getSchool() {
+        return school;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setSchool(School school) {
+        this.school = school;
+        school.getStudents().add(this);
     }
 
     public Tutor getTutor() {
-        return this.tutor;
+        return tutor;
     }
 
     public void setTutor(Tutor tutor) {
         this.tutor = tutor;
+        tutor.getStudents().add(this);
     }
 
-    public List<Subject> getSubjects() {
-        return this.subjects;
+    public Set<StudentCourse> getCourses() {
+        return courses;
     }
 
-    public void setSubjects(List<Subject> subjects) {
+    public void setCourses(Set<StudentCourse> courses) {
+        this.courses = courses;
+    }
+
+    public Set<StudentSubject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<StudentSubject> subjects) {
         this.subjects = subjects;
     }
 
-    public List<Homework> getHomeworks() {
-        return this.homeworks;
+    public Set<StudentEvaluation> getEvaluations() {
+        return evaluations;
     }
 
-    public void setHomeworks(List<Homework> homeworks) {
+    public void setEvaluations(Set<StudentEvaluation> evaluations) {
+        this.evaluations = evaluations;
+    }
+
+    public Set<StudentHomework> getHomeworks() {
+        return homeworks;
+    }
+
+    public void setHomeworks(Set<StudentHomework> homeworks) {
         this.homeworks = homeworks;
     }
 
-    public List<Assistance> getAssistances() {
-        return this.assistances;
+    public Set<StudentAssistance> getAssistances() {
+        return assistances;
     }
 
-    public void setAssistances(List<Assistance> assistances) {
+    public void setAssistances(Set<StudentAssistance> assistances) {
         this.assistances = assistances;
-    }
-
-    public List<Grade> getGrades() {
-        return this.grades;
-    }
-
-    public void setGrades(List<Grade> grades) {
-        this.grades = grades;
     }
 
 }
