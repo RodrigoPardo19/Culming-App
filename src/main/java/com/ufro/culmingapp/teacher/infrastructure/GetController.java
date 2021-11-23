@@ -28,7 +28,6 @@ public class GetController {
     @Autowired
     private TeacherFinderService finder;
 
-
     @GetMapping("/teachers/{id}/home")
     public ResponseEntity<?> getTeacherHome(@PathVariable Long id) {
         try {

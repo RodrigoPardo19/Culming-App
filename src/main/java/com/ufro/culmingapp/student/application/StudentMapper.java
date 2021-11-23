@@ -5,9 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ufro.culmingapp.homework.application.DTOs.HomeworkStatusDTO;
 import com.ufro.culmingapp.shared.domain.valueobjects.GradeDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithHomeworkDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,7 @@ public class StudentMapper {
     public List<StudentWithNestedEvaluationsDTO>
             transformInNestedObject(List<StudentWithEvaluationDTO> studentEvaluations) {
 
-        List<StudentWithNestedEvaluationsDTO> coursesWithNestedSubjects = new ArrayList<>();
+        List<StudentWithNestedEvaluationsDTO> studentsWithNestedEvaluations = new ArrayList<>();
 
         Long id;
         Set<GradeDTO> grades = new HashSet<>();
@@ -29,7 +32,7 @@ public class StudentMapper {
             id = studentEvaluations.get(i).getId();
 
             if (pivotId != id) {
-                coursesWithNestedSubjects
+                studentsWithNestedEvaluations
                         .add(new StudentWithNestedEvaluationsDTO(
                                 studentEvaluations.get(i - 1).getId(),
                                 studentEvaluations.get(i - 1).getFirstName(),
@@ -43,14 +46,52 @@ public class StudentMapper {
             pivotId = id;
         }
 
-        coursesWithNestedSubjects
+        studentsWithNestedEvaluations
                 .add(new StudentWithNestedEvaluationsDTO(
                         studentEvaluations.get(studentEvaluations.size() - 1).getId(),
                         studentEvaluations.get(studentEvaluations.size() - 1).getFirstName(),
                         studentEvaluations.get(studentEvaluations.size() - 1).getLastName(),
                         grades));
 
-        return coursesWithNestedSubjects;
+        return studentsWithNestedEvaluations;
     }
 
+    public List<StudentWithNestedHomeworksDTO>
+            transformInStudentsWithNestedHomeworks(List<StudentWithHomeworkDTO> studentHomeworks) {
+
+        List<StudentWithNestedHomeworksDTO> studentsWithNestedHomeworks = new ArrayList<>();
+
+        Long id;
+        Set<HomeworkStatusDTO> states = new HashSet<>();
+
+        Long pivotId = studentHomeworks.get(0).getId();
+
+        for (int i = 0; i < studentHomeworks.size(); i++) {
+
+            id = studentHomeworks.get(i).getId();
+
+            if (pivotId != id) {
+                studentsWithNestedHomeworks
+                        .add(new StudentWithNestedHomeworksDTO(
+                                studentHomeworks.get(i - 1).getId(),
+                                studentHomeworks.get(i - 1).getFirstName(),
+                                studentHomeworks.get(i - 1).getLastName(),
+                                states));
+                states.clear();
+            }
+
+            states.add(new HomeworkStatusDTO(studentHomeworks.get(i).getHomeworkId(),
+                    studentHomeworks.get(i).getHomeworkStatus()));
+            pivotId = id;
+        }
+
+        studentsWithNestedHomeworks
+                .add(new StudentWithNestedHomeworksDTO(
+                        studentHomeworks.get(studentHomeworks.size() - 1).getId(),
+                        studentHomeworks.get(studentHomeworks.size() - 1).getFirstName(),
+                        studentHomeworks.get(studentHomeworks.size() - 1).getLastName(),
+                        states));
+
+        return studentsWithNestedHomeworks;
+    }
 }
