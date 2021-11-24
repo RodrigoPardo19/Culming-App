@@ -2,8 +2,11 @@ package com.ufro.culmingapp.student.infrastructure;
 
 import java.util.List;
 
+import com.ufro.culmingapp.student.application.StudentAssistanceFinder;
 import com.ufro.culmingapp.student.application.StudentFinderService;
 import com.ufro.culmingapp.student.application.StudentHomeworkFinderService;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithAssistanceDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedAssistancesDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
 
@@ -24,6 +27,9 @@ public class StudentGetController {
 
     @Autowired
     private StudentHomeworkFinderService studentHomeworksFinder;
+
+    @Autowired
+    private StudentAssistanceFinder studentAssistancesFinder;
 
     @GetMapping("/courses/{courseId}/subjects/{subjectId}/students-evaluations")
     public ResponseEntity<?> getEvaluationsOfStudentsOfASubjectInACourse(
@@ -48,5 +54,14 @@ public class StudentGetController {
         List<StudentWithNestedHomeworksDTO> studentsHomeworks = studentHomeworksFinder
                 .getHomeworksOfStudentsOfASubjectInACourse(courseId, subjectId, month, year);
         return ResponseEntity.status(HttpStatus.OK).body(studentsHomeworks);
+    }
+
+    @GetMapping("/courses/{courseId}/subjects/{subjectId}/students-assistances/{month}/{year}")
+    public ResponseEntity<?> getAssistancesOfStudentsOfASubjectInACourse(
+            @PathVariable Integer courseId, @PathVariable Integer subjectId, 
+            @PathVariable Integer month, @PathVariable Integer year) {
+        List<StudentWithNestedAssistancesDTO> studentsAssistances = studentAssistancesFinder
+                .getAssistancesOfStudentsOfASubjectInACourse(courseId, subjectId, month, year);
+        return ResponseEntity.status(HttpStatus.OK).body(studentsAssistances);
     }
 }

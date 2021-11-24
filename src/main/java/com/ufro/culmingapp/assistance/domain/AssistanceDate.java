@@ -58,4 +58,8 @@ public class AssistanceDate {
         return this.date;
     }
 
+    public String getStringDate() {
+        return this.formatter.format(date);
+    }
+
 }
