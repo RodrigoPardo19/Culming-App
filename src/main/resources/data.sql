@@ -179,6 +179,8 @@ INSERT INTO evaluations (id, description, qualification_date, year, type_id, sub
 INSERT INTO evaluations (id, description, qualification_date, year, type_id, subject_id, course_id) VALUES (77, 'Taller 3', '2021-04-17', 2021, 2, 15, 1);
 INSERT INTO evaluations (id, description, qualification_date, year, type_id, subject_id, course_id) VALUES (78, 'Taller 4', '2021-04-17', 2021, 2, 15, 1);
 
+INSERT INTO evaluations (id, description, qualification_date, year, type_id, subject_id, course_id) VALUES (79, 'ajsfkalsdfj', '2021-07-9', 2021, 1, 1, 1);
+
 INSERT INTO assistances (id, date_of_assistance, year, subject_id, course_id) VALUES (1, '2021-05-08', 2021, 1, 1);
 INSERT INTO assistances (id, date_of_assistance, year, subject_id, course_id) VALUES (2, '2021-05-13', 2021, 1, 1);
 INSERT INTO assistances (id, date_of_assistance, year, subject_id, course_id) VALUES (3, '2021-05-16', 2021, 1, 1);
@@ -1498,6 +1500,7 @@ INSERT INTO students_evaluations (id, student_id, evaluation_id, grade) VALUES (
 INSERT INTO students_evaluations (id, student_id, evaluation_id, grade) VALUES (728, 10, 71, 3.0);
 INSERT INTO students_evaluations (id, student_id, evaluation_id, grade) VALUES (729, 10, 72, 3.0);
 INSERT INTO students_evaluations (id, student_id, evaluation_id, grade) VALUES (730, 10, 73, 3.0);
+INSERT INTO students_evaluations (id, student_id, evaluation_id, grade) VALUES (731, 1, 79, 3.5);
 
 
 INSERT INTO students_homeworks (id, student_id, homework_id, state_id) VALUES (1, 1, 1, 1);

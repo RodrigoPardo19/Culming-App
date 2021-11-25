@@ -5,7 +5,7 @@ CREATE SEQUENCE seq_administrators;
 CREATE SEQUENCE seq_courses;
 CREATE SEQUENCE seq_subjects;
 CREATE SEQUENCE seq_students_subjects;
-CREATE SEQUENCE seq_evaluations START 79 INCREMENT 1;
+CREATE SEQUENCE seq_evaluations START 80 INCREMENT 1;
 CREATE SEQUENCE seq_assistances;
 CREATE SEQUENCE seq_homeworks;
 CREATE SEQUENCE seq_schools;
@@ -13,7 +13,7 @@ CREATE SEQUENCE seq_homework_states;
 CREATE SEQUENCE seq_courses_subjects_teachers;
 CREATE SEQUENCE seq_evaluation_types;
 CREATE SEQUENCE seq_homeworks_students;
-CREATE SEQUENCE seq_students_evaluations;
+CREATE SEQUENCE seq_students_evaluations START 732 INCREMENT 1;
 CREATE SEQUENCE seq_subject_types;
 
 CREATE TABLE students (

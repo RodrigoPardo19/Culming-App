@@ -17,7 +17,6 @@ import javax.persistence.Table;
 
 import com.ufro.culmingapp.studentassistance.domain.StudentAssistance;
 import com.ufro.culmingapp.studentcourse.domain.StudentCourse;
-import com.ufro.culmingapp.studentevaluation.domain.StudentEvaluation;
 import com.ufro.culmingapp.studenthomework.domain.StudentHomework;
 import com.ufro.culmingapp.studentsubject.domain.StudentSubject;
 import com.ufro.culmingapp.school.domain.School;

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.evaluationtype.domain.EvaluationType;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
-import com.ufro.culmingapp.studentevaluation.domain.StudentEvaluation;
+import com.ufro.culmingapp.student.domain.StudentEvaluation;
 import com.ufro.culmingapp.subject.domain.Subject;
 
 @Entity

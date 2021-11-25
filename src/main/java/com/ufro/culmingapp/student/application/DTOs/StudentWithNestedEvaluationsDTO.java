@@ -1,6 +1,7 @@
 package com.ufro.culmingapp.student.application.DTOs;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ufro.culmingapp.shared.domain.valueobjects.GradeDTO;
 
@@ -9,14 +10,14 @@ public class StudentWithNestedEvaluationsDTO {
     private Long id;
     private String firstName;
     private String lastName;
-    private Set<GradeDTO> grades;
+    private List<GradeDTO> grades;
 
     public StudentWithNestedEvaluationsDTO(Long id, String firstName, String lastName,
-            Set<GradeDTO> grades) {
+            List<GradeDTO> grades) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.grades = grades;
+        this.grades = new ArrayList<>(grades);
     }
 
     public Long getId() {
@@ -43,11 +44,11 @@ public class StudentWithNestedEvaluationsDTO {
         this.lastName = lastName;
     }
 
-    public Set<GradeDTO> getGrades() {
+    public List<GradeDTO> getGrades() {
         return grades;
     }
 
-    public void setGrades(Set<GradeDTO> grades) {
+    public void setGrades(List<GradeDTO> grades) {
         this.grades = grades;
     }
 

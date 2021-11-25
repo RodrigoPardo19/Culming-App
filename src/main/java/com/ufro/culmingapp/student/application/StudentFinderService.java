@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
+import com.ufro.culmingapp.student.domain.Student;
 import com.ufro.culmingapp.student.domain.StudentRepository;
+import com.ufro.culmingapp.student.domain.exceptions.StudentNotFound;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,14 @@ public class StudentFinderService {
 
     @Autowired
     private StudentMapper mapper;
+
+    public Student findById(Long id) throws StudentNotFound {
+        Optional<Student> student = repository.findById(id);
+        if(!student.isPresent()) {
+            throw new StudentNotFound(id);
+        }
+        return student.get();
+    }
 
     public List<StudentWithNestedEvaluationsDTO>
             getEvaluationsOfStudentsOfASubjectInACourse(Integer courseId, Integer subjectId) {

@@ -5,7 +5,6 @@ import java.util.List;
 import com.ufro.culmingapp.student.application.StudentAssistanceFinder;
 import com.ufro.culmingapp.student.application.StudentFinderService;
 import com.ufro.culmingapp.student.application.StudentHomeworkFinderService;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithAssistanceDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedAssistancesDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;

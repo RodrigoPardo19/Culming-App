@@ -26,7 +26,7 @@ public class StudentMapper {
         List<StudentWithNestedEvaluationsDTO> studentsWithNestedEvaluations = new ArrayList<>();
 
         Long id;
-        Set<GradeDTO> grades = new HashSet<>();
+        List<GradeDTO> grades = new ArrayList<>();
 
         Long pivotId = studentEvaluations.get(0).getId();
 

@@ -1,4 +1,4 @@
-package com.ufro.culmingapp.studentevaluation.domain;
+package com.ufro.culmingapp.student.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
