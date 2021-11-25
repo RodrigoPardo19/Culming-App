@@ -15,6 +15,10 @@ public class Password {
     private final String REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])"
             + "(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
 
+    public Password() {
+        // Used only for spring
+    }
+
     public Password(String password) throws NullFieldNotPermitted, WrongPasswordFormat {
         if (isNull(password)) {
             throw new NullFieldNotPermitted("Password");

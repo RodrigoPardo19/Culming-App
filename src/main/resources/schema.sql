@@ -5,7 +5,7 @@ CREATE SEQUENCE seq_administrators;
 CREATE SEQUENCE seq_courses;
 CREATE SEQUENCE seq_subjects;
 CREATE SEQUENCE seq_students_subjects;
-CREATE SEQUENCE seq_evaluations;
+CREATE SEQUENCE seq_evaluations START 79 INCREMENT 1;
 CREATE SEQUENCE seq_assistances;
 CREATE SEQUENCE seq_homeworks;
 CREATE SEQUENCE seq_schools;

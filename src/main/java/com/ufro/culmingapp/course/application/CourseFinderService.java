@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.course.domain.CourseRepository;
+import com.ufro.culmingapp.course.domain.exceptions.CourseNotFound;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,11 @@ public class CourseFinderService {
         this.repository = repository;
     }
 
-    public Course findById(Integer id) {
+    public Course findById(Integer id) throws CourseNotFound {
         Optional<Course> course = repository.findById(id);
+        if(!course.isPresent()) {
+            throw new CourseNotFound(id);
+        }
         return course.get();
     }
 

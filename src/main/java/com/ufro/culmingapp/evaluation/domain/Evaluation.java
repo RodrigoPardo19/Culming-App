@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.ufro.culmingapp.course.domain.Course;
@@ -25,7 +26,8 @@ import com.ufro.culmingapp.subject.domain.Subject;
 public class Evaluation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "evaluation_generator")
+    @SequenceGenerator(name="evaluation_generator", sequenceName = "seq_evaluations", allocationSize = 1)
     private Long id;
 
     @Embedded
