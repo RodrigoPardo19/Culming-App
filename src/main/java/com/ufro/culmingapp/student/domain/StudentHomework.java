@@ -1,4 +1,4 @@
-package com.ufro.culmingapp.studenthomework.domain;
+package com.ufro.culmingapp.student.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,18 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.ufro.culmingapp.homework.domain.Homework;
 import com.ufro.culmingapp.homework.domain.HomeworkState;
-import com.ufro.culmingapp.student.domain.Student;
 
 @Entity
 @Table(name = "students_homeworks")
 public class StudentHomework {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_homework_generator")
+    @SequenceGenerator(name = "student_homework_generator", sequenceName = "seq_homeworks_students", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
