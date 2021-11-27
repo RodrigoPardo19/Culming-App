@@ -255,8 +255,8 @@ INSERT INTO homework_states (id, name) VALUES (1, 'Entregada');
 INSERT INTO homework_states (id, name) VALUES (2, 'No entregada');
 INSERT INTO homework_states (id, name) VALUES (3, 'Pendiente');
 
-INSERT INTO homeworks (id, instruction, deadline, year, subject_id, course_id) VALUES (1, 'Hacer actividad 1 de la primera guerra mundial', '2021-05-08', 2021, 1, 1);
-INSERT INTO homeworks (id, instruction, deadline, year, subject_id, course_id) VALUES (2, 'Recortes de la guerra fria', '2021-05-30', 2021, 1, 1);
+INSERT INTO homeworks (id, instruction, deadline, year, subject_id, course_id) VALUES (1, 'Hacer actividad 1 de la primera guerra mundial', '2021-11-23', 2021, 1, 1);
+INSERT INTO homeworks (id, instruction, deadline, year, subject_id, course_id) VALUES (2, 'Recortes de la guerra fria', '2021-11-25', 2021, 1, 1);
 INSERT INTO homeworks (id, instruction, deadline, year, subject_id, course_id) VALUES (3, 'La caída del muro de Berlín', '2021-06-17', 2021, 1, 1);
 
 INSERT INTO homeworks (id, instruction, deadline, year, subject_id, course_id) VALUES (4, 'Introducción a las funciones', '2021-05-08', 2021, 2, 1);
