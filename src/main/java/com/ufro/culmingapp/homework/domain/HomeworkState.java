@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.ufro.culmingapp.studenthomework.domain.StudentHomework;
+import com.ufro.culmingapp.student.domain.StudentHomework;
 
 @Entity
 @Table(name = "homework_states")

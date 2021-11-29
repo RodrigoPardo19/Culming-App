@@ -1,19 +1,19 @@
 package com.ufro.culmingapp.student.application.DTOs;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.ufro.culmingapp.assistance.application.DTOs.AssistancesStatusDTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StudentWithNestedAssistancesDTO {
-    
+
     private Long id;
     private String firstName;
     private String lastName;
-    private Set<AssistancesStatusDTO> states = new HashSet<>(); 
+    private List<AssistancesStatusDTO> states = new ArrayList<>();
 
     public StudentWithNestedAssistancesDTO(Long id, String firstName, String lastName,
-     Set<AssistancesStatusDTO> states) {
+                                           List<AssistancesStatusDTO> states) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,11 +44,11 @@ public class StudentWithNestedAssistancesDTO {
         this.lastName = lastName;
     }
 
-    public Set<AssistancesStatusDTO> getStates() {
+    public List<AssistancesStatusDTO> getStates() {
         return this.states;
     }
 
-    public void setStates(Set<AssistancesStatusDTO> states) {
+    public void setStates(List<AssistancesStatusDTO> states) {
         this.states = states;
     }
 

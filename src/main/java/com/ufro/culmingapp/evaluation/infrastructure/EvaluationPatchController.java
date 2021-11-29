@@ -44,7 +44,6 @@ public class EvaluationPatchController {
 
             EvaluationDTO evaluationUpdated = updater.update(id, description, date, courseId, subjectId, typeId);
 
-            // To do buscar http response para las modificaciones
             return ResponseEntity.status(HttpStatus.CREATED).body(evaluationUpdated);
 
         } catch (NullFieldNotPermitted e) {

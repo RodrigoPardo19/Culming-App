@@ -1,22 +1,22 @@
 package com.ufro.culmingapp.student.application.DTOs;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.ufro.culmingapp.homework.application.DTOs.HomeworkStatusDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentWithNestedHomeworksDTO {
 
     private Long id;
     private String firstName;
     private String lastName;
-    Set<HomeworkStatusDTO> states = new HashSet<>();
+    List<HomeworkStatusDTO> states = new ArrayList<>();
 
-    public StudentWithNestedHomeworksDTO(Long id, String firstName, String lastName, Set<HomeworkStatusDTO> states) {
+    public StudentWithNestedHomeworksDTO(Long id, String firstName, String lastName, List<HomeworkStatusDTO> states) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.states = states;
+        this.states = new ArrayList<>(states);
     }
 
     public Long getId() {
@@ -43,11 +43,11 @@ public class StudentWithNestedHomeworksDTO {
         this.lastName = lastName;
     }
 
-    public Set<HomeworkStatusDTO> getStates() {
+    public List<HomeworkStatusDTO> getStates() {
         return this.states;
     }
 
-    public void setStates(Set<HomeworkStatusDTO> states) {
+    public void setStates(List<HomeworkStatusDTO> states) {
         this.states = states;
     }
 

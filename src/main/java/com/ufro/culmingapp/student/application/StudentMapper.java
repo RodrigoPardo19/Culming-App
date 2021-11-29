@@ -1,27 +1,19 @@
 package com.ufro.culmingapp.student.application;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.ufro.culmingapp.assistance.application.DTOs.AssistancesStatusDTO;
 import com.ufro.culmingapp.homework.application.DTOs.HomeworkStatusDTO;
 import com.ufro.culmingapp.shared.domain.valueobjects.GradeDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithAssistanceDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithHomeworkDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedAssistancesDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
-
+import com.ufro.culmingapp.student.application.DTOs.*;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StudentMapper {
 
     public List<StudentWithNestedEvaluationsDTO>
-            transformInNestedObject(List<StudentWithEvaluationDTO> studentEvaluations) {
+    transformInNestedObject(List<StudentWithEvaluationDTO> studentEvaluations) {
 
         List<StudentWithNestedEvaluationsDTO> studentsWithNestedEvaluations = new ArrayList<>();
 
@@ -60,12 +52,12 @@ public class StudentMapper {
     }
 
     public List<StudentWithNestedHomeworksDTO>
-            transformInStudentsWithNestedHomeworks(List<StudentWithHomeworkDTO> studentHomeworks) {
+    transformInStudentsWithNestedHomeworks(List<StudentWithHomeworkDTO> studentHomeworks) {
 
         List<StudentWithNestedHomeworksDTO> studentsWithNestedHomeworks = new ArrayList<>();
 
         Long id;
-        Set<HomeworkStatusDTO> states = new HashSet<>();
+        List<HomeworkStatusDTO> states = new ArrayList<>();
 
         Long pivotId = studentHomeworks.get(0).getId();
 
@@ -99,12 +91,12 @@ public class StudentMapper {
     }
 
     public List<StudentWithNestedAssistancesDTO>
-            transformInStudentsWithNestedAssistances(List<StudentWithAssistanceDTO> studentAssistances) {
+    transformInStudentsWithNestedAssistances(List<StudentWithAssistanceDTO> studentAssistances) {
 
         List<StudentWithNestedAssistancesDTO> studentsWithNestedAssistances = new ArrayList<>();
 
         Long id;
-        Set<AssistancesStatusDTO> states = new HashSet<>();
+        List<AssistancesStatusDTO> states = new ArrayList<>();
 
         Long pivotId = studentAssistances.get(0).getId();
 

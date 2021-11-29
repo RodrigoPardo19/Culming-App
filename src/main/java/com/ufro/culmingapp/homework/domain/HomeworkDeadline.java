@@ -1,6 +1,5 @@
 package com.ufro.culmingapp.homework.domain;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,7 +25,7 @@ public class HomeworkDeadline {
     }
 
     public HomeworkDeadline(String deadline)
-            throws NullFieldNotPermitted, ParseException {
+            throws NullFieldNotPermitted, DateTimeParseException {
         if (isNull(deadline)) {
             throw new NullFieldNotPermitted("EvaluationDate");
         }

@@ -12,11 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
-import com.ufro.culmingapp.studenthomework.domain.StudentHomework;
+import com.ufro.culmingapp.student.domain.StudentHomework;
 import com.ufro.culmingapp.subject.domain.Subject;
 
 @Entity
@@ -24,7 +25,8 @@ import com.ufro.culmingapp.subject.domain.Subject;
 public class Homework {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "homework_generator")
+    @SequenceGenerator(name = "homework_generator", sequenceName = "seq_homeworks", allocationSize = 1)
     private Long id;
 
     @Embedded

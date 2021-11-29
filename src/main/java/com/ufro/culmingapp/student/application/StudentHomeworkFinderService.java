@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.ufro.culmingapp.student.application.DTOs.StudentWithHomeworkDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
+import com.ufro.culmingapp.student.domain.StudentHomework;
 import com.ufro.culmingapp.student.domain.StudentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
