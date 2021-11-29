@@ -1,30 +1,21 @@
 package com.ufro.culmingapp.assistance.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
 import com.ufro.culmingapp.studentassistance.domain.StudentAssistance;
 import com.ufro.culmingapp.subject.domain.Subject;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "assistances")
 public class Assistance {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assistance_generator")
+    @SequenceGenerator(name = "assistance_generator", sequenceName = "seq_assistances", allocationSize = 1)
     private Long id;
 
     @Embedded
