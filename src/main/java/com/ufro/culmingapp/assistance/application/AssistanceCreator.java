@@ -8,6 +8,9 @@ import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.course.domain.exceptions.CourseNotFound;
 import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
+import com.ufro.culmingapp.student.application.StudentAssistanceCreator;
+import com.ufro.culmingapp.student.application.StudentFinderService;
+import com.ufro.culmingapp.student.domain.Student;
 import com.ufro.culmingapp.subject.application.SubjectFinderService;
 import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.subject.domain.exceptions.SubjectNotFound;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AssistanceCreator {
@@ -27,6 +31,12 @@ public class AssistanceCreator {
 
     @Autowired
     private CourseFinderService courseFinder;
+
+    @Autowired
+    private StudentAssistanceCreator studentAssistanceCreator;
+
+    @Autowired
+    private StudentFinderService studentFinder;
 
     public void create(AssistanceDate date, Integer courseId, Integer subjectId)
             throws NullFieldNotPermitted, SubjectNotFound, CourseNotFound {
@@ -42,6 +52,9 @@ public class AssistanceCreator {
         newAssistance.setCourse(course);
 
         repository.save(newAssistance);
+
+        List<Student> students = studentFinder.getStudendstakingASubjectInACourse(courseId, subjectId);
+        studentAssistanceCreator.initStudentAssistancesToPresent(newAssistance, students);
 
     }
 

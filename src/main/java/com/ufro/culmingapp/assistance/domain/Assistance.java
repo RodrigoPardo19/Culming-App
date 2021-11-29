@@ -2,7 +2,7 @@ package com.ufro.culmingapp.assistance.domain;
 
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
-import com.ufro.culmingapp.studentassistance.domain.StudentAssistance;
+import com.ufro.culmingapp.student.domain.StudentAssistance;
 import com.ufro.culmingapp.subject.domain.Subject;
 
 import javax.persistence.*;

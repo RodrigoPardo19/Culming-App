@@ -1,4 +1,4 @@
-package com.ufro.culmingapp.studentassistance.domain;
+package com.ufro.culmingapp.student.domain;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -10,7 +10,6 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.ufro.culmingapp.assistance.domain.Assistance;
-import com.ufro.culmingapp.student.domain.Student;
 
 @Entity
 @Table(name = "students_assistances")

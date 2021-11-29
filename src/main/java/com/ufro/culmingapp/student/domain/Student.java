@@ -3,7 +3,6 @@ package com.ufro.culmingapp.student.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufro.culmingapp.school.domain.School;
 import com.ufro.culmingapp.shared.domain.valueobjects.*;
-import com.ufro.culmingapp.studentassistance.domain.StudentAssistance;
 import com.ufro.culmingapp.studentcourse.domain.StudentCourse;
 import com.ufro.culmingapp.studentsubject.domain.StudentSubject;
 import com.ufro.culmingapp.tutor.domain.Tutor;
