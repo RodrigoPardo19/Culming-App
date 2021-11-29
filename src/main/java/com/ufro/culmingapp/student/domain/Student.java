@@ -1,32 +1,16 @@
 package com.ufro.culmingapp.student.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ufro.culmingapp.school.domain.School;
+import com.ufro.culmingapp.shared.domain.valueobjects.*;
 import com.ufro.culmingapp.studentassistance.domain.StudentAssistance;
 import com.ufro.culmingapp.studentcourse.domain.StudentCourse;
 import com.ufro.culmingapp.studentsubject.domain.StudentSubject;
-import com.ufro.culmingapp.school.domain.School;
-import com.ufro.culmingapp.shared.domain.valueobjects.Address;
-import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
-import com.ufro.culmingapp.shared.domain.valueobjects.Email;
-import com.ufro.culmingapp.shared.domain.valueobjects.EnrollmentDate;
-import com.ufro.culmingapp.shared.domain.valueobjects.ExitDate;
-import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
-import com.ufro.culmingapp.shared.domain.valueobjects.Password;
 import com.ufro.culmingapp.tutor.domain.Tutor;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -66,26 +50,33 @@ public class Student {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
     private Tutor tutor;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student")
     private Set<StudentCourse> courses = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student")
     private Set<StudentSubject> subjects = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student")
     private Set<StudentEvaluation> evaluations = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student")
     private Set<StudentHomework> homeworks = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student")
     private Set<StudentAssistance> assistances = new HashSet<>();
 
@@ -94,8 +85,8 @@ public class Student {
     }
 
     public Student(FullName fullName, DateOfBirth dateOfBirth, Email email, Address address,
-            EnrollmentDate enrollmentDate,
-            Boolean isActive) {
+                   EnrollmentDate enrollmentDate,
+                   Boolean isActive) {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.email = email;

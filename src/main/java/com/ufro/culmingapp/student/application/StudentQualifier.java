@@ -21,21 +21,20 @@ public class StudentQualifier {
 
     @Autowired
     private StudentEvaluationRepository repository;
-    
+
     @Autowired
     private StudentFinderService studentFinder;
 
     @Autowired
-    private EvaluationFinderService evaluationFinder; 
+    private EvaluationFinderService evaluationFinder;
 
     public void rate(Long studentId, Long evaluationId, Grade grade) throws StudentNotFound,
-     EvaluationNotFound {
+            EvaluationNotFound {
 
         Student student = studentFinder.findById(studentId);
-        Evaluation evaluation = evaluationFinder.findById(evaluationId); 
+        Evaluation evaluation = evaluationFinder.findById(evaluationId);
 
         StudentEvaluation studentEvaluation = new StudentEvaluation();
-
         studentEvaluation.setStudent(student);
         studentEvaluation.setEvaluation(evaluation);
         studentEvaluation.setGrade(grade);
@@ -44,14 +43,14 @@ public class StudentQualifier {
     }
 
     public StudentWithEvaluationDTO changeGrade(Long studentId, Long evaluationId, Grade grade) throws StudentNotFound,
-     EvaluationNotFound, StudentEvaluationNotFound {
+            EvaluationNotFound, StudentEvaluationNotFound {
 
         Student student = studentFinder.findById(studentId);
-        Evaluation evaluation = evaluationFinder.findById(evaluationId); 
+        Evaluation evaluation = evaluationFinder.findById(evaluationId);
 
         Optional<StudentEvaluation> studentEvaluation = repository.findByStudentIdAndEvaluationId(studentId, evaluationId);
 
-        if(!studentEvaluation.isPresent()) {
+        if (!studentEvaluation.isPresent()) {
             throw new StudentEvaluationNotFound(studentId, evaluationId);
         }
         StudentEvaluation evaluationChanged = studentEvaluation.get();
@@ -59,8 +58,8 @@ public class StudentQualifier {
 
         repository.save(evaluationChanged);
 
-        String firstName = student.getFullName().getFirstName(); 
-        String lastName = student.getFullName().getLastName(); 
+        String firstName = student.getFullName().getFirstName();
+        String lastName = student.getFullName().getLastName();
         Double gradeChanged = grade.getGrade();
 
         return new StudentWithEvaluationDTO(studentId, firstName, lastName, evaluationId, gradeChanged);

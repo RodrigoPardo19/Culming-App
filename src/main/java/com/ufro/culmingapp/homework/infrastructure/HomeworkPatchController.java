@@ -42,7 +42,6 @@ public class HomeworkPatchController {
 
             HomeworkDTO evaluationUpdated = updater.update(id, instruction, deadline, courseId, subjectId);
 
-            // To do buscar http response para las modificaciones
             return ResponseEntity.status(HttpStatus.CREATED).body(evaluationUpdated);
 
         } catch (NullFieldNotPermitted e) {

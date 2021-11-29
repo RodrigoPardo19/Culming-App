@@ -9,6 +9,7 @@ import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedAssistances
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
 
+import com.ufro.culmingapp.student.domain.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
