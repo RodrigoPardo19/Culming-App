@@ -48,7 +48,7 @@ public class StudentPatchController {
         }
     }
 
-    @PatchMapping("/students/{studentId}/homeworks/{homeworkId}/{stateId}")
+    @PatchMapping("/students/{studentId}/homeworks/{homeworkId}/state/{stateId}")
     public ResponseEntity<?> changetStateOfStudentHomework(@PathVariable Long studentId, @PathVariable Long homeworkId
             , @PathVariable Integer stateId) {
         try {
