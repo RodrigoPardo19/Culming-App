@@ -17,7 +17,7 @@ public class StudentWithNestedAssistancesDTO {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.states = states;
+        this.states = new ArrayList<>(states);
     }
 
     public Long getId() {

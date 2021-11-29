@@ -1,5 +1,6 @@
 package com.ufro.culmingapp.student.infrastructure;
 
+import com.ufro.culmingapp.assistance.domain.exceptions.AssistanceNotFound;
 import com.ufro.culmingapp.evaluation.domain.exceptions.EvaluationNotFound;
 import com.ufro.culmingapp.homework.application.DTOs.HomeworkStatusDTO;
 import com.ufro.culmingapp.homework.domain.exceptions.HomeworkNotFound;
@@ -9,9 +10,12 @@ import com.ufro.culmingapp.shared.domain.exceptions.GradeNotValid;
 import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
 import com.ufro.culmingapp.shared.domain.valueobjects.Grade;
 import com.ufro.culmingapp.shared.domain.valueobjects.GradeDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentAssistanceDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
+import com.ufro.culmingapp.student.application.StudentAssistanceUpdater;
 import com.ufro.culmingapp.student.application.StudentHomeworkUpdater;
 import com.ufro.culmingapp.student.application.StudentQualifier;
+import com.ufro.culmingapp.student.domain.exceptions.StudentAssistanceNotFound;
 import com.ufro.culmingapp.student.domain.exceptions.StudentEvaluationNotFound;
 import com.ufro.culmingapp.student.domain.exceptions.StudentHomeworkNotFound;
 import com.ufro.culmingapp.student.domain.exceptions.StudentNotFound;
@@ -30,6 +34,9 @@ public class StudentPatchController {
 
     @Autowired
     private StudentHomeworkUpdater studentHomeworkUpdater;
+
+    @Autowired
+    private StudentAssistanceUpdater studentAssistanceUpdater;
 
     @PatchMapping("/students/{studentId}/evaluations/{evaluationId}")
     public ResponseEntity<?> rateStudent(@PathVariable Long studentId, @PathVariable Long evaluationId,
@@ -60,6 +67,22 @@ public class StudentPatchController {
 
         } catch (StudentNotFound | HomeworkNotFound | HomeworkStateNotFound
                 | StudentHomeworkNotFound e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
+        }
+    }
+
+    @PatchMapping("/students/{studentId}/assistances/{assistanceId}/is-present/{isPresent}")
+    public ResponseEntity<?> changetStateOfStudentHomework(@PathVariable Long studentId,
+                                                           @PathVariable Long assistanceId,
+                                                           @PathVariable Boolean isPresent) {
+        try {
+            StudentAssistanceDTO studentAssistanceChanged =
+                    studentAssistanceUpdater.changeStudentAssistanceState(studentId,
+                            assistanceId, isPresent);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(studentAssistanceChanged);
+
+        } catch (StudentNotFound | AssistanceNotFound | StudentAssistanceNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }
     }
