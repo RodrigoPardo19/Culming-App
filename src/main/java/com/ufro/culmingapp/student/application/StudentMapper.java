@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentMapper {
@@ -127,5 +128,17 @@ public class StudentMapper {
                         states));
 
         return studentsWithNestedAssistances;
+    }
+
+    public StudentWithNestedEvaluationsDTO
+    transformInStudentWithNesteEvaluations(List<StudentWithEvaluationDTO> studentEvaluations) {
+        final int STUDENT_INDEX = 0;
+        List<GradeDTO> grades = studentEvaluations.stream()
+                .map(s -> new GradeDTO(s.getEvaluationId(), s.getGrade()))
+                .collect(Collectors.toList());
+        Long id = studentEvaluations.get(STUDENT_INDEX).getId();
+        String firstName = studentEvaluations.get(STUDENT_INDEX).getFirstName();
+        String lastName = studentEvaluations.get(STUDENT_INDEX).getLastName();
+        return new StudentWithNestedEvaluationsDTO(id, firstName, lastName, grades);
     }
 }

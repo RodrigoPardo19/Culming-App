@@ -50,13 +50,23 @@ public class StudentFinderService {
     }
 
     public List<Student> getStudendstakingASubjectInACourse(Integer courseId, Integer subjectId) {
-
         Optional<List<Student>> students = repository.fetchStudentsTakingASubjectInACourse(courseId, subjectId);
-
         if (students.isEmpty()) {
             return new ArrayList<>();
         }
         return students.get();
+    }
+
+
+    public StudentWithNestedEvaluationsDTO getEvaluationsOfStudentOfASubjectInACourse(Integer courseId,
+                                                                                      Integer subjectId,
+                                                                                      Long studentId) {
+        Optional<List<StudentWithEvaluationDTO>> studentsEvaluations = repository
+                .fetchEvaluationOfStudentOfASubjectInACourse(courseId, subjectId, studentId);
+        if (studentsEvaluations.isEmpty()) {
+            return new StudentWithNestedEvaluationsDTO();
+        }
+        return mapper.transformInStudentWithNesteEvaluations(studentsEvaluations.get());
     }
 
 
