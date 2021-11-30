@@ -69,5 +69,15 @@ public class StudentFinderService {
         return mapper.transformInStudentWithNesteEvaluations(studentsEvaluations.get());
     }
 
+    public StudentWithNestedEvaluationsDTO getWorkshopsOfStudentOfASubjectInACourse(Integer courseId,
+                                                                                    Integer subjectId,
+                                                                                    Long studentId) {
+        Optional<List<StudentWithEvaluationDTO>> studentsEvaluations = repository
+                .fetchWorkshopsOfStudentOfASubjectInACourse(courseId, subjectId, studentId);
+        if (studentsEvaluations.isEmpty()) {
+            return new StudentWithNestedEvaluationsDTO();
+        }
+        return mapper.transformInStudentWithNesteEvaluations(studentsEvaluations.get());
+    }
 
 }

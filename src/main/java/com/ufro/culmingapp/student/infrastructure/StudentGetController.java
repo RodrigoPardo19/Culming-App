@@ -64,10 +64,20 @@ public class StudentGetController {
     }
 
     @GetMapping("/courses/{courseId}/subjects/{subjectId}/students/{studentId}/evaluations")
-    public ResponseEntity<?> getStudentGradesInASubject(@PathVariable Integer courseId, @PathVariable Integer subjectId,
-                                                        @PathVariable Long studentId) {
+    public ResponseEntity<?> getStudentGradesOfEvaluationsInASubject(@PathVariable Integer courseId,
+                                                                     @PathVariable Integer subjectId,
+                                                                     @PathVariable Long studentId) {
         StudentWithNestedEvaluationsDTO studentEvaluations =
                 finder.getEvaluationsOfStudentOfASubjectInACourse(courseId, subjectId, studentId);
+        return ResponseEntity.status(HttpStatus.OK).body(studentEvaluations);
+    }
+
+    @GetMapping("/courses/{courseId}/subjects/{subjectId}/students/{studentId}/workshops")
+    public ResponseEntity<?> getStudentGradesOfWorkshopsInASubject(@PathVariable Integer courseId,
+                                                                   @PathVariable Integer subjectId,
+                                                                   @PathVariable Long studentId) {
+        StudentWithNestedEvaluationsDTO studentEvaluations =
+                finder.getWorkshopsOfStudentOfASubjectInACourse(courseId, subjectId, studentId);
         return ResponseEntity.status(HttpStatus.OK).body(studentEvaluations);
     }
 
