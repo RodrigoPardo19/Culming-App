@@ -146,7 +146,7 @@ public class StudentMapper {
     transformInStudentWithNesteHomeworks(List<StudentWithHomeworkDTO> studentHomeworks) {
         final int STUDENT_INDEX = 0;
         List<HomeworkStatusDTO> states = studentHomeworks.stream()
-                .map(s -> new HomeworkStatusDTO(s.getId(), s.getHomeworkStatus()))
+                .map(s -> new HomeworkStatusDTO(s.getHomeworkId(), s.getHomeworkStatus()))
                 .collect(Collectors.toList());
         Long id = studentHomeworks.get(STUDENT_INDEX).getId();
         String firstName = studentHomeworks.get(STUDENT_INDEX).getFirstName();
