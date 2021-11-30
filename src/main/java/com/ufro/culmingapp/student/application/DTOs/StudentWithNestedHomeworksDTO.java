@@ -12,6 +12,9 @@ public class StudentWithNestedHomeworksDTO {
     private String lastName;
     List<HomeworkStatusDTO> states = new ArrayList<>();
 
+    public StudentWithNestedHomeworksDTO() {
+    }
+
     public StudentWithNestedHomeworksDTO(Long id, String firstName, String lastName, List<HomeworkStatusDTO> states) {
         this.id = id;
         this.firstName = firstName;

@@ -1,7 +1,9 @@
 package com.ufro.culmingapp.student.application;
 
 import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithHomeworkDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
 import com.ufro.culmingapp.student.domain.Student;
 import com.ufro.culmingapp.student.domain.StudentRepository;
 import com.ufro.culmingapp.student.domain.exceptions.StudentNotFound;

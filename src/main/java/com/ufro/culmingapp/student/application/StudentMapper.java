@@ -141,4 +141,16 @@ public class StudentMapper {
         String lastName = studentEvaluations.get(STUDENT_INDEX).getLastName();
         return new StudentWithNestedEvaluationsDTO(id, firstName, lastName, grades);
     }
+
+    public StudentWithNestedHomeworksDTO
+    transformInStudentWithNesteHomeworks(List<StudentWithHomeworkDTO> studentHomeworks) {
+        final int STUDENT_INDEX = 0;
+        List<HomeworkStatusDTO> states = studentHomeworks.stream()
+                .map(s -> new HomeworkStatusDTO(s.getId(), s.getHomeworkStatus()))
+                .collect(Collectors.toList());
+        Long id = studentHomeworks.get(STUDENT_INDEX).getId();
+        String firstName = studentHomeworks.get(STUDENT_INDEX).getFirstName();
+        String lastName = studentHomeworks.get(STUDENT_INDEX).getLastName();
+        return new StudentWithNestedHomeworksDTO(id, firstName, lastName, states);
+    }
 }
