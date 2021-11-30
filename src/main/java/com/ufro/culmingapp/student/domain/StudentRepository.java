@@ -70,6 +70,14 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             @Param("courseId") Integer courseId, @Param("subjectId") Integer subjectId,
             @Param("start") LocalDate start, @Param("end") LocalDate end);
 
+    @Query("SELECT new com.ufro.culmingapp.student.application.DTOs.StudentWithAssistanceDTO(s.id, "
+            + "s.fullName.firstName, s.fullName.lastName, a.id, sa.isPresent) FROM Assistance a JOIN a.students sa "
+            + "JOIN sa.student s WHERE a.course.id = :courseId AND a.subject.id = :subjectId AND s.id = :studentId " +
+            "AND a.year.year = 2021 AND a.date.date BETWEEN :start AND :end")
+    Optional<List<StudentWithAssistanceDTO>> fetchAssistancesOfStudentOfASubjectInACourse(
+            @Param("courseId") Integer courseId, @Param("subjectId") Integer subjectId,
+            @Param("studentId") Long studentId, @Param("start") LocalDate start, @Param("end") LocalDate end);
+
     @Query("SELECT s FROM Student s JOIN s.courses sc JOIN s.subjects ss WHERE sc.course.id = :courseId AND "
             + "sc.year = 2021 AND ss.subject.id = :subjectId AND ss.year = 2021")
     Optional<List<Student>> fetchStudentsTakingASubjectInACourse(@Param("courseId") Integer courseId, @Param(

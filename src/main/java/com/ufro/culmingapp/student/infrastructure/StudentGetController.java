@@ -93,4 +93,16 @@ public class StudentGetController {
         return ResponseEntity.status(HttpStatus.OK).body(studentHomeworks);
     }
 
+    @GetMapping("/courses/{courseId}/subjects/{subjectId}/students/{studentId}/assistance/{month}/{year}")
+    public ResponseEntity<?> getStudentAssistanceInASubject(@PathVariable Integer courseId,
+                                                            @PathVariable Integer subjectId,
+                                                            @PathVariable Long studentId,
+                                                            @PathVariable Integer month,
+                                                            @PathVariable Integer year) {
+        StudentWithNestedAssistancesDTO studentAssistance =
+                studentAssistancesFinder.getAssistancesOfStudentOfASubjectInACourse(courseId, subjectId, studentId,
+                        month, year);
+        return ResponseEntity.status(HttpStatus.OK).body(studentAssistance);
+    }
+
 }
