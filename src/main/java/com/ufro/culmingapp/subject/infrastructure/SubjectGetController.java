@@ -14,7 +14,6 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RestController
-@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 public class SubjectGetController {
 
     @Autowired
