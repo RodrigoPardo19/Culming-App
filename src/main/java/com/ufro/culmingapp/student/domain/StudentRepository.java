@@ -20,6 +20,16 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<List<StudentWithEvaluationDTO>> fetchEvaluationsOfStudentsOfASubjectInACourse(
             @Param("courseId") Integer courseId, @Param("subjectId") Integer subjectId);
 
+
+    @Query("SELECT new com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO(s.id, "
+            + "s.fullName.firstName, s.fullName.lastName, e.id, st.grade.grade) FROM Evaluation e "
+            + "JOIN e.students st JOIN st.student s WHERE e.course.id = :courseId AND "
+            + "e.subject.id = :subjectId AND s.id = :studentId AND e.year.year = 2021 AND e.type.id = 1")
+    Optional<List<StudentWithEvaluationDTO>> fetchEvaluationOfStudentOfASubjectInACourse(
+            @Param("courseId") Integer courseId, @Param("subjectId") Integer subjectId,
+            @Param("studentId") Long studentId);
+
+
     @Query("SELECT new com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO(s.id, "
             + "s.fullName.firstName, s.fullName.lastName, e.id, st.grade.grade) FROM Evaluation e "
             + "JOIN e.students st JOIN st.student s WHERE e.course.id = :courseId AND "
