@@ -1,24 +1,13 @@
 package com.ufro.culmingapp.homework.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
 import com.ufro.culmingapp.student.domain.StudentHomework;
 import com.ufro.culmingapp.subject.domain.Subject;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "homeworks")
@@ -46,7 +35,7 @@ public class Homework {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "homework")
+    @OneToMany(mappedBy = "homework", cascade = CascadeType.ALL)
     private Set<StudentHomework> students = new HashSet<>();
 
     public Homework() {
@@ -54,7 +43,7 @@ public class Homework {
     }
 
     public Homework(HomeworkInstruction instruction, HomeworkDeadline deadline,
-            GenerationYear year) {
+                    GenerationYear year) {
         this.instruction = instruction;
         this.deadline = deadline;
         this.year = year;
