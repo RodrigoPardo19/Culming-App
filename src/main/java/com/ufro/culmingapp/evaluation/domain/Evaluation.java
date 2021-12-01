@@ -1,25 +1,14 @@
 package com.ufro.culmingapp.evaluation.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.evaluationtype.domain.EvaluationType;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
 import com.ufro.culmingapp.student.domain.StudentEvaluation;
 import com.ufro.culmingapp.subject.domain.Subject;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "evaluations")
@@ -27,7 +16,7 @@ public class Evaluation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "evaluation_generator")
-    @SequenceGenerator(name="evaluation_generator", sequenceName = "seq_evaluations", allocationSize = 1)
+    @SequenceGenerator(name = "evaluation_generator", sequenceName = "seq_evaluations", allocationSize = 1)
     private Long id;
 
     @Embedded
@@ -47,7 +36,7 @@ public class Evaluation {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @OneToMany(mappedBy = "evaluation")
+    @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL)
     private Set<StudentEvaluation> students = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
