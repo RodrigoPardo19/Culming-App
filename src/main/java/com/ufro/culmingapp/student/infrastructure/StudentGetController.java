@@ -1,5 +1,6 @@
 package com.ufro.culmingapp.student.infrastructure;
 
+import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedAssistancesDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
@@ -28,6 +29,14 @@ public class StudentGetController {
 
     @Autowired
     private StudentAssistanceFinder studentAssistancesFinder;
+
+    @GetMapping("/courses/{courseId}/subjects/{subjectId}/students")
+    public ResponseEntity<?> getStudentsTakingASubjetInACourse(
+            @PathVariable Integer courseId, @PathVariable Integer subjectId) {
+        List<StudentWithFullNameDTO> students = finder
+                .getStudentsWithFullNameTakingASubjectInACourse(courseId, subjectId);
+        return ResponseEntity.status(HttpStatus.OK).body(students);
+    }
 
     @GetMapping("/courses/{courseId}/subjects/{subjectId}/students-evaluations")
     public ResponseEntity<?> getEvaluationsOfStudentsOfASubjectInACourse(
