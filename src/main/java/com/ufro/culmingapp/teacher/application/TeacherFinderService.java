@@ -1,9 +1,5 @@
 package com.ufro.culmingapp.teacher.application;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
 import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectsDTO;
 import com.ufro.culmingapp.course.domain.Course;
@@ -12,14 +8,18 @@ import com.ufro.culmingapp.coursesubjectteacher.domain.CourseSubjectTeacher;
 import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.subject.domain.SubjectRepository;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherWithSubjectDTO;
 import com.ufro.culmingapp.teacher.domain.Teacher;
 import com.ufro.culmingapp.teacher.domain.TeacherRepository;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class TeacherFinderService {
@@ -74,6 +74,15 @@ public class TeacherFinderService {
         return mapper.transformTeacherWithSubjectInTeacherProfile(teacherWithSubjects.get());
     }
 
+    public List<TeacherMiniProfileDTO> findTeacherMiniProfile(Long id) throws TeacherNotFound {
+        Optional<List<TeacherMiniProfileDTO>> teachers = repository
+                .fetchTeachersWithMiniProfile(id);
+        if (!teachers.isPresent()) {
+            throw new TeacherNotFound(id);
+        }
+        return teachers.get();
+    }
+
     public Set<CourseSubjectTeacher> getSubjects(Long id) throws TeacherNotFound {
         Optional<Teacher> teacher = repository.findById(id);
         if (teacher.isPresent()) {
@@ -84,7 +93,7 @@ public class TeacherFinderService {
     }
 
     public List<Course> findCoursesWhereTeacherTaughtDuringTheYear(Long id, Integer year)
-        throws TeacherNotFound {
+            throws TeacherNotFound {
         Teacher teacher = this.findById(id);
         Optional<List<Course>> courses = courseRepository
                 .fetchCoursesWhereTeacherTaughtDuringTheYear(teacher.getId(),
@@ -93,7 +102,7 @@ public class TeacherFinderService {
     }
 
     public List<Subject> findSubjectsTeaughtByATeacherInACourse(Long teacherId, Long courseId)
-        throws TeacherNotFound {
+            throws TeacherNotFound {
         Teacher teacher = this.findById(teacherId);
         Optional<List<Subject>> subjects = subjectRepository
                 .findSubjectsTaughtByATeacherInACourse(teacher.getId(), courseId);
@@ -101,7 +110,7 @@ public class TeacherFinderService {
     }
 
     public List<CourseWithSubjectsDTO> findCoursesWithSubjectsTaughtByATeacher(Long id, Integer year)
-        throws TeacherNotFound {
+            throws TeacherNotFound {
         Teacher teacher = this.findById(id);
         Optional<List<CourseWithSubjectDTO>> coursesWithSubjects = repository
                 .fetchCoursesWithSubjectsWhereATeacherTeach(id);

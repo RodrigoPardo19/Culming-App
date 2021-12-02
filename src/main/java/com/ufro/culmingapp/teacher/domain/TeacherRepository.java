@@ -1,15 +1,15 @@
 package com.ufro.culmingapp.teacher.domain;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherWithSubjectDTO;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
@@ -25,6 +25,11 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             "FROM Teacher t JOIN t.subjects st JOIN st.subject s " +
             "WHERE t.id = :teacherId AND st.year = 2021")
     Optional<List<TeacherWithSubjectDTO>> fetchTeacherProfileById(@Param("teacherId") Long teacherId);
+
+    @Query("SELECT DISTINCT new com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO(" +
+            "t.id, t.fullName, t.address, t.phone, t.email) FROM Teacher t JOIN t.subjects st WHERE t.school.id = " +
+            ":schoolId AND st.year = 2021")
+    Optional<List<TeacherMiniProfileDTO>> fetchTeachersWithMiniProfile(@Param("schoolId") Long schoolId);
 
     @Query("SELECT new com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO("
             + "c.id, c.level, s.id as subjectId, s.name.name as subjectName) "
