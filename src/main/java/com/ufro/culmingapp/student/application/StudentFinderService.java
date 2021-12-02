@@ -1,9 +1,8 @@
 package com.ufro.culmingapp.student.application;
 
 import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithHomeworkDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
 import com.ufro.culmingapp.student.domain.Student;
 import com.ufro.culmingapp.student.domain.StudentRepository;
 import com.ufro.culmingapp.student.domain.exceptions.StudentNotFound;
@@ -59,6 +58,16 @@ public class StudentFinderService {
         return students.get();
     }
 
+    public List<StudentWithFullNameDTO> getStudentsWithFullNameTakingASubjectInACourse(Integer courseId,
+                                                                                       Integer subjectId) {
+        Optional<List<StudentWithFullNameDTO>> students =
+                repository.fetchStudentsWithFullNameTakingASubjectInACourse(courseId,
+                        subjectId);
+        if (students.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return students.get();
+    }
 
     public StudentWithNestedEvaluationsDTO getEvaluationsOfStudentOfASubjectInACourse(Integer courseId,
                                                                                       Integer subjectId,
