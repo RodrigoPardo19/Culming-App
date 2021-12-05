@@ -37,7 +37,7 @@ INSERT INTO subject_types (id, type) VALUES (2, 'Opcional');
 
 INSERT INTO subjects (id, name, subject_type_id) VALUES (1, 'Historia', 1);
 INSERT INTO subjects (id, name, subject_type_id) VALUES (2, 'Matemáticas', 1);
-INSERT INTO subjects (id, name, subject_type_id) VALUES (3, 'Bilogía', 1);
+INSERT INTO subjects (id, name, subject_type_id) VALUES (3, 'Biología', 1);
 INSERT INTO subjects (id, name, subject_type_id) VALUES (4, 'Ciencias Naturales', 1);
 INSERT INTO subjects (id, name, subject_type_id) VALUES (5, 'Física', 1);
 INSERT INTO subjects (id, name, subject_type_id) VALUES (6, 'Filosofía', 1);
