@@ -1,36 +1,20 @@
 package com.ufro.culmingapp.teacher.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.ufro.culmingapp.coursesubjectteacher.domain.CourseSubjectTeacher;
 import com.ufro.culmingapp.school.domain.School;
-import com.ufro.culmingapp.shared.domain.valueobjects.Address;
-import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
-import com.ufro.culmingapp.shared.domain.valueobjects.Email;
-import com.ufro.culmingapp.shared.domain.valueobjects.EnrollmentDate;
-import com.ufro.culmingapp.shared.domain.valueobjects.ExitDate;
-import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
-import com.ufro.culmingapp.shared.domain.valueobjects.Password;
-import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
+import com.ufro.culmingapp.shared.domain.valueobjects.*;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "teachers")
 public class Teacher {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teacher_generator")
+    @SequenceGenerator(name = "teacher_generator", sequenceName = "seq_teachers", allocationSize = 1)
     private Long id;
 
     @Embedded
@@ -58,6 +42,9 @@ public class Teacher {
     @Embedded
     private EnrollmentDate enrollmentDate;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     @Embedded
     private ExitDate exitDate;
 
@@ -72,15 +59,15 @@ public class Teacher {
         // Used only for spring
     }
 
-    public Teacher(FullName name, Email email, Address address, DateOfBirth dateOfBirth,
-            Phone phone,
-            EnrollmentDate enrollmentDate) {
+    public Teacher(FullName name, Email email, Address address, DateOfBirth dateOfBirth, Phone phone,
+                   EnrollmentDate enrollmentDate, Boolean isActive) {
         this.fullName = name;
         this.email = email;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.phone = phone;
         this.enrollmentDate = enrollmentDate;
+        this.isActive = isActive;
     }
 
     public Long getId() {
@@ -161,6 +148,14 @@ public class Teacher {
 
     public void setEnrollmentDate(EnrollmentDate enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
+    }
+
+    public Boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public ExitDate getExitDate() {

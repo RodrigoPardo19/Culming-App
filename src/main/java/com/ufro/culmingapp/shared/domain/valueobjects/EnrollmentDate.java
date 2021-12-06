@@ -1,15 +1,14 @@
 package com.ufro.culmingapp.shared.domain.valueobjects;
 
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
-
-import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Embeddable
 public class EnrollmentDate {
@@ -55,6 +54,10 @@ public class EnrollmentDate {
 
     public LocalDate getEnrollmentDate() {
         return this.enrollmentDate;
+    }
+
+    public String getStringEnrollmentDate() {
+        return this.formatter.format(enrollmentDate);
     }
 
     // Validation for date between start and end pending

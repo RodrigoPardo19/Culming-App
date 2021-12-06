@@ -26,9 +26,9 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             "WHERE t.id = :teacherId AND st.year = 2021")
     Optional<List<TeacherWithSubjectDTO>> fetchTeacherProfileById(@Param("teacherId") Long teacherId);
 
-    @Query("SELECT DISTINCT new com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO(" +
-            "t.id, t.fullName, t.address, t.phone, t.email) FROM Teacher t JOIN t.subjects st WHERE t.school.id = " +
-            ":schoolId AND st.year = 2021")
+    @Query("SELECT new com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO(" +
+            "t.id, t.fullName, t.address, t.phone, t.email) FROM Teacher t WHERE t.school.id = " +
+            ":schoolId AND t.isActive = true")
     Optional<List<TeacherMiniProfileDTO>> fetchTeachersWithMiniProfile(@Param("schoolId") Long schoolId);
 
     @Query("SELECT new com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO("
