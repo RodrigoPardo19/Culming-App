@@ -16,7 +16,8 @@ import java.util.Set;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_generator")
+    @SequenceGenerator(name = "student_generator", sequenceName = "seq_students", allocationSize = 1)
     private Long id;
 
     @Embedded

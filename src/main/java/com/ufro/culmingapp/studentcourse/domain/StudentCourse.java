@@ -1,26 +1,18 @@
 package com.ufro.culmingapp.studentcourse.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
 import com.ufro.culmingapp.student.domain.Student;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "students_courses")
 public class StudentCourse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_course_generator")
+    @SequenceGenerator(name = "student_course_generator", sequenceName = "seq_students_courses", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

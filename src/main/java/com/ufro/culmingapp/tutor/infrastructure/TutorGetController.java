@@ -32,6 +32,16 @@ public class TutorGetController {
         }
     }
 
+    @GetMapping("/schools/{id}/tutors")
+    public ResponseEntity<?> getSchoolTutors(@PathVariable Long id) {
+        try {
+            List<TutorWithFullNameDTO> tutors = finder.getSchoolTutors(id);
+            return ResponseEntity.ok(tutors);
+        } catch (TutorNotFound e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
+        }
+    }
+
     @GetMapping("/tutors/{id}/students")
     public ResponseEntity<?> getPupils(@PathVariable Long id) {
         List<StudentWithFullNameDTO> pupils = finder.getPupils(id);

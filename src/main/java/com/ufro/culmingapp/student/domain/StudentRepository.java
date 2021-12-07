@@ -1,9 +1,6 @@
 package com.ufro.culmingapp.student.domain;
 
-import com.ufro.culmingapp.student.application.DTOs.StudentWithAssistanceDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithHomeworkDTO;
+import com.ufro.culmingapp.student.application.DTOs.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -89,4 +86,9 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             ".subject.id = :subjectId AND ss.year = 2021")
     Optional<List<StudentWithFullNameDTO>> fetchStudentsWithFullNameTakingASubjectInACourse(
             @Param("courseId") Integer courseId, @Param("subjectId") Integer subjectId);
+
+    @Query("SELECT new com.ufro.culmingapp.student.application.DTOs.StudentMiniProfileDTO(" +
+            "s.id, s.fullName, s.address, s.email) FROM Student s WHERE s.school.id = " +
+            ":schoolId AND s.isActive = true")
+    Optional<List<StudentMiniProfileDTO>> fetchStudentsWithMiniProfile(@Param("schoolId") Long schoolId);
 }

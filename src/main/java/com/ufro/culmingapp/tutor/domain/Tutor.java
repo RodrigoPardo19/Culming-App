@@ -1,29 +1,19 @@
 package com.ufro.culmingapp.tutor.domain;
 
+import com.ufro.culmingapp.shared.domain.valueobjects.*;
+import com.ufro.culmingapp.student.domain.Student;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.ufro.culmingapp.shared.domain.valueobjects.Address;
-import com.ufro.culmingapp.shared.domain.valueobjects.Email;
-import com.ufro.culmingapp.shared.domain.valueobjects.FullName;
-import com.ufro.culmingapp.shared.domain.valueobjects.Password;
-import com.ufro.culmingapp.shared.domain.valueobjects.Phone;
-import com.ufro.culmingapp.student.domain.Student;
 
 @Entity
 @Table(name = "tutors")
 public class Tutor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tutor_generator")
+    @SequenceGenerator(name = "tutor_generator", sequenceName = "seq_tutors", allocationSize = 1)
     private Long id;
 
     @Embedded

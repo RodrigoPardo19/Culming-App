@@ -1,12 +1,11 @@
 package com.ufro.culmingapp.student.infrastructure;
 
-import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedAssistancesDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedHomeworksDTO;
+import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
+import com.ufro.culmingapp.student.application.DTOs.*;
 import com.ufro.culmingapp.student.application.StudentAssistanceFinder;
 import com.ufro.culmingapp.student.application.StudentFinderService;
 import com.ufro.culmingapp.student.application.StudentHomeworkFinderService;
+import com.ufro.culmingapp.student.domain.exceptions.StudentNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,6 +111,17 @@ public class StudentGetController {
                 studentAssistancesFinder.getAssistancesOfStudentOfASubjectInACourse(courseId, subjectId, studentId,
                         month, year);
         return ResponseEntity.status(HttpStatus.OK).body(studentAssistance);
+    }
+
+
+    @GetMapping("/schools/{id}/students")
+    public ResponseEntity<?> getSchoolStudents(@PathVariable Long id) {
+        try {
+            List<StudentMiniProfileDTO> students = finder.findSchoolStudents(id);
+            return ResponseEntity.status(HttpStatus.OK).body(students);
+        } catch (StudentNotFound e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

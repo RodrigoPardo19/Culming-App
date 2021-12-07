@@ -15,6 +15,7 @@ import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
 import com.ufro.culmingapp.student.application.StudentAssistanceUpdater;
 import com.ufro.culmingapp.student.application.StudentHomeworkUpdater;
 import com.ufro.culmingapp.student.application.StudentQualifier;
+import com.ufro.culmingapp.student.application.StudentRemover;
 import com.ufro.culmingapp.student.domain.exceptions.StudentAssistanceNotFound;
 import com.ufro.culmingapp.student.domain.exceptions.StudentEvaluationNotFound;
 import com.ufro.culmingapp.student.domain.exceptions.StudentHomeworkNotFound;
@@ -37,6 +38,9 @@ public class StudentPatchController {
 
     @Autowired
     private StudentAssistanceUpdater studentAssistanceUpdater;
+
+    @Autowired
+    private StudentRemover remover;
 
     @PatchMapping("/students/{studentId}/evaluations/{evaluationId}")
     public ResponseEntity<?> rateStudent(@PathVariable Long studentId, @PathVariable Long evaluationId,
@@ -84,6 +88,17 @@ public class StudentPatchController {
 
         } catch (StudentNotFound | AssistanceNotFound | StudentAssistanceNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
+        }
+    }
+
+    @PatchMapping("/students/{id}/remove")
+    public ResponseEntity<?> removeStudent(@PathVariable Long id) {
+        try {
+            remover.remove(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+
+        } catch (StudentNotFound e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.ufro.culmingapp.student.application;
 
+import com.ufro.culmingapp.student.application.DTOs.StudentMiniProfileDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithNestedEvaluationsDTO;
@@ -89,6 +90,15 @@ public class StudentFinderService {
             return new StudentWithNestedEvaluationsDTO();
         }
         return mapper.transformInStudentWithNesteEvaluations(studentsEvaluations.get());
+    }
+
+    public List<StudentMiniProfileDTO> findSchoolStudents(Long id) throws StudentNotFound {
+        Optional<List<StudentMiniProfileDTO>> students = repository
+                .fetchStudentsWithMiniProfile(id);
+        if (!students.isPresent()) {
+            throw new StudentNotFound(id);
+        }
+        return students.get();
     }
 
 }

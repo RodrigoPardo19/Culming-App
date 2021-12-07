@@ -88,7 +88,7 @@ public class PatchController {
                 "Hola, que tal está la tarde ? :D");
     }
 
-    @PatchMapping("teachers/{id}/remove")
+    @PatchMapping("/teachers/{id}/remove")
     public ResponseEntity<?> removeTeacher(@PathVariable Long id) {
         try {
             remover.remove(id);

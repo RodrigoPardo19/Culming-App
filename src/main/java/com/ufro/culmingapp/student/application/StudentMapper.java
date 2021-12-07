@@ -4,6 +4,7 @@ import com.ufro.culmingapp.assistance.application.DTOs.AssistancesStatusDTO;
 import com.ufro.culmingapp.homework.application.DTOs.HomeworkStatusDTO;
 import com.ufro.culmingapp.shared.domain.valueobjects.GradeDTO;
 import com.ufro.culmingapp.student.application.DTOs.*;
+import com.ufro.culmingapp.student.domain.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -164,5 +165,21 @@ public class StudentMapper {
         String firstName = studentAssistances.get(STUDENT_INDEX).getFirstName();
         String lastName = studentAssistances.get(STUDENT_INDEX).getLastName();
         return new StudentWithNestedAssistancesDTO(id, firstName, lastName, states);
+    }
+
+
+    public StudentDTO mapToStudentDTO(Student student, Integer courseId, Long tutorId, Integer year) {
+        Long id = student.getId();
+        String firstName = student.getFullName().getFirstName();
+        String middleName = student.getFullName().getMiddleName();
+        String lastName = student.getFullName().getLastName();
+        String secondSurname = student.getFullName().getSecondSurname();
+        String email = student.getEmail().getEmail();
+        String address = student.getAddress().getAddress();
+        String dateOfBirth = student.getDateOfBirth().getStringDateOfBirth();
+        String enrollmentDate = student.getEnrollmentDate().getStringEnrollmentDate();
+        Boolean isActive = student.getIsActive();
+        return new StudentDTO(id, firstName, middleName, lastName, secondSurname, email, address, dateOfBirth,
+                enrollmentDate, isActive, courseId, tutorId, year);
     }
 }
