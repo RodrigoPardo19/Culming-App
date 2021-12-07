@@ -26,13 +26,18 @@ public class SubjectFinderService {
     }
 
     public List<SubjectDTO> getSubjectsTakenByAStudent(Long studentId) {
-
         Optional<List<SubjectDTO>> subjects = repository.fetchSubjectsTakenByAStudent(studentId);
-
         if (subjects.isEmpty()) {
             return new ArrayList<>();
         }
+        return subjects.get();
+    }
 
+    public List<Subject> getRequiredSubjects() {
+        Optional<List<Subject>> subjects = repository.fetchRequiredSubjects();
+        if (subjects.isEmpty()) {
+            return new ArrayList<>();
+        }
         return subjects.get();
     }
 

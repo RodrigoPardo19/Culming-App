@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     @Query("SELECT new com.ufro.culmingapp.subject.application.DTOs.SubjectDTO(s.id, s.name.name) FROM Subject s JOIN " +
             " s.students sts WHERE sts.year = 2021 AND sts.student.id = :studentId")
     Optional<List<SubjectDTO>> fetchSubjectsTakenByAStudent(@Param("studentId") Long studentId);
+
+    @Query("SELECT s FROM Subject s WHERE s.type.id = 1")
+    Optional<List<Subject>> fetchRequiredSubjects();
 }

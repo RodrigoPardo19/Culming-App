@@ -1,27 +1,19 @@
 package com.ufro.culmingapp.studentsubject.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.ufro.culmingapp.shared.domain.valueobjects.GenerationYear;
 import com.ufro.culmingapp.shared.domain.valueobjects.Grade;
 import com.ufro.culmingapp.student.domain.Student;
 import com.ufro.culmingapp.subject.domain.Subject;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "students_subjects")
 public class StudentSubject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_subject_generator")
+    @SequenceGenerator(name = "student_subject_generator", sequenceName = "seq_students_subjects", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,6 +31,7 @@ public class StudentSubject {
     private Boolean isApproved;
 
     @Embedded
+    @AttributeOverride(name = "grade", column = @Column(name = "final_grade"))
     private Grade finalGrade;
 
     public StudentSubject() {

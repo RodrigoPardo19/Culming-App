@@ -34,6 +34,9 @@ public class StudentCreator {
     @Autowired
     private StudentCourseRegister studentCourseRegister;
 
+    @Autowired
+    private StudentSubjectRegister studentSubjectRegister;
+
 
     public StudentDTO create(FullName fullName, Email email, Address address, DateOfBirth dateOfBirth,
                              EnrollmentDate enrollmentDate, Boolean isActive, Long schoolId, Integer courseId,
@@ -53,6 +56,8 @@ public class StudentCreator {
         Long studentId = student.getId();
 
         studentCourseRegister.register(studentId, courseId, year);
+
+        studentSubjectRegister.registerRequiredSubjects(studentId, year);
 
         return mapper.mapToStudentDTO(student, courseId, tutorId, year.getYear());
     }
