@@ -1,7 +1,7 @@
 package com.ufro.culmingapp.tutor.infrastructure;
 
 import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithCourseAndFullnameDTO;
 import com.ufro.culmingapp.tutor.application.TutorFinder;
 import com.ufro.culmingapp.tutor.application.TutorWithFullNameDTO;
 import com.ufro.culmingapp.tutor.domain.TutorNotFound;
@@ -44,7 +44,7 @@ public class TutorGetController {
 
     @GetMapping("/tutors/{id}/students")
     public ResponseEntity<?> getPupils(@PathVariable Long id) {
-        List<StudentWithFullNameDTO> pupils = finder.getPupils(id);
+        List<StudentWithCourseAndFullnameDTO> pupils = finder.getPupils(id);
         return ResponseEntity.ok(pupils);
     }
 }

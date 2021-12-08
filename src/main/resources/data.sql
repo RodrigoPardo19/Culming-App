@@ -552,10 +552,10 @@ INSERT INTO students_courses (id, student_id, course_id, year) VALUES (17, 17, 9
 INSERT INTO students_courses (id, student_id, course_id, year) VALUES (18, 18, 9, 2021);
 INSERT INTO students_courses (id, student_id, course_id, year) VALUES (19, 19, 10, 2021);
 INSERT INTO students_courses (id, student_id, course_id, year) VALUES (20, 20, 10, 2021);
-INSERT INTO students_courses (id, student_id, course_id, year) VALUES (21, 2, 11, 2021);
-INSERT INTO students_courses (id, student_id, course_id, year) VALUES (22, 5, 11, 2021);
-INSERT INTO students_courses (id, student_id, course_id, year) VALUES (23, 10, 12, 2021);
-INSERT INTO students_courses (id, student_id, course_id, year) VALUES (24, 13, 12, 2021);
+INSERT INTO students_courses (id, student_id, course_id, year) VALUES (21, 2, 11, 2022);
+INSERT INTO students_courses (id, student_id, course_id, year) VALUES (22, 5, 11, 2022);
+INSERT INTO students_courses (id, student_id, course_id, year) VALUES (23, 10, 12, 2022);
+INSERT INTO students_courses (id, student_id, course_id, year) VALUES (24, 13, 12, 2022);
 
 INSERT INTO students_subjects (id, student_id, subject_id, year) VALUES (25, 1, 1, 2021);
 INSERT INTO students_subjects (id, student_id, subject_id, year) VALUES (26, 1, 2, 2021);

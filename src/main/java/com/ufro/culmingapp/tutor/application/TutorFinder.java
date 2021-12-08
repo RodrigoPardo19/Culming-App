@@ -1,6 +1,6 @@
 package com.ufro.culmingapp.tutor.application;
 
-import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentWithCourseAndFullnameDTO;
 import com.ufro.culmingapp.tutor.domain.Tutor;
 import com.ufro.culmingapp.tutor.domain.TutorNotFound;
 import com.ufro.culmingapp.tutor.domain.TutorRepository;
@@ -40,8 +40,8 @@ public class TutorFinder {
         return tutor.get();
     }
 
-    public List<StudentWithFullNameDTO> getPupils(Long id) {
-        Optional<List<StudentWithFullNameDTO>> pupils = repository.fetchTutorPupils(id);
+    public List<StudentWithCourseAndFullnameDTO> getPupils(Long id) {
+        Optional<List<StudentWithCourseAndFullnameDTO>> pupils = repository.fetchTutorPupils(id);
         return pupils.get();
     }
 }
