@@ -4,6 +4,7 @@ import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherWithSubjectDTO;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherWithoutEmailAndActivityDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,6 +26,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             "FROM Teacher t JOIN t.subjects st JOIN st.subject s " +
             "WHERE t.id = :teacherId AND st.year = 2021")
     Optional<List<TeacherWithSubjectDTO>> fetchTeacherProfileById(@Param("teacherId") Long teacherId);
+
+    @Query("SELECT new com.ufro.culmingapp.teacher.application.DTOs.TeacherWithoutEmailAndActivityDTO(t.id, " +
+            "t.fullName, t.address, t.dateOfBirth, t.phone, t.enrollmentDate) FROM Teacher t WHERE t.id = :teacherId")
+    Optional<TeacherWithoutEmailAndActivityDTO> fetchTeacherWithoutEmailAndActivity(@Param("teacherId") Long teacherId);
 
     @Query("SELECT new com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO(" +
             "t.id, t.fullName, t.address, t.phone, t.email) FROM Teacher t WHERE t.school.id = " +

@@ -7,10 +7,7 @@ import com.ufro.culmingapp.course.domain.CourseRepository;
 import com.ufro.culmingapp.coursesubjectteacher.domain.CourseSubjectTeacher;
 import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.subject.domain.SubjectRepository;
-import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
-import com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO;
-import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
-import com.ufro.culmingapp.teacher.application.DTOs.TeacherWithSubjectDTO;
+import com.ufro.culmingapp.teacher.application.DTOs.*;
 import com.ufro.culmingapp.teacher.domain.Teacher;
 import com.ufro.culmingapp.teacher.domain.TeacherRepository;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
@@ -38,6 +35,14 @@ public class TeacherFinderService {
     @Autowired
     public TeacherFinderService(TeacherRepository repository) {
         this.repository = repository;
+    }
+
+    public TeacherWithoutEmailAndActivityDTO findTeacher(Long id) throws TeacherNotFound {
+        Optional<TeacherWithoutEmailAndActivityDTO> teacher = repository.fetchTeacherWithoutEmailAndActivity(id);
+        if (teacher.isEmpty()) {
+            throw new TeacherNotFound(id);
+        }
+        return teacher.get();
     }
 
     public Teacher findById(Long id) throws TeacherNotFound {

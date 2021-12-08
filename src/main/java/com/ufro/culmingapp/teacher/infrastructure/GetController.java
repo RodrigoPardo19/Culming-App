@@ -8,6 +8,7 @@ import com.ufro.culmingapp.subject.domain.Subject;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherHomeDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherMiniProfileDTO;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherProfileDTO;
+import com.ufro.culmingapp.teacher.application.DTOs.TeacherWithoutEmailAndActivityDTO;
 import com.ufro.culmingapp.teacher.application.TeacherFinderService;
 import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,18 @@ public class GetController {
         try {
             TeacherProfileDTO profile = finder.findTeacherProfile(id);
             return ResponseEntity.status(HttpStatus.OK).body(profile);
+        } catch (TeacherNotFound e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/teachers/{id}")
+    public ResponseEntity<?> getTeacherForAdmin(@PathVariable Long id) {
+        try {
+            TeacherWithoutEmailAndActivityDTO teacher = finder.findTeacher(id);
+            return ResponseEntity.status(HttpStatus.OK).body(teacher);
         } catch (TeacherNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
