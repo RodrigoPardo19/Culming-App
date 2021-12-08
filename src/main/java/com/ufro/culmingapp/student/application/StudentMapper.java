@@ -182,4 +182,17 @@ public class StudentMapper {
         return new StudentDTO(id, firstName, middleName, lastName, secondSurname, email, address, dateOfBirth,
                 enrollmentDate, isActive, courseId, tutorId, year);
     }
+
+    public StudentWithoutCourseAndTutorDTO mapToStudentDTOWithoutCourseAndTutor(Student student) {
+        Long id = student.getId();
+        String firstName = student.getFullName().getFirstName();
+        String middleName = student.getFullName().getMiddleName();
+        String lastName = student.getFullName().getLastName();
+        String secondSurname = student.getFullName().getSecondSurname();
+        String address = student.getAddress().getAddress();
+        String dateOfBirth = student.getDateOfBirth().getStringDateOfBirth();
+        String enrollmentDate = student.getEnrollmentDate().getStringEnrollmentDate();
+        return new StudentWithoutCourseAndTutorDTO(id, firstName, middleName, lastName, secondSurname, address,
+                dateOfBirth, enrollmentDate);
+    }
 }

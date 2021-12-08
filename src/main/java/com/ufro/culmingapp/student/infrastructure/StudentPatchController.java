@@ -8,10 +8,8 @@ import com.ufro.culmingapp.homework.domain.exceptions.HomeworkStateNotFound;
 import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
 import com.ufro.culmingapp.shared.domain.exceptions.GradeNotValid;
 import com.ufro.culmingapp.shared.domain.exceptions.NullFieldNotPermitted;
-import com.ufro.culmingapp.shared.domain.valueobjects.Grade;
-import com.ufro.culmingapp.shared.domain.valueobjects.GradeDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentAssistanceDTO;
-import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
+import com.ufro.culmingapp.shared.domain.valueobjects.*;
+import com.ufro.culmingapp.student.application.DTOs.*;
 import com.ufro.culmingapp.student.application.StudentAssistanceUpdater;
 import com.ufro.culmingapp.student.application.StudentHomeworkUpdater;
 import com.ufro.culmingapp.student.application.StudentQualifier;
@@ -24,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.time.format.DateTimeParseException;
 
 
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
@@ -41,6 +42,9 @@ public class StudentPatchController {
 
     @Autowired
     private StudentRemover remover;
+
+    @Autowired
+    private StudentUpdater updater;
 
     @PatchMapping("/students/{studentId}/evaluations/{evaluationId}")
     public ResponseEntity<?> rateStudent(@PathVariable Long studentId, @PathVariable Long evaluationId,
@@ -98,6 +102,27 @@ public class StudentPatchController {
             return ResponseEntity.status(HttpStatus.OK).build();
 
         } catch (StudentNotFound e) {
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/students/{id}")
+    public ResponseEntity<?> changeStudent(@PathVariable Long id, @RequestBody StudentDTO studentChanged)
+            throws ParseException {
+        try {
+
+            FullName fullName = new FullName(studentChanged.getFirstName(), studentChanged.getMiddleName(),
+                    studentChanged.getLastName(), studentChanged.getSecondSurname());
+            Address address = new Address(studentChanged.getAddress());
+            DateOfBirth dateOfBirth = new DateOfBirth(studentChanged.getDateOfBirth());
+            EnrollmentDate enrollmentDate = new EnrollmentDate(studentChanged.getEnrollmentDate());
+
+            StudentWithoutCourseAndTutorDTO student = updater.update(id, fullName, address, dateOfBirth,
+                    enrollmentDate);
+
+            return ResponseEntity.status(HttpStatus.OK).body(student);
+
+        } catch (NullFieldNotPermitted | DateTimeParseException | StudentNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
