@@ -16,6 +16,7 @@ import com.ufro.culmingapp.subject.domain.exceptions.SubjectNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,28 +31,24 @@ public class HomeworkPatchController {
     private HomeworkUpdater updater;
 
     @PatchMapping("/homeworks/{id}")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> changeEvaluation(@PathVariable Long id,
             @RequestBody HomeworkWithSubjectWithCourseDTO homework) {
-
         try {
-
             HomeworkInstruction instruction = new HomeworkInstruction(homework.getInstruction());
             HomeworkDeadline deadline = new HomeworkDeadline(homework.getDeadline());
             Integer subjectId = homework.getSubjectId();
             Integer courseId = homework.getCourseId();
-
             HomeworkDTO evaluationUpdated = updater.update(id, instruction, deadline, courseId, subjectId);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(evaluationUpdated);
-
         } catch (NullFieldNotPermitted e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
-        } catch (HomeworkNotFound | SubjectNotFound | CourseNotFound  e) {
+        } catch (HomeworkNotFound | SubjectNotFound | CourseNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         } catch (DateTimeParseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }
 
     }
-    
+
 }

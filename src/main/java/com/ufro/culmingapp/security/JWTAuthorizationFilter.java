@@ -42,7 +42,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
         try {
             token = Jwts.parserBuilder()
-                    .setSigningKey(Keys.secretKeyFor(SignatureAlgorithm.HS256))
+                    .setSigningKey(JWTAuthenticationFilter.SECRET_KEY)
                     .build()
                     .parseClaimsJws(header.replace("Bearer ", "")).getBody();
             isValidToken = true;
@@ -57,7 +57,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             Object roles = token.get("authorities");
 
             Collection<? extends GrantedAuthority> authorities = Arrays
-                    .asList(new ObjectMapper().readValue(roles.toString().getBytes(), SimpleGrantedAuthority[].class));
+                    .asList(new ObjectMapper()
+                            .addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthoritiesMixin.class)
+                            .readValue(roles.toString().getBytes(), SimpleGrantedAuthority[].class));
 
             authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
         }
