@@ -1,5 +1,6 @@
 package com.ufro.culmingapp.teacher.domain;
 
+import com.ufro.culmingapp.Role.domain.Role;
 import com.ufro.culmingapp.coursesubjectteacher.domain.CourseSubjectTeacher;
 import com.ufro.culmingapp.school.domain.School;
 import com.ufro.culmingapp.shared.domain.valueobjects.*;
@@ -54,6 +55,10 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher")
     private Set<CourseSubjectTeacher> subjects = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public Teacher() {
         // Used only for spring
@@ -183,4 +188,11 @@ public class Teacher {
         this.subjects = subjects;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

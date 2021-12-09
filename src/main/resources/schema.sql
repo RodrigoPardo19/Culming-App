@@ -2,6 +2,7 @@ CREATE SEQUENCE seq_students START 21 INCREMENT 1;
 CREATE SEQUENCE seq_teachers START 15 INCREMENT 1;
 CREATE SEQUENCE seq_tutors START 11 INCREMENT 1;
 CREATE SEQUENCE seq_administrators;
+CREATE SEQUENCE seq_authorities START 5 INCREMENT 1;
 CREATE SEQUENCE seq_courses;
 CREATE SEQUENCE seq_subjects;
 CREATE SEQUENCE seq_students_subjects START 175 INCREMENT 1;
@@ -53,6 +54,7 @@ CREATE TABLE teachers (
   is_active       boolean NOT NULL,
   exit_date       date CHECK(exit_date > '1920-01-01' AND exit_date < '2100-12-30'),
   school_id       bigint NOT NULL,
+  role_id         int NOT NULL,
   PRIMARY KEY (id));
 
 CREATE TABLE tutors (
@@ -82,6 +84,11 @@ CREATE TABLE administrators (
   enrollment_date date NOT NULL CHECK(enrollment_date > '1920-01-01' AND enrollment_date < '2100-12-30'),
   exit_date       date CHECK(exit_date > '1920-01-01' AND exit_date < '2100-12-30'),
   school_id       bigint NOT NULL,
+  PRIMARY KEY (id));
+
+CREATE TABLE authorities (
+  id              int NOT NULL,
+  authority       varchar(30) NOT NULL,
   PRIMARY KEY (id));
 
 CREATE TABLE courses (
@@ -210,6 +217,7 @@ ALTER TABLE homeworks ADD CONSTRAINT FKhomeworks270660 FOREIGN KEY (subject_id) 
 ALTER TABLE courses_subjects_teachers ADD CONSTRAINT FKcourses_su346873 FOREIGN KEY (course_id) REFERENCES courses (id);
 ALTER TABLE courses_subjects_teachers ADD CONSTRAINT FKcourses_su25427 FOREIGN KEY (subject_id) REFERENCES subjects (id);
 ALTER TABLE teachers ADD CONSTRAINT FKteachers702696 FOREIGN KEY (school_id) REFERENCES schools (id);
+ALTER TABLE teachers ADD CONSTRAINT FKAuthorities712769 FOREIGN KEY (role_id) REFERENCES authorities (id);
 ALTER TABLE students ADD CONSTRAINT FKstudents29174 FOREIGN KEY (school_id) REFERENCES schools (id);
 ALTER TABLE evaluations ADD CONSTRAINT FKevaluation603687 FOREIGN KEY (type_id) REFERENCES evaluation_types (id);
 ALTER TABLE courses_schools ADD CONSTRAINT FKcourses_sc849875 FOREIGN KEY (course_id) REFERENCES courses (id);

@@ -54,7 +54,7 @@ public class TeacherFinderService {
     }
 
     public Teacher findByEmail(String email) throws TeacherNotFound {
-        Optional<Teacher> teacher = repository.findByEmail(email);
+        Optional<Teacher> teacher = repository.fetchByEmail(email);
         if (teacher.isPresent()) {
             return teacher.get();
         } else {
