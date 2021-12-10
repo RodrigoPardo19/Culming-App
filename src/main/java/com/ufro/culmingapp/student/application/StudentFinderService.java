@@ -31,8 +31,12 @@ public class StudentFinderService {
         return student.get();
     }
 
-    public List<StudentWithNestedEvaluationsDTO>
-    getEvaluationsOfStudentsOfASubjectInACourse(Integer courseId, Integer subjectId) {
+    public Optional<Student> getByEmail(String email) {
+        return repository.fetchByEmail(email);
+    }
+
+    public List<StudentWithNestedEvaluationsDTO> getEvaluationsOfStudentsOfASubjectInACourse(Integer courseId,
+            Integer subjectId) {
         Optional<List<StudentWithEvaluationDTO>> studentsEvaluations = repository
                 .fetchEvaluationsOfStudentsOfASubjectInACourse(courseId, subjectId);
         if (studentsEvaluations.get().isEmpty()) {
@@ -41,8 +45,8 @@ public class StudentFinderService {
         return mapper.transformInNestedObject(studentsEvaluations.get());
     }
 
-    public List<StudentWithNestedEvaluationsDTO>
-    getWorkshopsOfStudentsOfASubjectInACourse(Integer courseId, Integer subjectId) {
+    public List<StudentWithNestedEvaluationsDTO> getWorkshopsOfStudentsOfASubjectInACourse(Integer courseId,
+            Integer subjectId) {
         Optional<List<StudentWithEvaluationDTO>> studentsWorkshops = repository
                 .fetchWorkshopsOfStudentsOfASubjectInACourse(courseId, subjectId);
         if (studentsWorkshops.get().isEmpty()) {
@@ -60,10 +64,10 @@ public class StudentFinderService {
     }
 
     public List<StudentWithFullNameDTO> getStudentsWithFullNameTakingASubjectInACourse(Integer courseId,
-                                                                                       Integer subjectId) {
-        Optional<List<StudentWithFullNameDTO>> students =
-                repository.fetchStudentsWithFullNameTakingASubjectInACourse(courseId,
-                        subjectId);
+            Integer subjectId) {
+        Optional<List<StudentWithFullNameDTO>> students = repository.fetchStudentsWithFullNameTakingASubjectInACourse(
+                courseId,
+                subjectId);
         if (students.isEmpty()) {
             return new ArrayList<>();
         }
@@ -71,8 +75,8 @@ public class StudentFinderService {
     }
 
     public StudentWithNestedEvaluationsDTO getEvaluationsOfStudentOfASubjectInACourse(Integer courseId,
-                                                                                      Integer subjectId,
-                                                                                      Long studentId) {
+            Integer subjectId,
+            Long studentId) {
         Optional<List<StudentWithEvaluationDTO>> studentsEvaluations = repository
                 .fetchEvaluationOfStudentOfASubjectInACourse(courseId, subjectId, studentId);
         if (studentsEvaluations.isEmpty()) {
@@ -82,8 +86,8 @@ public class StudentFinderService {
     }
 
     public StudentWithNestedEvaluationsDTO getWorkshopsOfStudentOfASubjectInACourse(Integer courseId,
-                                                                                    Integer subjectId,
-                                                                                    Long studentId) {
+            Integer subjectId,
+            Long studentId) {
         Optional<List<StudentWithEvaluationDTO>> studentsEvaluations = repository
                 .fetchWorkshopsOfStudentOfASubjectInACourse(courseId, subjectId, studentId);
         if (studentsEvaluations.isEmpty()) {

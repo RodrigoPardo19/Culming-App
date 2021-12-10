@@ -62,6 +62,10 @@ public class TeacherFinderService {
         }
     }
 
+    public Optional<Teacher> getByEmail(String email) {
+        return repository.fetchByEmail(email);
+    }
+
     public TeacherHomeDTO findTeacherHome(Long id) throws TeacherNotFound {
         Optional<TeacherHomeDTO> teacherHome = repository.fetchTeacherHomeById(id);
         if (!teacherHome.isPresent()) {

@@ -91,4 +91,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "s.id, s.fullName, s.address, s.email) FROM Student s WHERE s.school.id = " +
             ":schoolId AND s.isActive = true")
     Optional<List<StudentMiniProfileDTO>> fetchStudentsWithMiniProfile(@Param("schoolId") Long schoolId);
+
+    @Query("SELECT s FROM Student s WHERE s.email.email = :email")
+    Optional<Student> fetchByEmail(@Param("email") String email);
 }

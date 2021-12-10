@@ -24,4 +24,7 @@ public interface TutorRepository extends JpaRepository<Tutor, Long> {
             "JOIN t.students st WHERE st.school.id = :schoolId ORDER BY t.id")
     Optional<List<TutorWithFullNameDTO>> fetchSchoolTutors(@Param("schoolId") Long schoolId);
 
+    @Query("SELECT t FROM Tutor t WHERE t.email.email = :email")
+    Optional<Tutor> fetchByEmail(@Param("email") String email);
+
 }
