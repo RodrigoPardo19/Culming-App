@@ -38,6 +38,10 @@ public class JpaUserDetailsService implements UserDetailsService {
     @Autowired
     private AdministratorFinder adminFinder;
 
+    /*
+     * ToDo: Este snippet code es basura y se necesita replantear el dominio para
+     * obtener las credenciales de los usuarios (Tal vez con herencia?)
+     */
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -36,4 +36,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     public Optional<List<CourseWithSubjectDTO>> fetchCoursesWithSubjectsTaughtByATeacher(
             @Param("id") Long id, @Param("year") Integer year);
 
+  @Query("SELECT c FROM StudentCourse sc JOIN sc.course c WHERE sc.student.id = :studentId AND sc.year.year = 2021")
+  public Optional<Course> fetchStudentCourseByYear(@Param("studentId") Long studentId);
+
 }

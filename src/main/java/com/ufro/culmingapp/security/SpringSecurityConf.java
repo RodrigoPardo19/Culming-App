@@ -24,7 +24,7 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers().permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), getApplicationContext()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

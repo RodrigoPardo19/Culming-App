@@ -21,10 +21,14 @@ public class CourseFinderService {
 
     public Course findById(Integer id) throws CourseNotFound {
         Optional<Course> course = repository.findById(id);
-        if(!course.isPresent()) {
+        if (!course.isPresent()) {
             throw new CourseNotFound(id);
         }
         return course.get();
+    }
+
+    public Optional<Course> findStudentCourseByYear(Long studentId) {
+        return repository.fetchStudentCourseByYear(studentId);
     }
 
 }
