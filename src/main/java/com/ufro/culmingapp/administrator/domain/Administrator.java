@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.ufro.culmingapp.Role.domain.Role;
 import com.ufro.culmingapp.school.domain.School;
 import com.ufro.culmingapp.shared.domain.valueobjects.Address;
 import com.ufro.culmingapp.shared.domain.valueobjects.DateOfBirth;
@@ -56,12 +57,15 @@ public class Administrator {
     @JoinColumn(name = "school_id")
     private School school;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     public Administrator() {
         // Used only for spring
     }
 
-    public Administrator(FullName fullName, Email email, Address address,
-            DateOfBirth dateOfBirth,
+    public Administrator(FullName fullName, Email email, Address address, DateOfBirth dateOfBirth,
             EnrollmentDate enrollmentDate) {
         this.fullName = fullName;
         this.email = email;
@@ -149,6 +153,14 @@ public class Administrator {
     public void setSchool(School school) {
         this.school = school;
         school.getAdministrators().add(this);
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

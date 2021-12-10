@@ -1,6 +1,7 @@
 package com.ufro.culmingapp.student.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ufro.culmingapp.Role.domain.Role;
 import com.ufro.culmingapp.school.domain.School;
 import com.ufro.culmingapp.shared.domain.valueobjects.*;
 import com.ufro.culmingapp.studentcourse.domain.StudentCourse;
@@ -80,13 +81,16 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private Set<StudentAssistance> assistances = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     public Student() {
         // Used only for spring
     }
 
     public Student(FullName fullName, DateOfBirth dateOfBirth, Email email, Address address,
-                   EnrollmentDate enrollmentDate,
-                   Boolean isActive) {
+            EnrollmentDate enrollmentDate, Boolean isActive) {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
@@ -239,6 +243,14 @@ public class Student {
 
     public void setAssistances(Set<StudentAssistance> assistances) {
         this.assistances = assistances;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }
