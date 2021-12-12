@@ -5,6 +5,7 @@ import com.ufro.culmingapp.subject.application.SubjectFinderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +21,9 @@ public class SubjectGetController {
     private SubjectFinderService finder;
 
     @GetMapping("/students/{studentId}/subjects")
+    @Secured({ "ROLE_STUDENT", "ROLE_TUTOR" })
     public ResponseEntity<?> getSubjectsTakenByAStudent(@PathVariable Long studentId) {
-
         List<SubjectDTO> subjects = finder.getSubjectsTakenByAStudent(studentId);
-
         return ResponseEntity.status(HttpStatus.OK).body(subjects);
     }
 }
-

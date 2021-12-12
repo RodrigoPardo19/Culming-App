@@ -16,6 +16,7 @@ import com.ufro.culmingapp.tutor.domain.TutorNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -31,20 +32,20 @@ public class StudenPostController {
     private StudentCreator creator;
 
     @PostMapping("/students/{studentId}/evaluations/{evaluationId}")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> rateStudent(@PathVariable Long studentId, @PathVariable Long evaluationId,
-                                         @RequestBody GradeDTO grade) {
-
+            @RequestBody GradeDTO grade) {
         try {
             Grade newGrade = new Grade(grade.getGrade());
             qualifier.rate(studentId, evaluationId, newGrade);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-
         } catch (NullFieldNotPermitted | GradeNotValid | StudentNotFound | EvaluationNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }
     }
 
     @PostMapping("/schools/{id}/students")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> addNewStudent(
             @PathVariable Long id, @RequestBody StudentDTO newStudent) {
         try {
@@ -58,12 +59,9 @@ public class StudenPostController {
             Integer courseId = newStudent.getCourseId();
             Long tutorId = newStudent.getTutorId();
             GenerationYear year = new GenerationYear(newStudent.getYear());
-
             StudentDTO student = creator.create(fullName, email, address, dateOfBirth, enrollmentDate,
                     isActive, id, courseId, tutorId, year);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(student);
-
         } catch (NullFieldNotPermitted | WrongEmailFormat | ParseException | SchoolNotFound | TutorNotFound
                 | CourseNotFound | StudentNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));

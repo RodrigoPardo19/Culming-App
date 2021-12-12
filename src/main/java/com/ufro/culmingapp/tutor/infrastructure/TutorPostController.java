@@ -13,6 +13,7 @@ import com.ufro.culmingapp.tutor.domain.TutorAge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ public class TutorPostController {
     private TutorCreator creator;
 
     @PostMapping("/tutors")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> addNewTutor(@RequestBody TutorDTO newTutor) {
         try {
             FullName fullName = new FullName(newTutor.getFirstName(), newTutor.getMiddleName(),
@@ -33,11 +35,8 @@ public class TutorPostController {
             Email email = new Email(newTutor.getEmail());
             Address address = new Address(newTutor.getAddress());
             TutorAge age = new TutorAge(newTutor.getAge());
-
             TutorDTO tutor = creator.create(fullName, age, email, address);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(tutor);
-
         } catch (NullFieldNotPermitted | WrongEmailFormat | AgeNotAccepted e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }

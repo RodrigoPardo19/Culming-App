@@ -23,7 +23,7 @@ public class TeacherCreator {
     private TeacherMapper mapper;
 
     public TeacherDTO create(FullName fullName, Email email, Address address, DateOfBirth dateOfBirth, Phone phone,
-                             EnrollmentDate enrollmentDate, Boolean isActive, Long schoolId) throws SchoolNotFound {
+            EnrollmentDate enrollmentDate, Boolean isActive, Long schoolId) throws SchoolNotFound {
 
         School school = schoolFinder.findById(schoolId);
 

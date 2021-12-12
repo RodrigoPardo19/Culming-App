@@ -1,5 +1,6 @@
 package com.ufro.culmingapp.tutor.domain;
 
+import com.ufro.culmingapp.Role.domain.Role;
 import com.ufro.culmingapp.shared.domain.valueobjects.*;
 import com.ufro.culmingapp.student.domain.Student;
 
@@ -36,6 +37,10 @@ public class Tutor {
 
     @OneToMany(mappedBy = "tutor")
     private List<Student> students = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public Tutor() {
         // Used only for spring
@@ -112,4 +117,11 @@ public class Tutor {
         this.students = students;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

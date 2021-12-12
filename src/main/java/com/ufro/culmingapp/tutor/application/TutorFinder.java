@@ -24,6 +24,10 @@ public class TutorFinder {
         return tutor.get();
     }
 
+    public Optional<Tutor> getByEmail(String email) {
+        return repository.fetchByEmail(email);
+    }
+
     public List<TutorWithFullNameDTO> getSchoolTutors(Long id) throws TutorNotFound {
         Optional<List<TutorWithFullNameDTO>> tutors = repository.fetchSchoolTutors(id);
         if (tutors.isEmpty()) {

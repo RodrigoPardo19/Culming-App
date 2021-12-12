@@ -16,6 +16,7 @@ import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -41,18 +42,16 @@ public class PatchController {
     private TeacherRemover remover;
 
     @PatchMapping("/teachers/{id}/profile")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> updateTeacherProfile(@PathVariable Long id,
-                                                  @RequestBody TeacherProfileDTO newTeacherProfile) throws ParseException {
+            @RequestBody TeacherProfileDTO newTeacherProfile) throws ParseException {
         try {
-
             Teacher teacher = updater.updateProfile(id,
                     new FullName(newTeacherProfile.getFirstName(), newTeacherProfile.getMiddleName(),
                             newTeacherProfile.getLastName(), newTeacherProfile.getSecondSurname()),
                     new Address(newTeacherProfile.getAddress()), new Phone(newTeacherProfile.getPhone()),
                     new DateOfBirth(newTeacherProfile.getDateOfBirth()), newTeacherProfile.getBiography());
-
             TeacherProfileDTO profile = finder.findTeacherProfile(id);
-
             return new ResponseEntity<>(profile, HttpStatus.OK);
         } catch (NullFieldNotPermitted | WrongLength | NumberFormatException | DateTimeParseException
                 | TeacherNotFound e) {
@@ -61,21 +60,18 @@ public class PatchController {
     }
 
     @PatchMapping("/teachers/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> changeTeacher(@PathVariable Long id, @RequestBody TeacherDTO teacherChanged)
             throws ParseException {
         try {
-
             FullName fullName = new FullName(teacherChanged.getFirstName(), teacherChanged.getMiddleName(),
                     teacherChanged.getLastName(), teacherChanged.getSecondSurname());
             Address address = new Address(teacherChanged.getAddress());
             DateOfBirth dateOfBirth = new DateOfBirth(teacherChanged.getDateOfBirth());
             Phone phone = new Phone(teacherChanged.getPhone());
             EnrollmentDate enrollmentDate = new EnrollmentDate(teacherChanged.getEnrollmentDate());
-
             TeacherDTO teacher = updater.update(id, fullName, address, dateOfBirth, phone, enrollmentDate);
-
             return ResponseEntity.status(HttpStatus.OK).body(teacher);
-
         } catch (NullFieldNotPermitted | WrongLength | DateTimeParseException | TeacherNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
@@ -89,6 +85,7 @@ public class PatchController {
     }
 
     @PatchMapping("/teachers/{id}/remove")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> removeTeacher(@PathVariable Long id) {
         try {
             remover.remove(id);

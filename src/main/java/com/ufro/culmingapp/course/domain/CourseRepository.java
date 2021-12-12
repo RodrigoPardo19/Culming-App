@@ -37,8 +37,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     public Optional<List<CourseWithSubjectDTO>> fetchCoursesWithSubjectsTaughtByATeacher(
             @Param("id") Long id, @Param("year") Integer year);
 
-    @Query("SELECT new com.ufro.culmingapp.course.application.DTOs.CourseDTO(c.id, c.level) FROM Course c JOIN c.schools s WHERE s.id = :schoolId")
-    public Optional<List<CourseDTO>> fetchAllSchoolCourses(@Param("schoolId") Long schoolId);
+  @Query("SELECT new com.ufro.culmingapp.course.application.DTOs.CourseDTO(c.id, c.level) FROM Course c JOIN c.schools s WHERE s.id = :schoolId")
+  public Optional<List<CourseDTO>> fetchAllSchoolCourses(@Param("schoolId") Long schoolId);
 
+  @Query("SELECT c FROM StudentCourse sc JOIN sc.course c WHERE sc.student.id = :studentId AND sc.year.year = 2021")
+  public Optional<Course> fetchStudentCourseByYear(@Param("studentId") Long studentId);
 
 }

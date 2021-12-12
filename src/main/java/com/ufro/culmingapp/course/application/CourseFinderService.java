@@ -38,4 +38,8 @@ public class CourseFinderService {
         return courses.get();
     }
 
+    public Optional<Course> findStudentCourseByYear(Long studentId) {
+        return repository.fetchStudentCourseByYear(studentId);
+    }
+
 }

@@ -42,6 +42,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             + "WHERE cs.teacher.id = :teacherId AND cs.year = 2021")
     Optional<List<CourseWithSubjectDTO>> fetchCoursesWithSubjectsWhereATeacherTeach(@Param("teacherId") Long teacherId);
 
-    Optional<Teacher> findByEmail(String email);
+    @Query("SELECT t FROM Teacher t WHERE t.email.email = :email")
+    Optional<Teacher> fetchByEmail(@Param("email") String email);
 
 }
