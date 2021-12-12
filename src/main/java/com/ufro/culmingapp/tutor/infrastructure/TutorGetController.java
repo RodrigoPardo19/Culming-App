@@ -24,7 +24,7 @@ public class TutorGetController {
     private TutorFinder finder;
 
     @GetMapping("/tutors/{id}")
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_TUTOR", "ROLE_ADMIN"})
     public ResponseEntity<?> getTutor(@PathVariable Long id) {
         try {
             TutorWithFullNameDTO tutor = finder.getTutorWithFullName(id);

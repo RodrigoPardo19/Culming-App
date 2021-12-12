@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.time.format.DateTimeParseException;
 
-@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
+    @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RestController
 public class PatchController {
 
@@ -84,7 +84,7 @@ public class PatchController {
                 "Hola, que tal está la tarde ? :D");
     }
 
-    @PatchMapping("/teachers/{id}/remove")
+    @DeleteMapping("/teachers/{id}/remove")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<?> removeTeacher(@PathVariable Long id) {
         try {

@@ -118,7 +118,7 @@ public class StudentGetController {
         }
 
         @GetMapping("/schools/{id}/students")
-        @Secured("ROLE_ADMIN")
+        @Secured({"ROLE_STUDENT", "ROLE_ADMIN"})
         public ResponseEntity<?> getSchoolStudents(@PathVariable Long id) {
                 try {
                         List<StudentMiniProfileDTO> students = finder.findSchoolStudents(id);

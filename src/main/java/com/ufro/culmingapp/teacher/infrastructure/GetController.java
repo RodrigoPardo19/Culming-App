@@ -55,6 +55,7 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> getTeacherForAdmin(@PathVariable Long id) {
         try {
             TeacherWithoutEmailAndActivityDTO teacher = finder.findTeacher(id);
@@ -67,7 +68,7 @@ public class GetController {
     }
 
     @GetMapping("/schools/{id}/teachers")
-    @Secured({ "ROLE_TEACHER", "ROLE_STUDENT", "ROLE_TUTOR" })
+    @Secured({ "ROLE_TEACHER", "ROLE_STUDENT", "ROLE_TUTOR", "ROLE_ADMIN" })
     public ResponseEntity<?> getTeachersMiniProfile(@PathVariable Long id) {
         try {
             List<TeacherMiniProfileDTO> teachers = finder.findTeacherMiniProfile(id);
@@ -80,6 +81,7 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{id}/courses/{year}")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getTeacherCourses(@PathVariable Long id, @PathVariable Integer year) {
         try {
             List<Course> courses = finder.findCoursesWhereTeacherTaughtDuringTheYear(id, year);
@@ -90,6 +92,7 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{teacherId}/courses/{courseId}/subjects")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getSubjectsTaughtByATeacherInACourse(@PathVariable Long teacherId,
             @PathVariable Long courseId) {
         try {
@@ -116,6 +119,7 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{id}/subjects")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getTeacherSubjects(@PathVariable Long id) {
         try {
             Set<CourseSubjectTeacher> subjects = finder.getSubjects(id);
