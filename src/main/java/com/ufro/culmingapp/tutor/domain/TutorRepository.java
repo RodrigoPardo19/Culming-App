@@ -20,8 +20,7 @@ public interface TutorRepository extends JpaRepository<Tutor, Long> {
     Optional<TutorWithFullNameDTO> fetchTutorWithFullName(@Param("id") Long id);
 
     @Query("SELECT DISTINCT new com.ufro.culmingapp.tutor.application.TutorWithFullNameDTO(t.id, t.fullName) FROM " +
-            "Tutor t " +
-            "JOIN t.students st WHERE st.school.id = :schoolId ORDER BY t.id")
+            "Tutor t ")
     Optional<List<TutorWithFullNameDTO>> fetchSchoolTutors(@Param("schoolId") Long schoolId);
 
     @Query("SELECT t FROM Tutor t WHERE t.email.email = :email")
