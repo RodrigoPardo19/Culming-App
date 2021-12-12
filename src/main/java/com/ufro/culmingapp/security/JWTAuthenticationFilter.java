@@ -9,8 +9,6 @@ import com.ufro.culmingapp.course.application.CourseFinderService;
 import com.ufro.culmingapp.course.domain.Course;
 import com.ufro.culmingapp.student.application.StudentFinderService;
 import com.ufro.culmingapp.student.domain.Student;
-import com.ufro.culmingapp.studentcourse.domain.StudentCourse;
-import com.ufro.culmingapp.studentcourse.domain.StudentCourseRepository;
 import com.ufro.culmingapp.teacher.application.TeacherFinderService;
 import com.ufro.culmingapp.teacher.application.DTOs.TeacherAuthenticationDTO;
 import com.ufro.culmingapp.teacher.domain.Teacher;
@@ -32,7 +30,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -43,11 +40,8 @@ import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
