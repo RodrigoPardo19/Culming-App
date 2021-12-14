@@ -31,7 +31,7 @@ public class StudentGetController {
         private StudentAssistanceFinder studentAssistancesFinder;
 
         @GetMapping("/courses/{courseId}/subjects/{subjectId}/students")
-        @Secured({"ROLE_STUDENT", "ROLE_TEACHER"})
+        @Secured({"ROLE_STUDENT", "ROLE_TEACHER", "ROLE_TUTOR"})
         public ResponseEntity<?> getStudentsTakingASubjetInACourse(
                         @PathVariable Integer courseId, @PathVariable Integer subjectId) {
                 List<StudentWithFullNameDTO> students = finder
