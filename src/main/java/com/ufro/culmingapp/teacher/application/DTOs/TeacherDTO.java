@@ -15,7 +15,7 @@ public class TeacherDTO {
     private Boolean isActive;
 
     public TeacherDTO(Long id, String firstName, String middleName, String lastName, String secondSurname, String email,
-                      String address, String dateOfBirth, String phone, String enrollmentDate, Boolean isActive) {
+            String address, String dateOfBirth, String phone, String enrollmentDate, Boolean isActive) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;

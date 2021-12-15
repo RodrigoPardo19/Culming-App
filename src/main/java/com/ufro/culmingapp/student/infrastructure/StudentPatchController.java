@@ -21,11 +21,11 @@ import com.ufro.culmingapp.student.domain.exceptions.StudentNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.time.format.DateTimeParseException;
-
 
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RestController
@@ -47,16 +47,13 @@ public class StudentPatchController {
     private StudentUpdater updater;
 
     @PatchMapping("/students/{studentId}/evaluations/{evaluationId}")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> rateStudent(@PathVariable Long studentId, @PathVariable Long evaluationId,
-                                         @RequestBody GradeDTO grade) {
+            @RequestBody GradeDTO grade) {
         try {
-
             Grade newGrade = new Grade(grade.getGrade());
-
             StudentWithEvaluationDTO evaluation = qualifier.changeGrade(studentId, evaluationId, newGrade);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(evaluation);
-
         } catch (NullFieldNotPermitted | GradeNotValid | StudentNotFound | EvaluationNotFound
                 | StudentEvaluationNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
@@ -64,15 +61,13 @@ public class StudentPatchController {
     }
 
     @PatchMapping("/students/{studentId}/homeworks/{homeworkId}/state/{stateId}")
-    public ResponseEntity<?> changetStateOfStudentHomework(@PathVariable Long studentId, @PathVariable Long homeworkId
-            , @PathVariable Integer stateId) {
+    @Secured("ROLE_TEACHER")
+    public ResponseEntity<?> changetStateOfStudentHomework(@PathVariable Long studentId, @PathVariable Long homeworkId,
+            @PathVariable Integer stateId) {
         try {
-
-            HomeworkStatusDTO newHomeworkStatus = studentHomeworkUpdater.changeStateOfHomework(studentId,
-                    homeworkId, stateId);
-
+            HomeworkStatusDTO newHomeworkStatus = studentHomeworkUpdater.changeStateOfHomework(studentId, homeworkId,
+                    stateId);
             return ResponseEntity.status(HttpStatus.CREATED).body(newHomeworkStatus);
-
         } catch (StudentNotFound | HomeworkNotFound | HomeworkStateNotFound
                 | StudentHomeworkNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
@@ -80,48 +75,42 @@ public class StudentPatchController {
     }
 
     @PatchMapping("/students/{studentId}/assistances/{assistanceId}/is-present/{isPresent}")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> changetStateOfStudentHomework(@PathVariable Long studentId,
-                                                           @PathVariable Long assistanceId,
-                                                           @PathVariable Boolean isPresent) {
+            @PathVariable Long assistanceId, @PathVariable Boolean isPresent) {
         try {
-            StudentAssistanceDTO studentAssistanceChanged =
-                    studentAssistanceUpdater.changeStudentAssistanceState(studentId,
-                            assistanceId, isPresent);
-
+            StudentAssistanceDTO studentAssistanceChanged = studentAssistanceUpdater.changeStudentAssistanceState(
+                    studentId, assistanceId, isPresent);
             return ResponseEntity.status(HttpStatus.CREATED).body(studentAssistanceChanged);
-
         } catch (StudentNotFound | AssistanceNotFound | StudentAssistanceNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }
     }
 
     @PatchMapping("/students/{id}/remove")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> removeStudent(@PathVariable Long id) {
         try {
             remover.remove(id);
             return ResponseEntity.status(HttpStatus.OK).build();
-
         } catch (StudentNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/students/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> changeStudent(@PathVariable Long id, @RequestBody StudentDTO studentChanged)
             throws ParseException {
         try {
-
             FullName fullName = new FullName(studentChanged.getFirstName(), studentChanged.getMiddleName(),
                     studentChanged.getLastName(), studentChanged.getSecondSurname());
             Address address = new Address(studentChanged.getAddress());
             DateOfBirth dateOfBirth = new DateOfBirth(studentChanged.getDateOfBirth());
             EnrollmentDate enrollmentDate = new EnrollmentDate(studentChanged.getEnrollmentDate());
-
             StudentWithoutCourseAndTutorDTO student = updater.update(id, fullName, address, dateOfBirth,
                     enrollmentDate);
-
             return ResponseEntity.status(HttpStatus.OK).body(student);
-
         } catch (NullFieldNotPermitted | DateTimeParseException | StudentNotFound e) {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }

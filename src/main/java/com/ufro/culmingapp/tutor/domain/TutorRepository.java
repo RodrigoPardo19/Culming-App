@@ -2,6 +2,8 @@ package com.ufro.culmingapp.tutor.domain;
 
 import com.ufro.culmingapp.student.application.DTOs.StudentWithCourseAndFullnameDTO;
 import com.ufro.culmingapp.tutor.application.TutorWithFullNameDTO;
+import com.ufro.culmingapp.tutor.application.DTOs.TutorHomeDTO;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,8 +22,14 @@ public interface TutorRepository extends JpaRepository<Tutor, Long> {
     Optional<TutorWithFullNameDTO> fetchTutorWithFullName(@Param("id") Long id);
 
     @Query("SELECT DISTINCT new com.ufro.culmingapp.tutor.application.TutorWithFullNameDTO(t.id, t.fullName) FROM " +
-            "Tutor t " +
-            "JOIN t.students st WHERE st.school.id = :schoolId ORDER BY t.id")
+            "Tutor t ")
     Optional<List<TutorWithFullNameDTO>> fetchSchoolTutors(@Param("schoolId") Long schoolId);
+
+    @Query("SELECT t FROM Tutor t WHERE t.email.email = :email")
+    Optional<Tutor> fetchByEmail(@Param("email") String email);
+
+    @Query("SELECT new com.ufro.culmingapp.tutor.application.DTOs.TutorHomeDTO(" +
+            "t.id, t.fullName) FROM Tutor t WHERE t.id = :tutorId")
+    Optional<TutorHomeDTO> fetchTutorHomeById(@Param("tutorId") Long tutorId);
 
 }

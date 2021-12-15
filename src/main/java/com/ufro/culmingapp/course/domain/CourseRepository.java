@@ -3,6 +3,7 @@ package com.ufro.culmingapp.course.domain;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufro.culmingapp.course.application.DTOs.CourseDTO;
 import com.ufro.culmingapp.course.application.DTOs.CourseWithSubjectDTO;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,5 +36,11 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
            "AND COURSES.YEAR_OF_GENERATION= :year) GROUP BY ID", nativeQuery = true)
     public Optional<List<CourseWithSubjectDTO>> fetchCoursesWithSubjectsTaughtByATeacher(
             @Param("id") Long id, @Param("year") Integer year);
+
+  @Query("SELECT new com.ufro.culmingapp.course.application.DTOs.CourseDTO(c.id, c.level) FROM Course c JOIN c.schools s WHERE s.id = :schoolId")
+  public Optional<List<CourseDTO>> fetchAllSchoolCourses(@Param("schoolId") Long schoolId);
+
+  @Query("SELECT c FROM StudentCourse sc JOIN sc.course c WHERE sc.student.id = :studentId AND sc.year.year = 2021")
+  public Optional<Course> fetchStudentCourseByYear(@Param("studentId") Long studentId);
 
 }

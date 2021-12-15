@@ -16,6 +16,7 @@ import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -31,6 +32,7 @@ public class TeacherPostController {
     private RegisterSubject register;
 
     @PostMapping("/schools/{id}/teachers")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> addNewTeacher(
             @PathVariable Long id, @RequestBody TeacherDTO newTeacher) {
         try {
@@ -42,26 +44,22 @@ public class TeacherPostController {
             Phone phone = new Phone(newTeacher.getPhone());
             EnrollmentDate enrollmentDate = new EnrollmentDate(newTeacher.getEnrollmentDate());
             Boolean isActive = newTeacher.isActive();
-
             TeacherDTO teacher = creator.create(fullName, email, address, dateOfBirth, phone, enrollmentDate,
                     isActive, id);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(teacher);
-
         } catch (NullFieldNotPermitted | WrongEmailFormat | ParseException | WrongLength | SchoolNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }
     }
 
     @PostMapping("/teachers/{id}/register-subjects")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> registerSubjects(
             @PathVariable Long id, @RequestBody SubjectWithCourseWithYearDTO subjects) {
         try {
             GenerationYear year = new GenerationYear(subjects.getYear());
-
             register.register(id, subjects.getId(), subjects.getCourseIds(), year);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-
         } catch (NullFieldNotPermitted | TeacherNotFound | SubjectNotFound | CourseNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }

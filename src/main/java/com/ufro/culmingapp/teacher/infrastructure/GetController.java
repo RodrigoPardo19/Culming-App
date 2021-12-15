@@ -14,6 +14,7 @@ import com.ufro.culmingapp.teacher.domain.exceptions.TeacherNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class GetController {
     private TeacherFinderService finder;
 
     @GetMapping("/teachers/{id}/home")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getTeacherHome(@PathVariable Long id) {
         try {
             TeacherHomeDTO teacherHome = finder.findTeacherHome(id);
@@ -40,6 +42,7 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{id}/profile")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getTeacherProfile(@PathVariable Long id) {
         try {
             TeacherProfileDTO profile = finder.findTeacherProfile(id);
@@ -52,6 +55,7 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<?> getTeacherForAdmin(@PathVariable Long id) {
         try {
             TeacherWithoutEmailAndActivityDTO teacher = finder.findTeacher(id);
@@ -64,6 +68,7 @@ public class GetController {
     }
 
     @GetMapping("/schools/{id}/teachers")
+    @Secured({ "ROLE_TEACHER", "ROLE_STUDENT", "ROLE_TUTOR", "ROLE_ADMIN" })
     public ResponseEntity<?> getTeachersMiniProfile(@PathVariable Long id) {
         try {
             List<TeacherMiniProfileDTO> teachers = finder.findTeacherMiniProfile(id);
@@ -75,8 +80,8 @@ public class GetController {
         }
     }
 
-
     @GetMapping("/teachers/{id}/courses/{year}")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getTeacherCourses(@PathVariable Long id, @PathVariable Integer year) {
         try {
             List<Course> courses = finder.findCoursesWhereTeacherTaughtDuringTheYear(id, year);
@@ -87,8 +92,9 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{teacherId}/courses/{courseId}/subjects")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getSubjectsTaughtByATeacherInACourse(@PathVariable Long teacherId,
-                                                                  @PathVariable Long courseId) {
+            @PathVariable Long courseId) {
         try {
             List<Subject> subjects = finder.findSubjectsTeaughtByATeacherInACourse(teacherId,
                     courseId);
@@ -99,8 +105,9 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{id}/courses-subjects/{year}")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getCoursesWithSubjects(@PathVariable Long id,
-                                                    @PathVariable Integer year) {
+            @PathVariable Integer year) {
         try {
             List<CourseWithSubjectsDTO> coursesWithSubjects = finder
                     .findCoursesWithSubjectsTaughtByATeacher(id, year);
@@ -112,6 +119,7 @@ public class GetController {
     }
 
     @GetMapping("/teachers/{id}/subjects")
+    @Secured("ROLE_TEACHER")
     public ResponseEntity<?> getTeacherSubjects(@PathVariable Long id) {
         try {
             Set<CourseSubjectTeacher> subjects = finder.getSubjects(id);
