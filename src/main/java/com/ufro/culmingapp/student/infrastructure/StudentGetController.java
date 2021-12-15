@@ -31,7 +31,7 @@ public class StudentGetController {
         private StudentAssistanceFinder studentAssistancesFinder;
 
         @GetMapping("/courses/{courseId}/subjects/{subjectId}/students")
-        @Secured({"ROLE_STUDENT", "ROLE_TEACHER", "ROLE_TUTOR"})
+        @Secured({ "ROLE_STUDENT", "ROLE_TEACHER", "ROLE_TUTOR" })
         public ResponseEntity<?> getStudentsTakingASubjetInACourse(
                         @PathVariable Integer courseId, @PathVariable Integer subjectId) {
                 List<StudentWithFullNameDTO> students = finder
@@ -118,13 +118,35 @@ public class StudentGetController {
         }
 
         @GetMapping("/schools/{id}/students")
-        @Secured({"ROLE_STUDENT", "ROLE_ADMIN"})
+        @Secured({ "ROLE_STUDENT", "ROLE_ADMIN" })
         public ResponseEntity<?> getSchoolStudents(@PathVariable Long id) {
                 try {
                         List<StudentMiniProfileDTO> students = finder.findSchoolStudents(id);
                         return ResponseEntity.status(HttpStatus.OK).body(students);
                 } catch (StudentNotFound e) {
                         return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+                }
+        }
+
+        @GetMapping("/schools/{id}/students-edit/{studentId}")
+        @Secured("ROLE_ADMIN")
+        public ResponseEntity<?> getStudentWithEditableData(@PathVariable Long id, @PathVariable Long studentId) {
+                try {
+                        StudentEditableFieldsDTO student = finder.getStudentWithEditableFields(id, studentId);
+                        return ResponseEntity.status(HttpStatus.OK).body(student);
+                } catch (StudentNotFound e) {
+                        return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+                }
+        }
+
+        @GetMapping("/students/{id}/home")
+        @Secured("ROLE_STUDENT")
+        public ResponseEntity<?> getStudentHome(@PathVariable Long id) {
+                try {
+                        StudentHomeDTO studentHome = finder.findStudentHome(id);
+                        return ResponseEntity.status(HttpStatus.OK).body(studentHome);
+                } catch (StudentNotFound e) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
                 }
         }
 

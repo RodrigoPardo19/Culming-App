@@ -18,7 +18,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<List<StudentWithEvaluationDTO>> fetchEvaluationsOfStudentsOfASubjectInACourse(
             @Param("courseId") Integer courseId, @Param("subjectId") Integer subjectId);
 
-
     @Query("SELECT new com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO(s.id, "
             + "s.fullName.firstName, s.fullName.lastName, e.id, st.grade.grade) FROM Evaluation e "
             + "JOIN e.students st JOIN st.student s WHERE e.course.id = :courseId AND "
@@ -94,4 +93,13 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query("SELECT s FROM Student s WHERE s.email.email = :email")
     Optional<Student> fetchByEmail(@Param("email") String email);
+
+    @Query("SELECT new com.ufro.culmingapp.student.application.DTOs.StudentEditableFieldsDTO(" +
+            "s.id, s.fullName, s.address, s.dateOfBirth, s.enrollmentDate) FROM Student s WHERE s.school.id = " +
+            ":schoolId AND s.id = :studentId")
+    Optional<StudentEditableFieldsDTO> fetchStudentWithEditableFields(@Param("schoolId") Long schoolId, @Param("studentId") Long studentId);
+
+    @Query("SELECT new com.ufro.culmingapp.student.application.DTOs.StudentHomeDTO(" +
+            "s.id, s.fullName) FROM Student s WHERE s.id = :studentId")
+    Optional<StudentHomeDTO> fetchStudentHomeById(@Param("studentId") Long studentId);
 }

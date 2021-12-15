@@ -1,6 +1,7 @@
 package com.ufro.culmingapp.tutor.application;
 
 import com.ufro.culmingapp.student.application.DTOs.StudentWithCourseAndFullnameDTO;
+import com.ufro.culmingapp.tutor.application.DTOs.TutorHomeDTO;
 import com.ufro.culmingapp.tutor.domain.Tutor;
 import com.ufro.culmingapp.tutor.domain.TutorNotFound;
 import com.ufro.culmingapp.tutor.domain.TutorRepository;
@@ -22,6 +23,14 @@ public class TutorFinder {
             throw new TutorNotFound(id);
         }
         return tutor.get();
+    }
+
+    public TutorHomeDTO findTutorHome(Long id) throws TutorNotFound {
+        Optional<TutorHomeDTO> tutorHome = repository.fetchTutorHomeById(id);
+        if (!tutorHome.isPresent()) {
+            throw new TutorNotFound(id);
+        }
+        return tutorHome.get();
     }
 
     public Optional<Tutor> getByEmail(String email) {

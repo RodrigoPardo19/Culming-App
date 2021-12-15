@@ -1,5 +1,7 @@
 package com.ufro.culmingapp.student.application;
 
+import com.ufro.culmingapp.student.application.DTOs.StudentEditableFieldsDTO;
+import com.ufro.culmingapp.student.application.DTOs.StudentHomeDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentMiniProfileDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithEvaluationDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithFullNameDTO;
@@ -27,6 +29,22 @@ public class StudentFinderService {
         Optional<Student> student = repository.findById(id);
         if (!student.isPresent()) {
             throw new StudentNotFound(id);
+        }
+        return student.get();
+    }
+
+    public StudentHomeDTO findStudentHome(Long id) throws StudentNotFound {
+        Optional<StudentHomeDTO> studentHome = repository.fetchStudentHomeById(id);
+        if (!studentHome.isPresent()) {
+            throw new StudentNotFound(id);
+        }
+        return studentHome.get();
+    }
+
+    public StudentEditableFieldsDTO getStudentWithEditableFields(Long schoolId, Long studentId) throws StudentNotFound {
+        Optional<StudentEditableFieldsDTO> student = repository.fetchStudentWithEditableFields(schoolId, studentId);
+        if (!student.isPresent()) {
+            throw new StudentNotFound(studentId);
         }
         return student.get();
     }

@@ -4,6 +4,7 @@ import com.ufro.culmingapp.shared.domain.exceptions.ErrorDTO;
 import com.ufro.culmingapp.student.application.DTOs.StudentWithCourseAndFullnameDTO;
 import com.ufro.culmingapp.tutor.application.TutorFinder;
 import com.ufro.culmingapp.tutor.application.TutorWithFullNameDTO;
+import com.ufro.culmingapp.tutor.application.DTOs.TutorHomeDTO;
 import com.ufro.culmingapp.tutor.domain.TutorNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class TutorGetController {
     private TutorFinder finder;
 
     @GetMapping("/tutors/{id}")
-    @Secured({"ROLE_TUTOR", "ROLE_ADMIN"})
+    @Secured({ "ROLE_TUTOR", "ROLE_ADMIN" })
     public ResponseEntity<?> getTutor(@PathVariable Long id) {
         try {
             TutorWithFullNameDTO tutor = finder.getTutorWithFullName(id);
@@ -50,5 +51,16 @@ public class TutorGetController {
     public ResponseEntity<?> getPupils(@PathVariable Long id) {
         List<StudentWithCourseAndFullnameDTO> pupils = finder.getPupils(id);
         return ResponseEntity.ok(pupils);
+    }
+
+    @GetMapping("/tutors/{id}/home")
+    @Secured("ROLE_TUTOR")
+    public ResponseEntity<?> getTutorHome(@PathVariable Long id) {
+        try {
+            TutorHomeDTO tutorHome = finder.findTutorHome(id);
+            return ResponseEntity.status(HttpStatus.OK).body(tutorHome);
+        } catch (TutorNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
+        }
     }
 }
