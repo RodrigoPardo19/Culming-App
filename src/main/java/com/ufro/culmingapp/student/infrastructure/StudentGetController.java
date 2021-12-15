@@ -123,5 +123,4 @@ public class StudentGetController {
             return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-
 }
